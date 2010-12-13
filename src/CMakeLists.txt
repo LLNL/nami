@@ -1,4 +1,4 @@
-set(WAVELET_SOURCES
+set(NAMI_SOURCES
 	cdf97.C 
 	wt_1d.C 
 	wt_2d.C 
@@ -28,26 +28,24 @@ set(WAVELET_SOURCES
 	rle.C
 	huffman.C)
 
-if (LIBRA_HAVE_MPI)
-   list(APPEND WAVELET_SOURCES
-        wt_parallel.C	
-        par_ezw_encoder.C)
+if (NAMI_HAVE_MPI)
+  list(APPEND NAMI_SOURCES
+    wt_parallel.C	
+    par_ezw_encoder.C)
 endif()
 
-
-add_library(wavelet ${WAVELET_SOURCES})
-if (LIBRA_HAVE_MPI)
-  target_link_libraries(wavelet ${MPI_LIBRARIES})
+add_library(nami ${NAMI_SOURCES})
+if (NAMI_HAVE_MPI)
+  target_link_libraries(nami ${MPI_LIBRARIES})
 endif()
-install(TARGETS wavelet DESTINATION lib)
+install(TARGETS nami DESTINATION lib)
 
 include_directories(
   ${Boost_INCLUDE_DIR}
   ${PROJECT_BINARY_DIR}
   ${MPI_INCLUDE_PATH})
 
-
-set(WAVELET_HEADERS 
+set(NAMI_HEADERS 
 	ac_obitstream.h
 	ac_ibitstream.h
 	buffered_obitstream.h
@@ -75,4 +73,4 @@ set(WAVELET_HEADERS
 	wt_1d_direct.h
 	wt_lift.h)
 
-install(FILES ${WAVELET_HEADERS} DESTINATION include)
+install(FILES ${NAMI_HEADERS} DESTINATION include)
