@@ -1,0 +1,11 @@
+==========================================
+    /|            Libra 
+ __/  \  .__      by Todd Gamblin
+       \/         tgamblin@llnl.gov
+==========================================
+
+This is Libra, a tool for load-balance analysis in parallel applications.
+
+Installation and usage instructions can be found in the 'docs' directory.
+
+See the LICENSE file for license and distribution information.  
