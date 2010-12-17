@@ -1,10 +1,10 @@
-==========================================
-    /|            Libra 
- __/  \  .__      by Todd Gamblin
-       \/         tgamblin@llnl.gov
-==========================================
+===============================================================
+= Nami                                         /|             =
+= Parallel Wavelet Compression Library      __/  \  .__       =
+= by Todd Gamblin, tgamblin@llnl.gov              \/          =
+===============================================================
 
-This is Libra, a tool for load-balance analysis in parallel applications.
+This is Nami, a library for parallel wavelet compression.
 
 Installation and usage instructions can be found in the 'docs' directory.
 

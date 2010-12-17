@@ -5,7 +5,7 @@
 // LLNL-CODE-417602
 // All rights reserved.  
 // 
-// This file is part of Libra. For details, see http://github.com/tgamblin/libra.
+// This file is part of Nami. For details, see http://github.com/tgamblin/nami.
 // Please also read the LICENSE file for further information.
 // 
 // Redistribution and use in source and binary forms, with or without modification, are
