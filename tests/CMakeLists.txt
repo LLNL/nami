@@ -12,17 +12,17 @@ function(add_mpi_test test_name src_name)
   endif()
 endfunction()
 
-add_test(compress-matfile    compress_matfile.C)
-add_test(vary-passes         vary_passes.C)
-add_test(insert-bits-test    insert_bits_test.C)
-add_test(ezwtest             ezwtest.C)
-add_test(seqtest             seqtest.C)
-add_test(vltest              vltest.C)
-add_test(generictest         generictest.C)
+add_test(compress-matfile    compress_matfile.cpp)
+add_test(vary-passes         vary_passes.cpp)
+add_test(insert-bits-test    insert_bits_test.cpp)
+add_test(ezwtest             ezwtest.cpp)
+add_test(seqtest             seqtest.cpp)
+add_test(vltest              vltest.cpp)
+add_test(generictest         generictest.cpp)
 
-add_mpi_test(parezwtest      parezwtest.C)
-add_mpi_test(parspeedbench   parspeedbench.C)
-add_mpi_test(partest         partest.C)
+add_mpi_test(parezwtest      parezwtest.cpp)
+add_mpi_test(parspeedbench   parspeedbench.cpp)
+add_mpi_test(partest         partest.cpp)
 
 include_directories(
   ${PROJECT_BINARY_DIR}

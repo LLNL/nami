@@ -1,31 +1,31 @@
 set(NAMI_SOURCES
-	cdf97.C 
-	wt_1d.C 
-	wt_2d.C 
-	wt_lift.C 
-	wt_direct.C 
-	wt_1d_lift.C 
-	wt_1d_direct.C 
-	wt_utils.C 
-	io_utils.C
-	matrix_utils.C
-	filter_bank.C
-	ezw.C
-	ezw_encoder.C
-	ezw_decoder.C
-	obitstream.C
-	ibitstream.C
-	vector_obitstream.C
-	vector_ibitstream.C
-	timing.C
-	Timer.C
-	rle.C
-	huffman.C)
+	cdf97.cpp 
+	wt_1d.cpp 
+	wt_2d.cpp 
+	wt_lift.cpp 
+	wt_direct.cpp 
+	wt_1d_lift.cpp 
+	wt_1d_direct.cpp 
+	wt_utils.cpp 
+	io_utils.cpp
+	matrix_utils.cpp
+	filter_bank.cpp
+	ezw.cpp
+	ezw_encoder.cpp
+	ezw_decoder.cpp
+	obitstream.cpp
+	ibitstream.cpp
+	vector_obitstream.cpp
+	vector_ibitstream.cpp
+	timing.cpp
+	Timer.cpp
+	rle.cpp
+	huffman.cpp)
 
 if (NAMI_HAVE_MPI)
   list(APPEND NAMI_SOURCES
-    wt_parallel.C	
-    par_ezw_encoder.C)
+    wt_parallel.cpp	
+    par_ezw_encoder.cpp)
 endif()
 
 add_library(nami ${NAMI_SOURCES})
