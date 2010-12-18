@@ -1,0 +1,56 @@
+// -*- c++ -*-
+
+/*! 
+  @mainpage
+
+  \image html great_wave.jpg
+  <center><small>Katsuhika Hokusai, The Great Wave off Kanagawa</small></center>
+
+  <h2>Introduction</h2>
+  This is Nami (<a href="http://en.wiktionary.org/wiki/%E6%B3%A2">波</a>), a library for parallel wavelet compression and encoding.
+
+  <h2>Author</h2>
+  Nami was implemented by Todd Gamblin at 
+  <a href="http://www.llnl.gov">Lawrence Livermore National Laboratory</a>.
+
+  Please send questions, bug reports, or suggestions 
+  to <a href="mailto:tgamblin@llnl.gov">tgamblin@llnl.gov</a>.
+
+  <h2>References</h2>
+  For more on the Libra tool this library was developed for:
+  <ol>
+  <li><a name="gamblin+:sc08"></a>Todd Gamblin, Bronis&nbsp;R.
+      de&nbsp;Supinski, Martin Schulz, Robert&nbsp;J. Fowler,
+      and Daniel&nbsp;A. Reed.
+      <a href="http://www.cs.unc.edu/~tgamblin/pubs/wavelet-sc08.pdf">Scalable
+      load-balance measurement for SPMD codes</a>. In <i>Supercomputing 2008 (SC'08)</i>, 
+      Austin, Texas, November 15-21 2008. LLNL-CONF-406045.</li>
+
+  <li><a name="GamblinPhD"></a>Todd Gamblin.
+      <a href="http://www.cs.unc.edu/~tgamblin/pubs/dissertation.pdf">Scalable
+      Performance Measurement and Analysis</a>.
+      PhD thesis, University of North Carolina at Chapel Hill, Chapel Hill, NC,
+      August 2009. LLNL-TH-419482.</li>
+  </ol>
+  <p>
+
+  On the parallel wavelet transform implemented here:
+  <ol start="3">
+  <li><a name="Nielsen00parallel"></a>Ole&nbsp;Moller Nielsen and Markus
+  Hegland. Parallel performance of fast wavelet transform.
+  <i>International Journal of High Speed Computing</i>, 
+  11(1):55&ndash;73, 2000.</li>
+  </ol>
+
+  On the EZW encoding techniques used in this library:
+  <ol start="4">
+  <li><a name="Shapiro1996"></a>Jerome&nbsp;M. Shapiro.
+      A fast technique for identifying zerotrees in the EZW algorithm.
+      In <i>IEEE International Conference on Acoustics, Speech, and Signal
+      Processing (ICASSP)</i>, volume&nbsp;3, pages 1455&ndash;1458, May 7-10 1996.</li>
+
+  <li><a name="Shapiro1993"></a>Jerome&nbsp;M. Shapiro. Embedded image coding using zerotrees 
+      of wavelet coefficients. <i>IEEE Transactions on Signal Processing</i>, 41(12):3445&ndash;3462,
+      December 1993.</li>
+  </ol>
+*/
