@@ -301,7 +301,7 @@ namespace wavelet {
     cerr << "  Arguments:" << endl;
     cerr << "  -s    Scale double-precision data by a factor before quantized ezw coding." << endl;
     cerr << "  -p    Limit encoding to first <passes> passes of ezw coded data. " << endl;
-    cerr << "  -e    Sets encoding for output data (after RLE coding).  Options: [rle|arithmetic|huffman]." << endl;
+    cerr << "  -e    Sets encoding for output data (after RLE coding).  Options: [rle|huffman]." << endl;
     cerr << "  -q    Parallel only.  Require that bits be output in sequential order." << endl;
     cerr << "        Severely impacts performance." << endl;
     

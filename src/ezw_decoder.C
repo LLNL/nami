@@ -37,7 +37,6 @@ using namespace std;
 
 #include "matrix_utils.h"
 #include "buffered_ibitstream.h"
-#include "ac_ibitstream.h"
 #include "vector_ibitstream.h"
 #include "vector_obitstream.h"
 #include "wt_utils.h"
@@ -133,21 +132,6 @@ namespace wavelet {
 
       dest.resize(header.rle_size);
       Huffman_Uncompress(&huff_buffer[0], &dest[0], header.enc_size, header.rle_size);
-
-    } else if (header.enc_type == ARITHMETIC) {
-      vector_obitstream vout(dest);
-      ac_ibitstream ac_in(in);
-      while (ac_in.good()) {
-        vout.put_bit(ac_in.get_bit());
-      }
-      dest.resize(vout.get_out_bytes());
-
-      if (dest.size() != header.rle_size) {
-        cerr << "Error: uncompressed != rle: " 
-             << dest.size() << " != " << header.rle_size 
-             << endl;
-        exit(1);
-      }
 
     } else {
       dest.resize(header.rle_size);

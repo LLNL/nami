@@ -34,9 +34,7 @@
 
 #include <climits>
 #include <deque>
-#include "ac_obitstream.h"
 #include "buffered_obitstream.h"
-#include "ac_ibitstream.h"
 #include "buffered_ibitstream.h"
 
 namespace wavelet {
@@ -48,7 +46,7 @@ namespace wavelet {
   const quantized_t Q_MIN = LONG_LONG_MIN;  
   
   /// Possible types of encoding to use for encoding after rle-encoding ezw data 
-  typedef enum { NONE, RLE, HUFFMAN, ARITHMETIC } encoding_t;
+  typedef enum { NONE, RLE, HUFFMAN } encoding_t;
 
   /// Helpful for input
   encoding_t str_to_encoding(const char *str);
@@ -76,7 +74,7 @@ namespace wavelet {
     ezw_header() { }
 
     ezw_header(size_t r, size_t c, int l, quantized_t m, unsigned long long s, quantized_t t, 
-               encoding_t et = ARITHMETIC, size_t b = 1, size_t p = 0);
+               encoding_t et = HUFFMAN, size_t b = 1, size_t p = 0);
     
     size_t write_out(std::ostream& out);
     static void read_in(std::istream& in, ezw_header& header);

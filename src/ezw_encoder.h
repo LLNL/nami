@@ -85,10 +85,10 @@ namespace wavelet {
     /// Sets scaling factor by which doubles are multiplied before being quantized.
     void set_scale(quantized_t scale);
 
-    /// Whether encoder uses arithmetic coding (default is true)
+    /// Type of encoding used by this encoder.
     encoding_t get_encoding_type();
     
-    /// Set whether to use arithmetic coding (default is true)
+    /// Set whhat type of encoding to use.
     void set_encoding_type(encoding_t enc_type);
 
   protected:

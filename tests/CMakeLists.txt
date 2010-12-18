@@ -26,5 +26,6 @@ add_mpi_test(partest         partest.C)
 
 include_directories(
   ${PROJECT_BINARY_DIR}
+  ${PROJECT_SOURCE_DIR}/src
   ${Boost_INCLUDE_DIR}
   ${MPI_INCLUDE_PATH})

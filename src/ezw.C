@@ -61,9 +61,7 @@ namespace wavelet {
 
   /// Helpful for input
   encoding_t str_to_encoding(const char *str) {
-    if (strcasecmp("ARITHMETIC", str) == 0) {
-      return ARITHMETIC;
-    } else if (strcasecmp("HUFFMAN", str) == 0) {
+    if (strcasecmp("HUFFMAN", str) == 0) {
       return HUFFMAN;
     } else if (strcasecmp("RLE", str) == 0) {
       return RLE;
@@ -79,9 +77,6 @@ namespace wavelet {
     switch (enc_type) {
     case RLE:
       return "rle";
-      break;
-    case ARITHMETIC:
-      return "arithmetic";
       break;
     case HUFFMAN:
       return "huffman";

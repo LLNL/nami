@@ -19,10 +19,6 @@ set(NAMI_SOURCES
 	buffered_ibitstream.C
 	vector_obitstream.C
 	vector_ibitstream.C
-	ac_obitstream.C
-	ac_ibitstream.C
-	arithmetic_codec.C
-	byte_budget_exception.C
 	timing.C
 	Timer.C
 	rle.C
@@ -46,11 +42,8 @@ include_directories(
   ${MPI_INCLUDE_PATH})
 
 set(NAMI_HEADERS 
-	ac_obitstream.h
-	ac_ibitstream.h
 	buffered_obitstream.h
 	buffered_ibitstream.h
-	byte_budget_exception.h
 	cdf97.h
 	ezw.h
 	ezw_encoder.h

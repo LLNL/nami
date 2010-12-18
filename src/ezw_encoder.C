@@ -281,7 +281,7 @@ namespace wavelet {
     buf_size = header.rle_size;
 
     if (enc_type == HUFFMAN) {
-      // --- Huffman code RLE buffer, then write out the results. --- //
+      // Huffman code RLE buffer, then write out the results.
       const size_t huff_bound = (size_t)ceil(buf_size * 101.0/100 + 384);
       vector<unsigned char> huff_buffer(huff_bound);
       header.enc_size = Huffman_Compress(&buffer[0], &huff_buffer[0], buf_size);
@@ -294,18 +294,8 @@ namespace wavelet {
       out.write((char*)&buffer[0], buf_size);
       return header_size + buf_size;
 
-    } else if (enc_type == ARITHMETIC) {
-      // --- Arithmetic coding is done via streams, so handle slightly differently --- //
-      header.enc_size = 0; // this is streaming, so enc_size is unknown.
-
-      const size_t header_size = header.write_out(out);
-      ac_obitstream ac_out(out);
-      ac_out.write_bits(&buffer[0], (header.rle_size << 3));
-      ac_out.flush();
-      return header_size + bits_to_bytes(ac_out.get_out_bits());
-
     } else {
-      // --- If no huffman or arithmetic coding, just write out the buffer here. --- //
+      // If no huffman coding, just write out the buffer here.
       const size_t header_size = header.write_out(out);
       out.write((char*)&buffer[0], buf_size);
       return header_size + buf_size;
