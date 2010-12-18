@@ -15,8 +15,6 @@ set(NAMI_SOURCES
 	ezw_decoder.C
 	obitstream.C
 	ibitstream.C
-	buffered_obitstream.C
-	buffered_ibitstream.C
 	vector_obitstream.C
 	vector_ibitstream.C
 	timing.C
@@ -42,8 +40,6 @@ include_directories(
   ${MPI_INCLUDE_PATH})
 
 set(NAMI_HEADERS 
-	buffered_obitstream.h
-	buffered_ibitstream.h
 	cdf97.h
 	ezw.h
 	ezw_encoder.h

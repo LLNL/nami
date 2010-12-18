@@ -52,8 +52,8 @@ namespace wavelet {
       buffer[pos] |= (get_bit() << shift);
       shift--;
       if (shift < 0) {
-	pos++;
-	shift = 7;
+        pos++;
+        shift = 7;
       }
     }
     

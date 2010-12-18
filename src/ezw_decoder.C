@@ -36,7 +36,6 @@
 using namespace std;
 
 #include "matrix_utils.h"
-#include "buffered_ibitstream.h"
 #include "vector_ibitstream.h"
 #include "vector_obitstream.h"
 #include "wt_utils.h"

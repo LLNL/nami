@@ -42,7 +42,6 @@ using namespace std;
 #include "matrix_utils.h"
 #include "wt_utils.h"
 #include "io_utils.h"
-#include "buffered_obitstream.h"
 #include "vector_obitstream.h"
 #include "rle.h"
 #include "huffman.h"

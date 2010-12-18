@@ -38,10 +38,9 @@
 
 namespace wavelet {
 
-  // Class for reading individual bits at a time from an input stream.
+  ///
+  /// Class for reading individual bits at a time from an input stream.
   // 
-  // TODO: buffer input.
-  // TOOD: support reading large numbers of bits at a time.
   class vector_ibitstream : public ibitstream {
   protected:
     const unsigned char *buf;        /// Buffer of input characters

@@ -34,8 +34,6 @@
 
 #include <climits>
 #include <deque>
-#include "buffered_obitstream.h"
-#include "buffered_ibitstream.h"
 
 namespace wavelet {
 
