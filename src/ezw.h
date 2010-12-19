@@ -54,20 +54,20 @@ namespace wavelet {
   /// This is all the data needed by the decoder to parse the encoder's output.
   struct ezw_header {
     // initialized fields (set in constructor)
-    size_t rows;               // Rows in encoded matrix
-    size_t cols;               // Cols in encoded matrix
-    size_t level;              // Level of wavelet transform and ezw coding done on data
-    quantized_t mean;          // Mean of data in this file (subtracted out before encoding)
-    unsigned long long scale;  // Scaling factor applied to data before encoding
-    quantized_t threshold;     // Initial ezw threshold for data in this file.
-    encoding_t enc_type;       // Type of encoding used on rle buffer.
-    size_t blocks;             // For parallel encoding -- count of independently encoded blocks
-    size_t passes;             // Needed for block coding: total number of ezw passes encoded.
+    size_t rows;               ///< Rows in encoded matrix
+    size_t cols;               ///< Cols in encoded matrix
+    size_t level;              ///< Level of wavelet transform and ezw coding done on data
+    quantized_t mean;          ///< Mean of data in this file (subtracted out before encoding)
+    unsigned long long scale;  ///< Scaling factor applied to data before encoding
+    quantized_t threshold;     ///< Initial ezw threshold for data in this file.
+    encoding_t enc_type;       ///< Type of encoding used on rle buffer.
+    size_t blocks;             ///< For parallel encoding -- count of independently encoded blocks
+    size_t passes;             ///< Needed for block coding: total number of ezw passes encoded.
 
     // un-initialized fields (must be set manually)
-    size_t ezw_size;        // Size of ezw-encoded bitstream
-    size_t rle_size;        // Size of ezw after rle coding
-    size_t enc_size;        // Size of fully encoded rle buffer
+    size_t ezw_size;        ///< Size of ezw-encoded bitstream
+    size_t rle_size;        ///< Size of ezw after rle coding
+    size_t enc_size;        ///< Size of fully encoded rle buffer
 
     ezw_header() { }
 

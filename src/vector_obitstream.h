@@ -41,11 +41,11 @@ namespace wavelet {
 
   class vector_obitstream : public obitstream {
   protected:
-    std::vector<unsigned char>& buf;  /// Buffer for as yet unwritten data
-    bool my_vector;                  /// Whether or not the vector should be freed on destruct.
-    size_t pos;                      /// Current write index in buffer.
-    unsigned char mask;              /// Mask of next bit to write.
-    size_t bits;                     /// Total bits written out.
+    std::vector<unsigned char>& buf_;  ///< Buffer for as yet unwritten data
+    bool my_vector_;                   ///< Whether or not the vector should be freed on destruct.
+    size_t pos_;                       ///< Current write index in buffer.
+    unsigned char mask_;               ///< Mask of next bit to write.
+    size_t bits_;                      ///< Total bits written out.
 
   public:
     /// Constructor.  Builds an obitstream to output to an internal vector.
@@ -62,11 +62,11 @@ namespace wavelet {
 
 
     /// Puts a zero at the end of output.
-    virtual void put_zero();
+    virtual void write_zero();
 
 
     /// Puts a one at the end of output.
-    virtual void put_one();
+    virtual void write_one();
 
 
     /// Appends nbits bits from buf to the stream.  Optionally, the bits
@@ -81,29 +81,29 @@ namespace wavelet {
 
 
     /// Returns number of bits written to this stream.
-    virtual size_t get_in_bits();
+    virtual size_t in_bits();
     
     
     /// Returns number of bytes written to stream (bits rounded up)
-    virtual size_t get_in_bytes();
+    virtual size_t in_bytes();
 
 
     /// Returns number of bits written to this stream.
-    virtual size_t get_out_bits();
+    virtual size_t out_bits();
     
     
     /// Returns number of bytes written to stream (bits rounded up)
-    virtual size_t get_out_bytes();
+    virtual size_t out_bytes();
 
 
     /// Skip to next byte in output.
     virtual void next_byte();
 
     /// returns pointer to internal buffer
-    unsigned char *get_buffer();
+    unsigned char *buffer();
 
     /// Returns internal vector
-    std::vector<unsigned char>& get_vector();
+    std::vector<unsigned char>& vector();
 
     /// Resize the internal buffer.
     void resize(size_t size);

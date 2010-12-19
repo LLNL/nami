@@ -97,8 +97,8 @@ int main(int argc, char **argv) {
   if (verbose) cerr << endl
                     << "===== 2 Dimensional Tranform =====" << endl;
 
-  for (size_t r=1; r < 8; r++) {
-    for (size_t c=1; c < 8; c++) {
+  for (size_t r=1; r < 11; r++) {
+    for (size_t c=1; c < 11; c++) {
       size_t rows = 1 << r;
       size_t cols = 1 << c;
 

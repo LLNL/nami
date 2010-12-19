@@ -44,11 +44,11 @@ namespace wavelet {
   obitstream::~obitstream() { }
   
 
-  void obitstream::put_bit(bool bit) {
+  void obitstream::write_bit(bool bit) {
     if (bit) {
-      put_one();
+      write_one();
     } else {
-      put_zero();
+      write_zero();
     }
   }
 
@@ -64,15 +64,15 @@ namespace wavelet {
 
     for (size_t i=0; i < src_bits; i++) {
       if (src[pos] & mask) {
-	put_one();
+        write_one();
       } else {
-	put_zero();
+        write_zero();
       }
       mask >>= 1;
 
       if (mask == 0) {
-	pos++;
-	mask = 0x80;
+        pos++;
+        mask = 0x80;
       }
     }
   }

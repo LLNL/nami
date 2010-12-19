@@ -43,12 +43,12 @@ namespace wavelet {
   // 
   class vector_ibitstream : public ibitstream {
   protected:
-    const unsigned char *buf;        /// Buffer of input characters
-    const size_t end;                /// End of buffer in memory (1 past last byte)
-    size_t pos;                      /// Position in buffer to read next byte
-    unsigned char mask;              /// Mask of next bit to read.
+    const unsigned char *buf_;        ///< Buffer of input characters
+    const size_t end_;                ///< End of buffer in memory (1 past last byte)
+    size_t pos_;                      ///< Position in buffer to read next byte
+    unsigned char mask_;              ///< Mask of next bit to read.
     
-    size_t total_bits;               /// Total bits read in.
+    size_t total_bits_;               ///< Total bits read in.
 
   public:
     /// Constructs an vector_ibitstream to read from the prvided input stream.
@@ -61,26 +61,26 @@ namespace wavelet {
     virtual ~vector_ibitstream();
 
     /// Gets a single bit of input.  Left in header to enable inlining.
-    unsigned get_bit() {
-      unsigned bit = (mask & buf[pos]) ? 1 : 0;
-      mask >>= 1;
+    unsigned read_bit() {
+      unsigned bit = (mask_ & buf_[pos_]) ? 1 : 0;
+      mask_ >>= 1;
 
-      if (mask == 0) {
-        pos++;
-        mask = 0x80;
+      if (mask_ == 0) {
+        pos_++;
+        mask_ = 0x80;
       }
 
-      total_bits++;
+      total_bits_++;
       return bit;
     }
 
     /// True if there are more bits to be input.
     virtual bool good() {
-      return (pos < end);
+      return (pos_ < end_);
     }
 
 
-    virtual size_t get_in_bytes();
+    virtual size_t in_bytes();
 
 
     virtual void next_byte();

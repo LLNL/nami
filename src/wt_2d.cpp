@@ -33,7 +33,6 @@
 
 #include <stdint.h>
 #include <climits>
-#include <iostream>
 
 #include "io_utils.h"
 
@@ -46,7 +45,7 @@ namespace wavelet {
       level = (int)log2pow2(std::max(mat.size1(), mat.size2()));
     }
     assert(level <= log2pow2(std::max(mat.size1(), mat.size2())));
-  
+
     size_t rows = mat.size1();
     size_t cols = mat.size2();
     for (int i=0; i < level; i++) {

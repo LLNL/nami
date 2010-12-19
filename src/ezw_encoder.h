@@ -46,71 +46,66 @@ namespace wavelet {
   /// using Shapiro's EZW method.
   class ezw_encoder {
   public:
+    /// 
     /// Constructor instantiates an ezw coder and all the storage it
     /// needs for encoding.
-    /// Params:
-    /// scale: Factor to scale doubles in input by before coding
-    ///        This preserves fractional values.  Defaults to (1 << 20) 
-    ///         bits, or about 6 decimal digits.
+    /// 
     ezw_encoder();
 
     /// Destructor; just deallocates everything.
     virtual ~ezw_encoder();
 
-    /// Takes a matrix full of wavelet coefficients and encodes it
-    /// with the EZW algorithm.  Output is written onto the supplied
-    /// stream.  
+    ///
+    /// Takes a matrix full of wavelet coefficients and encodes it with
+    /// the EZW algorithm.  Output is written onto the supplied stream.
     /// 
-    /// Params:
-    /// mat         Wavelet-transformed input data.
-    /// out         Output stream to write encoded data to.
-    /// level       Level of the wavelet transform that was applied to the 
-    ///             input data.  Assumes maximal if not provided.
-    /// scale       Factor to multiply data by before encoding.
-    /// byte_budget Max number of bytes allowed in output.
+    /// @param mat         Wavelet-transformed input data.
+    /// @param out         Output stream to write encoded data to.
+    /// @param level       Level of the wavelet transform that was applied to the 
+    ///                    input data.  Assumes maximal if not provided.
     /// 
-    /// Return value:
-    ///     Number of bytes written out.
+    /// @return            Number of bytes written out.
+    /// 
     size_t encode(wt_matrix& mat, std::ostream& out, int level = -1);
     
     /// Number of EZW passes to encode; 0 for no limit.
-    int get_pass_limit();
+    int pass_limit();
 
     /// Sets number of EZW passes to encode; 0 for no limit.
     void set_pass_limit(size_t limit);
     
     /// Scaling factor by which doubles are multiplied before being quantized.
-    quantized_t get_scale();
+    quantized_t scale();
 
     /// Sets scaling factor by which doubles are multiplied before being quantized.
     void set_scale(quantized_t scale);
 
     /// Type of encoding used by this encoder.
-    encoding_t get_encoding_type();
+    encoding_t encoding_type();
     
     /// Set whhat type of encoding to use.
     void set_encoding_type(encoding_t enc_type);
 
   protected:
     /// Values from input matrix, quantized.
-    boost::numeric::ublas::matrix<quantized_t> quantized;
+    boost::numeric::ublas::matrix<quantized_t> quantized_;
 
     /// map of zero trees for encoding step
-    boost::numeric::ublas::matrix<quantized_t> zerotree_map;
+    boost::numeric::ublas::matrix<quantized_t> zerotree_map_;
 
-    size_t low_rows;                   /// Rows in lowest frequency pass
-    size_t low_cols;                   /// Cols in lowest frequency pass
+    size_t low_rows_;                   ///< Rows in lowest frequency pass
+    size_t low_cols_;                   ///< Cols in lowest frequency pass
 
-    size_t pass_limit;                 /// Max number of EZW passes to output
-    quantized_t scale;                 /// pre-transform scaling factor.
-    encoding_t enc_type;               /// Type of encoding for output.  Defaults to huffman.
+    size_t pass_limit_;                 ///< Max number of EZW passes to output
+    quantized_t scale_;                 ///< pre-transform scaling factor.
+    encoding_t enc_type_;               ///< Type of encoding for output.  Defaults to huffman.
 
-    /// Number of bits in each ezw pass (used by parallel version)
-    std::vector<size_t> dom_sizes;
-    std::vector<size_t> sub_sizes;
 
-    quantized_t threshold;              /// Current threshold for the coder.   
-    std::vector<quantized_t> sub_list;  /// accumulated subordinate pass coefficients
+    std::vector<size_t> dom_sizes_;     /// Number of bits in each dominant pass
+    std::vector<size_t> sub_sizes_;     /// Number of bits in each subordinate pass
+
+    quantized_t threshold_;              ///< Current threshold for the coder.   
+    std::vector<quantized_t> sub_list_;  ///< accumulated subordinate pass coefficients
 
 
     /// EZW-codes a single value according to the current threshold.  
@@ -121,7 +116,7 @@ namespace wavelet {
     void subordinate_pass(obitstream& out);
 
     /// gets level of transform based on size of matrix.
-    int get_level(int level, size_t rows, size_t cols);
+    int compute_level(int level, size_t rows, size_t cols);
 
     /// Multiplies each value in the matrix by a scale factor then casts it to quantized_t.
     /// Stored results in an internal matrix of quantized values.
@@ -142,15 +137,12 @@ namespace wavelet {
     /// Does the actual work of the EZW algorithm; used by both sequential and parallel
     /// calls above.
     /// 
-    /// PRE: threshold has been set according to max value in array.
+    /// @pre threshold has been set according to max value in array.
     /// 
-    /// Params:
-    /// out         Output stream to write encoded data to.
-    /// level       Header containing parameters of the transform to be performed.
-    /// byte_align  If true, beginning of each pass is aligned to bytes in the output.
+    /// @param out         Output stream to write encoded data to.
+    /// @param byte_align  If true, beginning of each pass is aligned to bytes in the output.
     /// 
-    /// Return value:
-    ///     Number of bytes written to output stream by the encoder
+    /// @return            number of bytes written to output stream by the encoder
     void do_encode(obitstream& out, ezw_header& header, bool byte_align);
 
 

@@ -58,7 +58,7 @@ namespace wavelet {
 
   protected:
     /// temporary storage for packing
-    std::vector<double> temp;
+    std::vector<double> temp_;
   }; // wt_1d_lift
 
 } // namespace wavelet

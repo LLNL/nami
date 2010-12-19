@@ -55,9 +55,9 @@ namespace wavelet {
     for (size_t i=0; i < len; i++) {
       mat(i, col) = mat(len+i, col) = 0;
 
-      for (size_t d=0; d < f.size; d++) {
-        mat(i, col) += f.lpf[d] * temp[2*i+d];
-        mat(len+i, col) += f.hpf[d] * temp[2*i+d+1];
+      for (size_t d=0; d < f_.size; d++) {
+        mat(i, col) += f_.lpf[d] * temp_[2*i+d];
+        mat(len+i, col) += f_.hpf[d] * temp_[2*i+d+1];
       }
     }
   }
@@ -69,10 +69,10 @@ namespace wavelet {
     sym_extend(&mat(0, col), n, mat.size2(), true);
     for (size_t i=0; i < n; i++) {
       mat(i,col) = 0.0;
-      for (size_t d=0; d < f.size; d++) {
+      for (size_t d=0; d < f_.size; d++) {
         // this check upsamples the two bands in the input data
-        if ((i+d) & 1) mat(i,col) += f.ihpf[d] * temp[i+d];
-        else           mat(i,col) += f.ilpf[d] * temp[i+d];
+        if ((i+d) & 1) mat(i,col) += f_.ihpf[d] * temp_[i+d];
+        else           mat(i,col) += f_.ilpf[d] * temp_[i+d];
       }
     }
   }

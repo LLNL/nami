@@ -48,22 +48,22 @@ namespace wavelet {
     virtual ~obitstream();
 
     /// Puts a zero at the end of output.
-    virtual void put_zero() = 0;
+    virtual void write_zero() = 0;
 
     /// Puts a one at the end of output.
-    virtual void put_one() = 0;
+    virtual void write_one() = 0;
 
     /// Gets number of bits written to this obitstream.
-    virtual size_t get_in_bits() = 0;
+    virtual size_t in_bits() = 0;
     
     /// Gets number of bytes written to this obitstream.
-    virtual size_t get_in_bytes() = 0;
+    virtual size_t in_bytes() = 0;
     
     /// Gets number of bits written out by this obitstream.
-    virtual size_t get_out_bits() = 0;
+    virtual size_t out_bits() = 0;
     
     /// Gets number of bytes written out by this obitstream.
-    virtual size_t get_out_bytes() = 0;
+    virtual size_t out_bytes() = 0;
     
     /// Flushes output to underlying output stream.
     virtual void flush() = 0;
@@ -82,7 +82,7 @@ namespace wavelet {
     virtual void write_bits(const unsigned char *buf, size_t nbits, size_t offset = 0);
 
     /// Convenience method -- default impleemntation just calls put_zero or put_one.
-    virtual void put_bit(bool bit);
+    virtual void write_bit(bool bit);
 
   }; // obitstream
 

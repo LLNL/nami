@@ -64,7 +64,7 @@ namespace wavelet {
     // more than nearest-neighbor communication
     if (level < 0) {
       size_t rows = local.size1();
-      for (level = 0; rows > f.size/2+1; level++) {
+      for (level = 0; rows > f_.size/2+1; level++) {
         rows >>= 1;
       }
     }
@@ -78,7 +78,7 @@ namespace wavelet {
       size_t rows = local.size1() >> l;
       size_t cols = local.size2() >> l;
 
-      // do local transform within rows using convolution method.
+      // do local transform within rows using direct convolution method.
       for (size_t r=0; r < rows; r++) {
         fwt_row(local, r, cols);
       }
@@ -91,8 +91,8 @@ namespace wavelet {
       MPI_Status statuses[reqs.size()];
       MPI_Waitall(reqs.size(), &reqs[0], statuses);
 
-      size_t tsize = rows + 2 * (f.size/2) + 1;
-      if (temp.size() < tsize) temp.resize(tsize);
+      size_t tsize = rows + 2 * (f_.size/2) + 1;
+      if (temp_.size() < tsize) temp_.resize(tsize);
 
       // now do all column computations 
       for (size_t c=0; c < cols; c++) {	
@@ -114,7 +114,7 @@ namespace wavelet {
     // push level as low as possible without losing nearest-neighbor comm
     if (level < 0) {
       size_t rows = local.size1();
-      for (level = 0; rows > f.size/2+1; level++) {
+      for (level = 0; rows > f_.size/2+1; level++) {
         rows >>= 1;
       }
     }
@@ -305,9 +305,9 @@ namespace wavelet {
     for (size_t i=0; i < len; i++) {
       mat(i, col) = mat(len+i, col) = 0;
 
-      for (size_t d=0; d < f.size; d++) {
-        mat(i, col) += f.lpf[d] * temp[2*i+d];
-        mat(len+i, col) += f.hpf[d] * temp[2*i+d+1];
+      for (size_t d=0; d < f_.size; d++) {
+        mat(i, col) += f_.lpf[d] * temp_[2*i+d];
+        mat(len+i, col) += f_.hpf[d] * temp_[2*i+d+1];
       }
     }
   }
@@ -319,10 +319,10 @@ namespace wavelet {
 
     for (size_t i=0; i < n; i++) {
       mat(i,col) = 0.0;
-      for (size_t d=0; d < f.size; d++) {
+      for (size_t d=0; d < f_.size; d++) {
         // this check upsamples the two bands in the input data
-        if ((i+d) & 1) mat(i,col) += f.ihpf[d] * temp[i+d];
-        else           mat(i,col) += f.ilpf[d] * temp[i+d];
+        if ((i+d) & 1) mat(i,col) += f_.ihpf[d] * temp_[i+d];
+        else           mat(i,col) += f_.ilpf[d] * temp_[i+d];
       }
     }
   }
@@ -337,15 +337,15 @@ namespace wavelet {
     // create strided datatypes for the rows we'll send.  We only need to 
     // send <cols> columns from each row.
     MPI_Datatype left_type, right_type;
-    MPI_Type_vector(f.size/2, cols, local.size2(), MPI_DOUBLE, &left_type);
+    MPI_Type_vector(f_.size/2, cols, local.size2(), MPI_DOUBLE, &left_type);
     MPI_Type_commit(&left_type);
 
-    MPI_Type_vector(f.size/2+1, cols, local.size2(), MPI_DOUBLE, &right_type);
+    MPI_Type_vector(f_.size/2+1, cols, local.size2(), MPI_DOUBLE, &right_type);
     MPI_Type_commit(&right_type);
 
     // Now do the sends and receives to both neighbors.
     if (rank-1 >= 0) {                  // exchange border rows w/left neighbor.
-      left.resize(f.size/2, local.size2());  // keep cols at full size, to avoid reallocating
+      left.resize(f_.size/2, local.size2());  // keep cols at full size, to avoid reallocating
 
       reqs.push_back(MPI_REQUEST_NULL);
       MPI_Isend(&local(0,0), 1, right_type, rank-1, 0, comm, &reqs.back());
@@ -355,10 +355,10 @@ namespace wavelet {
     }
 
     if (rank+1 < size) {                   // exchange border rows w/right neighbor.
-      right.resize(f.size/2+1, local.size2());  // keep cols at full size, to prevent realloc
+      right.resize(f_.size/2+1, local.size2());  // keep cols at full size, to prevent realloc
 
       reqs.push_back(MPI_REQUEST_NULL);
-      MPI_Isend(&local(rows-f.size/2,0), 1, left_type, rank+1, 0, comm, &reqs.back());
+      MPI_Isend(&local(rows-f_.size/2,0), 1, left_type, rank+1, 0, comm, &reqs.back());
       
       reqs.push_back(MPI_REQUEST_NULL);
       MPI_Irecv(&right(0,0), 1, right_type, rank+1, 0, comm, &reqs.back());
@@ -379,10 +379,10 @@ namespace wavelet {
     // We send with single-column stride and receive 2-column stride, so that the
     // colums from subbands are interleaved on the destination process
     MPI_Datatype long_send_type, short_send_type, long_recv_type, short_recv_type;
-    MPI_Type_vector(f.size/4,   cols, local.size2(),   MPI_DOUBLE, &short_send_type);
-    MPI_Type_vector(f.size/4+1, cols, local.size2(),   MPI_DOUBLE, &long_send_type);
-    MPI_Type_vector(f.size/4,   cols, local.size2()*2, MPI_DOUBLE, &short_recv_type);
-    MPI_Type_vector(f.size/4+1, cols, local.size2()*2, MPI_DOUBLE, &long_recv_type);
+    MPI_Type_vector(f_.size/4,   cols, local.size2(),   MPI_DOUBLE, &short_send_type);
+    MPI_Type_vector(f_.size/4+1, cols, local.size2(),   MPI_DOUBLE, &long_send_type);
+    MPI_Type_vector(f_.size/4,   cols, local.size2()*2, MPI_DOUBLE, &short_recv_type);
+    MPI_Type_vector(f_.size/4+1, cols, local.size2()*2, MPI_DOUBLE, &long_recv_type);
 
     MPI_Type_commit(&long_send_type);
     MPI_Type_commit(&short_send_type);
@@ -391,7 +391,7 @@ namespace wavelet {
 
     // Now do the sends and receives to both neighbors.
     if (rank-1 >= 0) {                       // exchange border rows w/left neighbor.
-      left.resize(f.size/2, local.size2());  // keep cols at full size, to avoid reallocating
+      left.resize(f_.size/2, local.size2());  // keep cols at full size, to avoid reallocating
 
       reqs.push_back(MPI_REQUEST_NULL);
       MPI_Isend(&local(0,0), 1, long_send_type, rank-1, 0, comm, &reqs.back());
@@ -406,12 +406,12 @@ namespace wavelet {
     }
 
     if (rank+1 < size) {                        // exchange border rows w/right neighbor.
-      right.resize(f.size/2+1, local.size2());  // keep cols at full size, to prevent realloc
+      right.resize(f_.size/2+1, local.size2());  // keep cols at full size, to prevent realloc
 
       reqs.push_back(MPI_REQUEST_NULL);
-      MPI_Isend(&local(rows-f.size/4,0), 1, short_send_type, rank+1, 0, comm, &reqs.back());
+      MPI_Isend(&local(rows-f_.size/4,0), 1, short_send_type, rank+1, 0, comm, &reqs.back());
       reqs.push_back(MPI_REQUEST_NULL);
-      MPI_Isend(&local(rows/2-f.size/4,0), 1, short_send_type, rank+1, 0, comm, &reqs.back());
+      MPI_Isend(&local(rows/2-f_.size/4,0), 1, short_send_type, rank+1, 0, comm, &reqs.back());
 
       // receive rows from right process.  receive automatically interleaves.
       reqs.push_back(MPI_REQUEST_NULL);
@@ -429,35 +429,35 @@ namespace wavelet {
 
   void wt_parallel::build_temp(wt_matrix& left, wt_matrix& local, wt_matrix& right, 
                                size_t n, size_t col, int rank, int comm_size, bool interleave) {
-    size_t tsize = n + 2 * (f.size/2) + 1;
-    if (temp.size() < tsize) temp.resize(tsize);
+    size_t tsize = n + 2 * (f_.size/2) + 1;
+    if (temp_.size() < tsize) temp_.resize(tsize);
     
     // copy data from x into middle of temp
     if (interleave) {
       // this interleaves first and second half of x in temp
       for (size_t i=0; i < n/2; i++) {
-        temp[f.size/2+(2*i)] = local(i, col);
-        temp[f.size/2+(2*i+1)] = local((n/2+i), col);
+        temp_[f_.size/2+(2*i)] = local(i, col);
+        temp_[f_.size/2+(2*i+1)] = local((n/2+i), col);
       }
 
     } else {
       // this just copies x straight into temp
       for (size_t i=0; i < n; i++) {
-        temp[f.size/2+i] = local(i, col);
+        temp_[f_.size/2+i] = local(i, col);
       }
     }
 
     // symmetrically extend left and right border around data
-    size_t l = f.size/2-1;
-    size_t r = n + f.size/2;
-    for (size_t i=1; i<=f.size/2; i++) {
-      temp[l] = (rank - 1 >= 0) ? left(l, col) : temp[l+2*i];
-      temp[r] = (rank + 1 < comm_size) ? right(r-n-f.size/2, col) : temp[l+n-1];
+    size_t l = f_.size/2-1;
+    size_t r = n + f_.size/2;
+    for (size_t i=1; i<=f_.size/2; i++) {
+      temp_[l] = (rank - 1 >= 0) ? left(l, col) : temp_[l+2*i];
+      temp_[r] = (rank + 1 < comm_size) ? right(r-n-f_.size/2, col) : temp_[l+n-1];
       l--;
       r++;
     }
     // last elt on right
-    temp[r] = (rank + 1 < comm_size) ? right(r-n-f.size/2, col) : temp[l+n-1];
+    temp_[r] = (rank + 1 < comm_size) ? right(r-n-f_.size/2, col) : temp_[l+n-1];
   }
 
   

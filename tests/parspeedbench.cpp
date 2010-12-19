@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
          << mat.size1() << "x" << mat.size2() << " transforms." << endl;
   }
 
-  long root = par_encoder.get_root(MPI_COMM_WORLD);
+  long root = par_encoder.root(MPI_COMM_WORLD);
 
   // level starts at max possible for matrix dimensions, then we
   // set it explicitly and do transforms at sublevels, too.

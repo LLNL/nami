@@ -87,12 +87,12 @@ namespace wavelet {
     }
 
     // Pack
-    if (temp.size() < n) temp.resize(n);
+    if (temp_.size() < n) temp_.resize(n);
     for (i=0;i<n;i++) {
-      if (i%2==0) temp[i/2] = data[i];
-      else temp[n/2+i/2] = data[i];
+      if (i%2==0) temp_[i/2] = data[i];
+      else temp_[n/2+i/2] = data[i];
     }
-    for (i=0;i<n;i++) data[i] = temp[i];
+    for (i=0;i<n;i++) data[i] = temp_[i];
   }
 
 
@@ -101,12 +101,12 @@ namespace wavelet {
     size_t i;
 
     // Unpack
-    if (temp.size() < n) temp.resize(n);
+    if (temp_.size() < n) temp_.resize(n);
     for (i=0;i<n/2;i++) {
-      temp[i*2]=data[i];
-      temp[i*2+1]=data[i+n/2];
+      temp_[i*2]=data[i];
+      temp_[i*2+1]=data[i+n/2];
     }
-    for (i=0;i<n;i++) data[i] = temp[i];
+    for (i=0;i<n;i++) data[i] = temp_[i];
 
     // Undo scale
     a=scale_factor;

@@ -37,41 +37,41 @@ using namespace std;
 namespace wavelet {
 
   // just inits the filter.
-  wt_1d_direct::wt_1d_direct(filter_bank& filter) : f(filter) { }
+  wt_1d_direct::wt_1d_direct(filter_bank& f) : f_(f) { }
   
   // currently does nothing.
   wt_1d_direct::~wt_1d_direct() { }
 
 
   void wt_1d_direct::sym_extend(double *x, size_t n, size_t stride, bool interleave) {
-    size_t tsize = n + (2 * (f.size/2) + 1);
-    if (tsize > temp.size()) temp.resize(tsize);
+    size_t tsize = n + (2 * (f_.size/2) + 1);
+    if (tsize > temp_.size()) temp_.resize(tsize);
 
     // copy data from x into middle of temp
     if (interleave) {
       // this interleaves first and second half of x in temp
       for (size_t i=0; i < n/2; i++) {
-        temp[f.size/2+(2*i)] = x[i*stride];
-        temp[f.size/2+(2*i+1)] = x[(n/2+i)*stride];
+        temp_[f_.size/2+(2*i)] = x[i*stride];
+        temp_[f_.size/2+(2*i+1)] = x[(n/2+i)*stride];
       }
 
     } else {
       // this just copies x straight into temp
       for (size_t i=0; i < n; i++) {
-        temp[f.size/2+i] = x[i*stride];
+        temp_[f_.size/2+i] = x[i*stride];
       }
     }
 
     // symmetrically extend left and right border around data
-    int l = f.size/2-1;
-    int r = n + f.size/2;
-    for (size_t i=1; i<=f.size/2; i++) {
-      temp[l] = temp[l+2*i];
-      temp[r] = temp[l+n-1];
+    int l = f_.size/2-1;
+    int r = n + f_.size/2;
+    for (size_t i=1; i<=f_.size/2; i++) {
+      temp_[l] = temp_[l+2*i];
+      temp_[r] = temp_[l+n-1];
       l--;
       r++;
     }
-    temp[r] = temp[l+n-1];   // last elt on right
+    temp_[r] = temp_[l+n-1];   // last elt on right
   }
 
 
@@ -83,9 +83,9 @@ namespace wavelet {
     for (size_t i=0; i < len; i++) {
       data[i] = data[len+i] = 0;
 
-      for (size_t d=0; d < f.size; d++) {
-        data[i] += f.lpf[d] * temp[2*i+d];
-        data[len+i] += f.hpf[d] * temp[2*i+d+1];
+      for (size_t d=0; d < f_.size; d++) {
+        data[i] += f_.lpf[d] * temp_[2*i+d];
+        data[len+i] += f_.hpf[d] * temp_[2*i+d+1];
       }
     }
   }
@@ -97,12 +97,12 @@ namespace wavelet {
     sym_extend(data, n, 1, true);
     for (size_t i=0; i < n; i++) {
       data[i] = 0.0;
-      for (size_t d=0; d < f.size; d++) {
+      for (size_t d=0; d < f_.size; d++) {
         // this check upsamples the two bands in the input data
         // sym_extend packs the data interleaved; we just skip even/odd indices
         // here instead of having 2 extra temp arrays for the upsampled data.
-        if ((i+d) & 1) data[i] += f.ihpf[d] * temp[i+d];
-        else           data[i] += f.ilpf[d] * temp[i+d];
+        if ((i+d) & 1) data[i] += f_.ihpf[d] * temp_[i+d];
+        else           data[i] += f_.ilpf[d] * temp_[i+d];
       }
     }
   }

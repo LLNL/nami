@@ -46,17 +46,17 @@ namespace wavelet {
 
     /// Get a single bit off of the input stream, in the lowest bit 
     /// of the result.
-    virtual unsigned get_bit() = 0;
+    virtual unsigned read_bit() = 0;
     
     /// Whether data from the bitstream is still valid.
     virtual bool good() = 0;
 
     /// Reads a block of data directly.  Default implemention calls
-    /// get_bit() repeatedly.
+    /// read_bit() repeatedly.
     virtual void read(unsigned char *buffer, size_t size);
 
     /// Number of bytes read in.
-    virtual size_t get_in_bytes() = 0;
+    virtual size_t in_bytes() = 0;
 
     /// Skips to next aligned byte in stream.
     virtual void next_byte() = 0;

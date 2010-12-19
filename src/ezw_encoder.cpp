@@ -55,30 +55,28 @@ using namespace std;
 
 namespace wavelet {
 
-  ezw_encoder::ezw_encoder() : pass_limit(0), scale(1), enc_type(HUFFMAN) { }
-
+  ezw_encoder::ezw_encoder() : pass_limit_(0), scale_(1), enc_type_(HUFFMAN) { }
 
   ezw_encoder::~ezw_encoder() { }
-
 
   // PRE: low_rows and low_cols are set.
   void ezw_encoder::build_zerotree_map() {
     // ensure matrices are the same size.
-    if (zerotree_map.size1() != quantized.size1() || zerotree_map.size2() != quantized.size2()) {
-      zerotree_map.resize(quantized.size1(), quantized.size2());
+    if (zerotree_map_.size1() != quantized_.size1() || zerotree_map_.size2() != quantized_.size2()) {
+      zerotree_map_.resize(quantized_.size1(), quantized_.size2());
     }
 
     // copy quantized into zerotree map, replacing each w/largest power of 
     // two less than the magnitude
-    for (size_t i=0; i < quantized.size1(); i++) {
-      for (size_t j=0; j < quantized.size2(); j++) {
-        zerotree_map(i,j) = lePowerOf2((uint64_t)abs_val(quantized(i,j)));
+    for (size_t i=0; i < quantized_.size1(); i++) {
+      for (size_t j=0; j < quantized_.size2(); j++) {
+        zerotree_map_(i,j) = lePowerOf2((uint64_t)abs_val(quantized_(i,j)));
       }
     }
 
     // depth-first recursive encoding from each cell on the root level
-    for (size_t r=0; r < low_rows; r++) {
-      for (size_t c=0; c < low_cols; c++) {
+    for (size_t r=0; r < low_rows_; r++) {
+      for (size_t c=0; c < low_cols_; c++) {
         zerotree_map_encode(r, c);
       }
     }
@@ -87,71 +85,71 @@ namespace wavelet {
 
   quantized_t ezw_encoder::zerotree_map_encode(size_t r, size_t c) {
     // handle lowest frequency level case (3 children)
-    if (r < low_rows && c < low_cols) {
-      zerotree_map(r,c) |= zerotree_map_encode(r,          c+low_cols) 
-        |                  zerotree_map_encode(r+low_rows, c         ) 
-        |                  zerotree_map_encode(r+low_rows, c+low_cols);
+    if (r < low_rows_ && c < low_cols_) {
+      zerotree_map_(r,c) |= zerotree_map_encode(r,          c+low_cols_) 
+        |                   zerotree_map_encode(r+low_rows_, c         ) 
+        |                   zerotree_map_encode(r+low_rows_, c+low_cols_);
 
-      return zerotree_map(r,c);
+      return zerotree_map_(r,c);
 
     } else {
       // recursively process children
       size_t row = r << 1;
       size_t col = c << 1;
       
-      if (row < quantized.size1() && col < quantized.size2()) {
-        zerotree_map(r,c) |= zerotree_map_encode(row,   col  )
-          |                  zerotree_map_encode(row,   col+1) 
-          |                  zerotree_map_encode(row+1, col  ) 
-          |                  zerotree_map_encode(row+1, col+1);
+      if (row < quantized_.size1() && col < quantized_.size2()) {
+        zerotree_map_(r,c) |= zerotree_map_encode(row,   col  )
+          |                   zerotree_map_encode(row,   col+1) 
+          |                   zerotree_map_encode(row+1, col  ) 
+          |                   zerotree_map_encode(row+1, col+1);
       }
       
-      return zerotree_map(r,c);
+      return zerotree_map_(r,c);
     }
   }
 
 
   ezw_code ezw_encoder::encode_value(dom_elt e, obitstream& out) {
-    quantized_t value = quantized(e.row, e.col);
+    quantized_t value = quantized_(e.row, e.col);
     
-    if (abs(value) >= threshold) {
-      sub_list.push_back(abs(value));
-      quantized(e.row, e.col) = 0;
+    if (abs(value) >= threshold_) {
+      sub_list_.push_back(abs(value));
+      quantized_(e.row, e.col) = 0;
       if (value >= 0) {
-        out.put_one();
-        out.put_one();
+        out.write_one();
+        out.write_one();
         DBG_OUT('p');
         return POSITIVE;
 	
       } else {
         DBG_OUT('n');
-        out.put_one(); 
-        out.put_zero();
+        out.write_one(); 
+        out.write_zero();
         return NEGATIVE;
       }
       
-    } else if (threshold & zerotree_map(e.row, e.col)) {
+    } else if (threshold_ & zerotree_map_(e.row, e.col)) {
       DBG_OUT('z');
-      out.put_zero();
-      out.put_one(); 
+      out.write_zero();
+      out.write_one(); 
       return ZERO;
       
     } else {
       DBG_OUT('t');
-      out.put_zero();
-      out.put_zero();
+      out.write_zero();
+      out.write_zero();
       return ZERO_TREE;
     }
   }
 
 
   void ezw_encoder::subordinate_pass(obitstream& out) {
-    for (size_t i=0; i < sub_list.size(); i++) {
-      if ((sub_list[i] & threshold) != 0) {
-        out.put_one();
+    for (size_t i=0; i < sub_list_.size(); i++) {
+      if ((sub_list_[i] & threshold_) != 0) {
+        out.write_one();
         DBG_OUT(1);
       } else {
-        out.put_zero();
+        out.write_zero();
         DBG_OUT(0);
       }
     }
@@ -159,22 +157,22 @@ namespace wavelet {
 
 
   void ezw_encoder::quantize(wt_matrix& mat, quantized_t scale) {
-    if (quantized.size1() != mat.size1() || quantized.size2() != mat.size2()) {
-      quantized.resize(mat.size1(), mat.size2());
+    if (quantized_.size1() != mat.size1() || quantized_.size2() != mat.size2()) {
+      quantized_.resize(mat.size1(), mat.size2());
     }
     
     for (size_t r=0; r < mat.size1(); r++) {
       for (size_t c=0; c < mat.size2(); c++) {
-        quantized(r,c) = isnan(mat(r,c)) ? 0 : (quantized_t)round(mat(r,c) * scale);
+        quantized_(r,c) = isnan(mat(r,c)) ? 0 : (quantized_t)round(mat(r,c) * scale);
       }
     }
   }
 
 
   void ezw_encoder::subtract_scalar(quantized_t scalar) {
-    for (size_t r=0; r < quantized.size1(); r++) {
-      for (size_t c=0; c < quantized.size2(); c++) {
-        quantized(r,c) -= scalar;
+    for (size_t r=0; r < quantized_.size1(); r++) {
+      for (size_t c=0; c < quantized_.size2(); c++) {
+        quantized_(r,c) -= scalar;
       }
     }
   }
@@ -183,32 +181,32 @@ namespace wavelet {
   void ezw_encoder::do_encode(obitstream& out, ezw_header& header, bool byte_align) {
     // Figure out bounds on the lowest transform level, so we can figure out
     // what kind of children we have.
-    low_rows = quantized.size1() >> header.level;
-    low_cols = quantized.size2() >> header.level;
+    low_rows_ = quantized_.size1() >> header.level;
+    low_cols_ = quantized_.size2() >> header.level;
 
     build_zerotree_map();
 
-    dom_sizes.clear();
-    sub_sizes.clear();
+    dom_sizes_.clear();
+    sub_sizes_.clear();
 
     encode_visitor visitor(this, out);
 
-    while (threshold && (!pass_limit || (dom_sizes.size() < pass_limit))) {
-      size_t start_bits = out.get_in_bits();
+    while (threshold_ && (!pass_limit_ || (dom_sizes_.size() < pass_limit_))) {
+      size_t start_bits = out.in_bits();
 
-      dominant_pass(visitor, low_rows, low_cols, quantized.size1(), quantized.size2());
-      size_t mid_bits = out.get_in_bits();
+      dominant_pass(visitor, low_rows_, low_cols_, quantized_.size1(), quantized_.size2());
+      size_t mid_bits = out.in_bits();
 
       DBG_OUT(endl);
-      threshold >>= 1;
-      if (threshold > 0) {
+      threshold_ >>= 1;
+      if (threshold_ > 0) {
         subordinate_pass(out);
         DBG_OUT(endl);
       }
       
       // record number of bits in these passes
-      dom_sizes.push_back(mid_bits - start_bits);
-      sub_sizes.push_back(out.get_in_bits() - mid_bits);
+      dom_sizes_.push_back(mid_bits - start_bits);
+      sub_sizes_.push_back(out.in_bits() - mid_bits);
 
       // IF we're byte-aligning passes, then we go ahead and output the last partial
       // byte.  If not, passes come one after the other.
@@ -218,12 +216,12 @@ namespace wavelet {
     }
 
     out.flush();            // force out trailing byte.
-    sub_list.clear();         // cleanup for next call.
+    sub_list_.clear();         // cleanup for next call.
   }
 
 
   //TODO: make this method common to the coder and the wavelet transforms.
-  int ezw_encoder::get_level(int level, size_t rows, size_t cols) {
+  int ezw_encoder::compute_level(int level, size_t rows, size_t cols) {
     // for negative level, assume maximally transformed data as the transforms do.
     if (level < 1) {
       level = (int)log2pow2(max(rows, cols));
@@ -241,26 +239,26 @@ namespace wavelet {
 
   size_t ezw_encoder::encode(wt_matrix& mat, ostream& out, int level) {
     // First, compute values for header.
-    level = get_level(level, mat.size1(), mat.size2());
+    level = compute_level(level, mat.size1(), mat.size2());
 
-    quantize(mat, scale);   // dump mat into quantized matrix
+    quantize(mat, scale_);   // dump mat into quantized matrix
 
     // subtract out mean.
-    quantized_t mean = (quantized_t)round(mean_val(quantized));
+    quantized_t mean = (quantized_t)round(mean_val(quantized_));
     subtract_scalar(mean);
 
-    quantized_t abs_max = abs_max_val(quantized);
-    threshold = lePowerOf2((uint64_t)abs_max);
+    quantized_t abs_max = abs_max_val(quantized_);
+    threshold_ = lePowerOf2((uint64_t)abs_max);
 
     // construct and write out the header with relevant info
-    ezw_header header(mat.size1(), mat.size2(), level, mean, scale, threshold, enc_type);
+    ezw_header header(mat.size1(), mat.size2(), level, mean, scale_, threshold_, enc_type_);
 
     vector_obitstream obits;
     do_encode(obits, header, false);
     obits.flush();
 
-    header.ezw_size = obits.get_out_bytes();
-    size_t enc_bytes = finish_encode(obits.get_vector(), out, header);
+    header.ezw_size = obits.out_bytes();
+    size_t enc_bytes = finish_encode(obits.vector(), out, header);
     return enc_bytes;
   }
   
@@ -279,7 +277,7 @@ namespace wavelet {
     }
     buf_size = header.rle_size;
 
-    if (enc_type == HUFFMAN) {
+    if (enc_type_ == HUFFMAN) {
       // Huffman code RLE buffer, then write out the results.
       const size_t huff_bound = (size_t)ceil(buf_size * 101.0/100 + 384);
       vector<unsigned char> huff_buffer(huff_bound);
@@ -302,32 +300,32 @@ namespace wavelet {
   }
 
 
-  int ezw_encoder::get_pass_limit() {
-    return pass_limit;
+  int ezw_encoder::pass_limit() {
+    return pass_limit_;
   }
 
   void ezw_encoder::set_pass_limit(size_t limit) {
-    pass_limit = limit;
+    pass_limit_ = limit;
   }
 
 
-  quantized_t ezw_encoder::get_scale() {
-    return scale;
+  quantized_t ezw_encoder::scale() {
+    return scale_;
   }
 
   void ezw_encoder::set_scale(quantized_t s) {
-    scale = s;
+    scale_ = s;
   }
 
-  encoding_t ezw_encoder::get_encoding_type() {
-    return enc_type;
+  encoding_t ezw_encoder::encoding_type() {
+    return enc_type_;
   }
 
   void ezw_encoder::set_encoding_type(encoding_t type) {
     if (type == NONE) {
       throw runtime_error("Error: invalid encoding.");
     }
-    enc_type = type;
+    enc_type_ = type;
   }
 
 } // namespace

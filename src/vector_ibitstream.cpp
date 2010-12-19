@@ -38,7 +38,7 @@ using namespace std;
 namespace wavelet {
 
   vector_ibitstream::vector_ibitstream(const unsigned char *b, size_t size) 
-    : buf(b), end(size), pos(0), mask(0x80) {
+    : buf_(b), end_(size), pos_(0), mask_(0x80) {
     assert(size);
   }
 
@@ -46,15 +46,15 @@ namespace wavelet {
   vector_ibitstream::~vector_ibitstream() { }
 
 
-  size_t vector_ibitstream::get_in_bytes() {
-    return bits_to_bytes(total_bits);
+  size_t vector_ibitstream::in_bytes() {
+    return bits_to_bytes(total_bits_);
   }
 
 
   void vector_ibitstream::next_byte() {
-    if (mask != 0x80) {
-      pos++;
-      mask = 0x80;
+    if (mask_ != 0x80) {
+      pos_++;
+      mask_ = 0x80;
     }
   }
 } // namespace

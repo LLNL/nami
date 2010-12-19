@@ -70,9 +70,9 @@ int main(int argc, char **argv) {
   }
 
   ezw_encoder encoder;
-  encoder.set_pass_limit(par_encoder.get_pass_limit());
-  encoder.set_encoding_type(par_encoder.get_encoding_type());
-  encoder.set_scale(par_encoder.get_scale());
+  encoder.set_pass_limit(par_encoder.pass_limit());
+  encoder.set_encoding_type(par_encoder.encoding_type());
+  encoder.set_scale(par_encoder.scale());
 
   wt_parallel pwt;          // parallel and local transformers
   wt_direct dwt;
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
 
     // find the root of the reduction the encoder will do
     // this is where the data will be when we're done.
-    int root = par_encoder.get_root(MPI_COMM_WORLD);
+    int root = par_encoder.root(MPI_COMM_WORLD);
 
     ofstream par_output;
     if (rank == root) par_output.open(PAR_FILENAME);

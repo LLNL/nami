@@ -82,11 +82,11 @@ namespace wavelet { namespace filter {
       
       // apply some scaling here to get this to agree with lifting implementation
       for (int i=0; i < size; i++) {
-	cdf97->lpf[i]  *= sqrt(2.0);
-	cdf97->hpf[i]  *= sqrt(2.0);
-	// output of transform is decimated by 2, so need to multiply iwt filters by 2
-	cdf97->ilpf[i] *= 2.0/sqrt(2.0);
-	cdf97->ihpf[i] *= 2.0/sqrt(2.0);
+        cdf97->lpf[i]  *= sqrt(2.0);
+        cdf97->hpf[i]  *= sqrt(2.0);
+        // output of transform is decimated by 2, so need to multiply iwt filters by 2
+        cdf97->ilpf[i] *= 2.0/sqrt(2.0);
+        cdf97->ihpf[i] *= 2.0/sqrt(2.0);
       }
     }
     return *cdf97;

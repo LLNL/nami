@@ -73,9 +73,9 @@ int main(int argc, char **argv) {
     wt_matrix original;
     wt_parallel::gather(original, mat, MPI_COMM_WORLD);
 
-    // do remote transform on all data, record remote level
+    // do parallel transform on all data, record parallel transform's level
     level = pwt.fwt_2d(mat, level);
-
+    
     // do local transform at same level 
     wt_matrix localwt;
     if (rank == 0) {
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
       }
     }
 
-    // do remote inverse transform, compare to local inverse
+    // do parallel inverse transform, compare to local inverse
     pwt.iwt_2d(mat, level);
     wt_matrix par_iwt;
     wt_parallel::gather(par_iwt, mat, MPI_COMM_WORLD);
@@ -117,12 +117,16 @@ int main(int argc, char **argv) {
     
     if (verbose && rank == 0) cout << endl;
   }
-  MPI_Finalize();
   
-  if (verbose) {
+
+  if (verbose && rank == 0) {
     cout << (pass ? "PASSED" : "FAILED") << endl;
   }
 
-  exit(pass ? 0 : 1);
+  int exit_code = (pass ? 0 : 1);
+  MPI_Bcast(&exit_code, 1, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Finalize();
+
+  exit(exit_code);
 }
 

@@ -63,10 +63,10 @@ namespace wavelet {
 
   protected:
     /// Filter bank for this transform
-    filter_bank& f;
+    filter_bank& f_;
 
     /// temporary storage for packing values
-    std::vector<double> temp;   
+    std::vector<double> temp_;
 
     /// Copies x into temp and symmetrically extends edges by filter size.
     ///   e.g. if filter size is 3 and x is:

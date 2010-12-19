@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
     ifstream encoded_in(EZW_FILE);
     wt_matrix unezw;
     decoder.decode(encoded_in, unezw, -1, &header);
-    size_t read = decoder.get_bytes_read();
+    size_t read = decoder.bytes_read();
 
     // inverse-transform the decoded data and get error
     wt.iwt_2d(unezw, level);

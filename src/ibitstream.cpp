@@ -49,7 +49,7 @@ namespace wavelet {
     
     buffer[pos] = 0;
     while (pos < size) {
-      buffer[pos] |= (get_bit() << shift);
+      buffer[pos] |= (read_bit() << shift);
       shift--;
       if (shift < 0) {
         pos++;

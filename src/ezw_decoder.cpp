@@ -53,36 +53,36 @@ using namespace std;
 
 namespace wavelet {
   
-  ezw_decoder::ezw_decoder() : pass_limit(0), byte_budget(0), bytes_read(0) { }
+  ezw_decoder::ezw_decoder() : pass_limit_(0), byte_budget_(0), bytes_read_(0) { }
 
 
   ezw_decoder::~ezw_decoder() { }
 
 
   ezw_code ezw_decoder::decode_value(dom_elt e, ibitstream& in) {
-    bool hi = in.get_bit();   // tells whether POS/NEG or not
-    bool lo = in.get_bit();   // ZERO_TREE or ZERO
+    bool hi = in.read_bit();   // tells whether POS/NEG or not
+    bool lo = in.read_bit();   // ZERO_TREE or ZERO
 
     if (!in.good()) {    // make sure end of file wasn't reached early
       return STOP;
     }
 
     if (hi) {
-      sub_list.push_back(sub_elt(e.row, e.col));
+      sub_list_.push_back(sub_elt(e.row, e.col));
 
       if (lo) {
         DBG_OUT('p');
         // check size in case of reduced-size output.
-        if (in_bounds(*decoded, e.row, e.col)) {
-          (*decoded)(e.row, e.col) = threshold;
+        if (in_bounds(*decoded_, e.row, e.col)) {
+          (*decoded_)(e.row, e.col) = threshold_;
         }
         return POSITIVE;
 
       } else {
         DBG_OUT('n');
         // check size in case of reduced-size output.
-        if (in_bounds(*decoded, e.row, e.col)) {
-          (*decoded)(e.row, e.col) = -threshold;
+        if (in_bounds(*decoded_, e.row, e.col)) {
+          (*decoded_)(e.row, e.col) = -threshold_;
         }
         return NEGATIVE;
       }
@@ -96,19 +96,19 @@ namespace wavelet {
 
   /// Subordinate pass of EZW algorithm.  see Shapiro, 1993 for info.
   bool ezw_decoder::subordinate_pass(ibitstream& in) {
-    for (size_t i=0; i < sub_list.size(); i++) {
-      sub_elt e = sub_list[i];
+    for (size_t i=0; i < sub_list_.size(); i++) {
+      sub_elt e = sub_list_[i];
 
-      if (in.get_bit()) {
+      if (in.read_bit()) {
         if (!in.good()) return false;
 
         // check bounds in case we're creating reduced-size output,
         // where we'd ignore things that are out of bounds.
-        if (in_bounds(*decoded, e.row, e.col)) {
-          if ((*decoded)(e.row, e.col) < 0) {
-            (*decoded)(e.row, e.col) -= threshold;
+        if (in_bounds(*decoded_, e.row, e.col)) {
+          if ((*decoded_)(e.row, e.col) < 0) {
+            (*decoded_)(e.row, e.col) -= threshold_;
           } else {
-            (*decoded)(e.row, e.col) += threshold;
+            (*decoded_)(e.row, e.col) += threshold_;
           }
 
         }
@@ -159,8 +159,8 @@ namespace wavelet {
 
     // how many passes to actually process from the input.
     size_t passes = header->passes;
-    if (pass_limit) {
-      passes = min(passes, pass_limit);
+    if (pass_limit_) {
+      passes = min(passes, pass_limit_);
     }
     
     size_t low_rows = header->rows >> header->level;
@@ -174,7 +174,7 @@ namespace wavelet {
     mat.resize(low_rows << level, low_cols << level);
 
     mat.clear();
-    decoded = &mat;  // set up decoded for dom and sub pass to use.
+    decoded_ = &mat;  // set up decoded for dom and sub pass to use.
 
     vector<unsigned char> bit_buffer(header->ezw_size);
     initial_decode(bit_buffer, in, *header);
@@ -185,18 +185,18 @@ namespace wavelet {
     while (r.has_next()) {
       size_t block = r.next();
       
-      threshold = header->threshold;
+      threshold_ = header->threshold;
       size_t pass_count = 0;
       
-      while (threshold && ibits.good() && (!passes || pass_count < passes)) {
+      while (threshold_ && ibits.good() && (!passes || pass_count < passes)) {
         if (!dominant_pass(visitor, low_rows, low_cols, 
                            header->rows, header->cols, header->blocks, block)) {
           break;
         }
         DBG_OUT(endl);
 
-        threshold >>= 1;
-        if (threshold > 0) {
+        threshold_ >>= 1;
+        if (threshold_ > 0) {
           if (!subordinate_pass(ibits)) {
             break;
           }
@@ -207,7 +207,7 @@ namespace wavelet {
       }
       
       ibits.next_byte();   // per-processor blocks are byte-aligned.
-      sub_list.clear();     // clear this out for next time.
+      sub_list_.clear();     // clear this out for next time.
     }
 
     // re-scale output values and put the mean back in.
@@ -219,33 +219,33 @@ namespace wavelet {
       }
     }
     
-    bytes_read = ibits.get_in_bytes();
+    bytes_read_ = ibits.in_bytes();
     
     return level;
   }
 
   
-  size_t ezw_decoder::get_pass_limit() {
-    return pass_limit;
+  size_t ezw_decoder::pass_limit() {
+    return pass_limit_;
   }
 
 
   void ezw_decoder::set_pass_limit(size_t limit) {
-    pass_limit = limit;
+    pass_limit_ = limit;
   }
 
 
-  size_t ezw_decoder::get_byte_budget() {
-    return byte_budget;
+  size_t ezw_decoder::byte_budget() {
+    return byte_budget_;
   }
 
 
   void ezw_decoder::set_byte_budget(size_t budget) {
-    byte_budget = budget;
+    byte_budget_ = budget;
   }
 
-  size_t ezw_decoder::get_bytes_read() {
-    return bytes_read;
+  size_t ezw_decoder::bytes_read() {
+    return bytes_read_;
   }
 
 
