@@ -109,7 +109,7 @@ namespace wavelet {
   }
 
 
-  ezw_code ezw_encoder::encode_value(dom_elt e, obitstream& out) {
+  ezw_code ezw_encoder::encode_value(const dom_elt& e, obitstream& out) {
     quantized_t value = quantized_(e.row, e.col);
     
     if (abs(value) >= threshold_) {

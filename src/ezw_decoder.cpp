@@ -59,7 +59,7 @@ namespace wavelet {
   ezw_decoder::~ezw_decoder() { }
 
 
-  ezw_code ezw_decoder::decode_value(dom_elt e, ibitstream& in) {
+  ezw_code ezw_decoder::decode_value(const dom_elt& e, ibitstream& in) {
     bool hi = in.read_bit();   // tells whether POS/NEG or not
     bool lo = in.read_bit();   // ZERO_TREE or ZERO
 

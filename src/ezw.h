@@ -124,7 +124,7 @@ namespace wavelet {
     while (!dom_queue.empty()) {
       dom_elt e = dom_queue.front();
       dom_queue.pop_front();
-      ezw_code code = visitor.visit(e);
+      ezw_code code = visitor(e);
 
       if (code == STOP) return false;
 
@@ -172,7 +172,7 @@ namespace wavelet {
       dom_elt e = dom_queue.back();
       dom_queue.pop_back();
 
-      ezw_code code = visitor.visit(e);
+      ezw_code code = visitor(e);
       if (code == STOP) return false;
 
       if (e.level == 0) {
@@ -203,13 +203,16 @@ namespace wavelet {
   /// encoder and the decoder.  Both call this method.
   /// See Shapiro, 1993 for info.
   ///
-  /// visotor:    callable object to apply to all elts
-  /// low_rows:   rows in lowest-frequency pass
-  /// los_cols:   cols in lowest-frequency pass
-  /// rows:       rows in encoded data
-  /// cols:       cols in encoded data
-  /// num_blocks: total number of separately-encoded block in data
-  /// block:      id of current block to decode (depth-first only)
+  /// @param visitor    callable object to apply to all dom_elts.  
+  ///                   Needs to be callable like this:
+  ///                      ezw_code visitor(const dom_elt& e)
+  ///                   
+  /// @param low_rows   rows in lowest-frequency pass
+  /// @param low_cols   cols in lowest-frequency pass
+  /// @param rows       rows in encoded data
+  /// @param cols       cols in encoded data
+  /// @param num_blocks total number of separately-encoded block in data
+  /// @param block      id of current block to decode (depth-first only)
   /// 
   template <class Visitor>
   bool dominant_pass(Visitor visitor, size_t low_rows, size_t low_cols, size_t rows, size_t cols,

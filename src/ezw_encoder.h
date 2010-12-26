@@ -110,7 +110,7 @@ namespace wavelet {
 
     /// EZW-codes a single value according to the current threshold.  
     /// Appends to dom_queue, and sub_list if necessary.
-    ezw_code encode_value(dom_elt e, obitstream& out);
+    ezw_code encode_value(const dom_elt& e, obitstream& out);
 
     /// Subordinate pass of EZW algorithm.  ee Shapiro, 1993 for info.
     void subordinate_pass(obitstream& out);
@@ -160,7 +160,7 @@ namespace wavelet {
       
       encode_visitor(ezw_encoder *p, obitstream& o): parent(p), out(o) { }
       ~encode_visitor() { }
-      ezw_code visit(dom_elt e) { 
+      ezw_code operator()(const dom_elt& e) { 
         return parent->encode_value(e, out);
       }
     };
