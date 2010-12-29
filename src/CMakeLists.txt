@@ -47,6 +47,7 @@ set(NAMI_HEADERS
 	filter_bank.h
 	ibitstream.h
 	io_utils.h
+	two_utils.h
 	matrix_utils.h
 	obitstream.h
 	stl_utils.h
@@ -54,7 +55,7 @@ set(NAMI_HEADERS
 	Timer.h
 	vector_ibitstream.h
 	vector_obitstream.h
-	wavelet.h
+	nami_matrix.h
 	wt_1d.h
 	wt_2d.h
 	wt_direct.h
