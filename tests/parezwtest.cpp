@@ -37,7 +37,7 @@
 #include <fstream>
 using namespace std;
 
-#include "wt_parallel.h"
+#include "par_wt.h"
 #include "wt_direct.h"
 #include "wt_utils.h"
 #include "matrix_utils.h"
@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
   encoder.set_encoding_type(par_encoder.encoding_type());
   encoder.set_scale(par_encoder.scale());
 
-  wt_parallel pwt;          // parallel and local transformers
+  par_wt pwt;          // parallel and local transformers
   wt_direct dwt;
 
   nami_matrix mat(128, 128);  // initially distributed matrix
@@ -112,11 +112,11 @@ int main(int argc, char **argv) {
 
     // gather the parallel-transformed data and sequentially code it.
     nami_matrix par_fwt;
-    wt_parallel::gather(par_fwt, mat, MPI_COMM_WORLD, root);
+    par_wt::gather(par_fwt, mat, MPI_COMM_WORLD, root);
 
 
     if (rank == root) {
-      wt_parallel::reassemble(par_fwt, size, level);
+      par_wt::reassemble(par_fwt, size, level);
       
       // sequentially code reassembled distributed array
       ofstream seq_out(SEQ_FILENAME);

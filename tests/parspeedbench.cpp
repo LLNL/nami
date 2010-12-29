@@ -35,7 +35,7 @@
 #include <fstream>
 using namespace std;
 
-#include "wt_parallel.h"
+#include "par_wt.h"
 #include "wt_direct.h"
 #include "wt_utils.h"
 #include "par_ezw_encoder.h"
@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
   }
 
   ezw_decoder decoder;
-  wt_parallel pwt;          // parallel and local transformers
+  par_wt pwt;          // parallel and local transformers
   wt_direct dwt;
 
   double wt_total = 0;

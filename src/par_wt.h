@@ -38,7 +38,7 @@
 #include "wt_direct.h"
 
 /// 
-/// @file wt_parallel.h
+/// @file par_wt.h
 /// 
 /// This is a parallel implementation of the cdf wavelet transform.
 /// This is based on the algorithm described in Nielsen, 2000.
@@ -48,13 +48,13 @@
 /// 
 namespace nami { 
 
-  class wt_parallel : private wt_1d_direct {
+  class par_wt : private wt_1d_direct {
   public:
     /// Constructor -- just delegates to wt_direct.
-    wt_parallel(filter_bank& f = filter::getCDF97());
+    par_wt(filter_bank& f = filter::getCDF97());
 
     /// Destructor
-    virtual ~wt_parallel();
+    virtual ~par_wt();
 
     /// Forward transform for matrix.  
     /// This is a collective operation -- all processes in the communicator

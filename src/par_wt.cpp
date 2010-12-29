@@ -29,7 +29,7 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "wt_parallel.h"
+#include "par_wt.h"
 
 #include <fstream>
 #include <iostream>
@@ -49,13 +49,13 @@ using namespace std;
 namespace nami {
 
   // Just delegates to superclass.
-  wt_parallel::wt_parallel(filter_bank& f) : wt_1d_direct(f) { }
+  par_wt::par_wt(filter_bank& f) : wt_1d_direct(f) { }
 
   // Does nothing.
-  wt_parallel::~wt_parallel() { }
+  par_wt::~par_wt() { }
 
 
-  int wt_parallel::fwt_2d(nami_matrix& local, int level, MPI_Comm comm) {
+  int par_wt::fwt_2d(nami_matrix& local, int level, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -106,7 +106,7 @@ namespace nami {
   }
 
 
-  int wt_parallel::iwt_2d(nami_matrix& local, int level, MPI_Comm comm) {
+  int par_wt::iwt_2d(nami_matrix& local, int level, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -154,7 +154,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::aggregate(nami_matrix& mat, vector<double>& local, int m, int set,
+  void par_wt::aggregate(nami_matrix& mat, vector<double>& local, int m, int set,
                               vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank;
     MPI_Comm_rank(comm, &rank);
@@ -182,7 +182,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::distribute(nami_matrix& mat, vector<double>& local, int m, int set,
+  void par_wt::distribute(nami_matrix& mat, vector<double>& local, int m, int set,
                                vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank;
     MPI_Comm_rank(comm, &rank);
@@ -208,7 +208,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::gather(nami_matrix& mat, nami_matrix& remote, MPI_Comm comm, int root) {
+  void par_wt::gather(nami_matrix& mat, nami_matrix& remote, MPI_Comm comm, int root) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -227,7 +227,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::scatter(nami_matrix& mat, nami_matrix& remote, MPI_Comm comm, int root) {
+  void par_wt::scatter(nami_matrix& mat, nami_matrix& remote, MPI_Comm comm, int root) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -247,7 +247,7 @@ namespace nami {
 
 
 
-  void wt_parallel::reassemble(nami_matrix& mat, int P, int level) {
+  void par_wt::reassemble(nami_matrix& mat, int P, int level) {
     size_t rows = mat.size1();
     size_t cols = mat.size2();
 
@@ -298,7 +298,7 @@ namespace nami {
 
 
   // PRE: temp has been filled in by fwt_2d()
-  void wt_parallel::fwt_col(nami_matrix& mat, size_t col, size_t n) {
+  void par_wt::fwt_col(nami_matrix& mat, size_t col, size_t n) {
     assert(!(n&1)); // ensure even number. TODO: necessary?
 
     size_t len = n >> 1;
@@ -314,7 +314,7 @@ namespace nami {
   
 
   // PRE: temp has been filled in by iwt_2d()
-  void wt_parallel::iwt_col(nami_matrix& mat, size_t col, size_t n) {
+  void par_wt::iwt_col(nami_matrix& mat, size_t col, size_t n) {
     assert(!(n & 1));
 
     for (size_t i=0; i < n; i++) {
@@ -328,7 +328,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::fwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
+  void par_wt::fwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
                                  size_t rows, size_t cols, vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
@@ -369,7 +369,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::iwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
+  void par_wt::iwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
                                  size_t rows, size_t cols, std::vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
@@ -427,7 +427,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::build_temp(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
+  void par_wt::build_temp(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
                                size_t n, size_t col, int rank, int comm_size, bool interleave) {
     size_t tsize = n + 2 * (f_.size/2) + 1;
     if (temp_.size() < tsize) temp_.resize(tsize);

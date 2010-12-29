@@ -24,7 +24,7 @@ set(NAMI_SOURCES
 
 if (NAMI_HAVE_MPI)
   list(APPEND NAMI_SOURCES
-    wt_parallel.cpp	
+    par_wt.cpp	
     par_ezw_encoder.cpp)
 endif()
 

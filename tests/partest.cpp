@@ -34,7 +34,7 @@
 #include <iomanip>
 using namespace std;
 
-#include "wt_parallel.h"
+#include "par_wt.h"
 #include "wt_direct.h"
 #include "matrix_utils.h"
 using nami::nami_matrix;
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-  wt_parallel pwt;          // parallel and local transformers
+  par_wt pwt;          // parallel and local transformers
   wt_direct dwt;
 
   nami_matrix mat(128, 256);  // initially distributed matrix
@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
     
     // collect plain matrix for sequential transform
     nami_matrix original;
-    wt_parallel::gather(original, mat, MPI_COMM_WORLD);
+    par_wt::gather(original, mat, MPI_COMM_WORLD);
 
     // do parallel transform on all data, record parallel transform's level
     level = pwt.fwt_2d(mat, level);
@@ -85,9 +85,9 @@ int main(int argc, char **argv) {
     }
 
     nami_matrix par_fwt;
-    wt_parallel::gather(par_fwt, mat, MPI_COMM_WORLD);
+    par_wt::gather(par_fwt, mat, MPI_COMM_WORLD);
     if (rank == 0) {
-      wt_parallel::reassemble(par_fwt, size, level);
+      par_wt::reassemble(par_fwt, size, level);
 
       double err = nrmse(localwt, par_fwt);
       if (err > 0) {
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
     // do parallel inverse transform, compare to local inverse
     pwt.iwt_2d(mat, level);
     nami_matrix par_iwt;
-    wt_parallel::gather(par_iwt, mat, MPI_COMM_WORLD);
+    par_wt::gather(par_iwt, mat, MPI_COMM_WORLD);
     if (rank == 0) {
       dwt.iwt_2d(localwt, level);
 
