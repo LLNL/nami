@@ -148,7 +148,9 @@ double nrmse(const Matrix& orig, const Matrix& repro,
   if (col_end > orig.size2()) col_end = orig.size2();
 
   ms_summary summary = get_summary(orig, repro, row_start, row_end, col_start, col_end);
-  double range = summary.orig_max - summary.orig_min;
+  double range = (summary.orig_max == summary.orig_min)
+    ? summary.orig_min
+    : summary.orig_max - summary.orig_min;
   size_t rows = (row_end - row_start);
   size_t cols = (col_end - col_start);
   return sqrt(summary.sum_squares / (rows * cols)) / range;
@@ -162,7 +164,9 @@ double psnr(const Matrix& orig, const Matrix& repro) {
   assert(orig.size2() == repro.size2());
 
   ms_summary summary = get_summary(orig, repro);
-  double range = summary.orig_max - summary.orig_min;
+  double range = (summary.orig_max == summary.orig_min)
+    ? summary.orig_min
+    : summary.orig_max - summary.orig_min;
   return 20 * log10(range / sqrt(summary.sum_squares / (orig.size1() * orig.size2())));
 }
 
@@ -174,7 +178,9 @@ double similarity(const Matrix& orig, const Matrix& repro) {
   assert(orig.size2() == repro.size2());
 
   ms_summary summary = get_summary(orig, repro);
-  double range = summary.both_max - summary.both_min;
+  double range = (summary.both_max == summary.both_min)
+    ? summary.both_min
+    : summary.both_max - summary.both_min;
   return sqrt(summary.sum_squares / (orig.size1() * orig.size2())) / range;
 }
 

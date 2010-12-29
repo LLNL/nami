@@ -39,7 +39,7 @@ using namespace std;
 
 #include "wt_utils.h"
 #include "io_utils.h"
-
+#include "two_utils.h"
 namespace nami {
 
   ostream& operator<<(ostream& out, const ezw_header& header) {
@@ -116,7 +116,7 @@ namespace nami {
     size += vl_write(out, scale);
     
     // threshold is always a power of 2 or 0
-    signed char log2_thresh = log2pow2(threshold);
+    signed char log2_thresh = log2_pow2(threshold);
     out.write((char*)&log2_thresh, 1);
     size += 1;
 

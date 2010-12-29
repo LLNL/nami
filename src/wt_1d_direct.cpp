@@ -32,6 +32,7 @@
 #include "wt_1d_direct.h"
 
 #include <cassert>
+#include "two_utils.h"
 using namespace std;
 
 namespace nami {
@@ -76,7 +77,7 @@ namespace nami {
 
 
   void wt_1d_direct::fwt_1d_single(double *data, size_t n) {
-    assert(!(n & 1));
+    assert(divisible_by_2(n));
 
     sym_extend(data, n, 1);
     size_t len = n >> 1;
@@ -92,7 +93,7 @@ namespace nami {
 
   
   void wt_1d_direct::iwt_1d_single(double *data, size_t n) {
-    assert(!(n & 1));
+    assert(divisible_by_2(n));
 
     sym_extend(data, n, 1, true);
     for (size_t i=0; i < n; i++) {

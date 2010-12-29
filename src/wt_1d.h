@@ -32,7 +32,7 @@
 #ifndef WT_1D_H
 #define WT_1D_H
 
-#include "wavelet.h"
+#include "nami_matrix.h"
 
 namespace nami {
   
@@ -43,7 +43,7 @@ namespace nami {
 
     /// Algorithm for forward transform in 1 dimension.  Applies wavelet transform on
     /// lower-frequency bands recursively up to level, or as far as possible if level is -1.
-    virtual int fwt_1d(double * data, size_t len, int level = -1);
+    virtual int fwt_1d(double *data, size_t len, int level = -1);
     
     /// Algorithm for inverse transform in 1 dimension.  Starts at fwt_level and applies 
     /// inverse transform recursively up to iwt_level times.

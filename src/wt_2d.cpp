@@ -34,17 +34,16 @@
 #include <stdint.h>
 #include <climits>
 
-#include "io_utils.h"
-
+#include "two_utils.h"
 using namespace std;
 
 namespace nami {
 
-  int wt_2d::fwt_2d(wt_matrix& mat, int level) {
+  int wt_2d::fwt_2d(nami_matrix& mat, int level) {
     if (level < 0) {
-      level = (int)log2pow2(std::max(mat.size1(), mat.size2()));
+      level = (int)log2_pow2(std::max(mat.size1(), mat.size2()));
     }
-    assert(level <= log2pow2(std::max(mat.size1(), mat.size2())));
+    assert(level <= log2_pow2(std::max(mat.size1(), mat.size2())));
 
     size_t rows = mat.size1();
     size_t cols = mat.size2();
@@ -60,11 +59,11 @@ namespace nami {
   }
 
 
-  int wt_2d::iwt_2d(wt_matrix& mat, int fwt_level, int iwt_level) {
+  int wt_2d::iwt_2d(nami_matrix& mat, int fwt_level, int iwt_level) {
     if (fwt_level < 0) {
-      fwt_level = (int)log2pow2(std::max(mat.size1(), mat.size2()));
+      fwt_level = (int)log2_pow2(std::max(mat.size1(), mat.size2()));
     }
-    assert(fwt_level <= log2pow2(std::max(mat.size1(), mat.size2())));
+    assert(fwt_level <= log2_pow2(std::max(mat.size1(), mat.size2())));
 
     if (iwt_level < 0) {
       iwt_level = INT_MAX;

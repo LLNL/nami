@@ -33,7 +33,7 @@
 #include <algorithm>
 using namespace std;
 
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "cdf97.h"
 #include "wt_lift.h"
 #include "matrix_utils.h"
@@ -58,7 +58,7 @@ namespace nami {
   static const double scale_factor = 1.1496043988602418;
 
 
-  void wt_lift::fwt_col(wt_matrix& mat, size_t col, size_t n) {
+  void wt_lift::fwt_col(nami_matrix& mat, size_t col, size_t n) {
     double a;
     size_t i;
 
@@ -107,7 +107,7 @@ namespace nami {
   }
 
 
-  void wt_lift::iwt_col(wt_matrix& mat, size_t col, size_t n) {
+  void wt_lift::iwt_col(nami_matrix& mat, size_t col, size_t n) {
     double a;
     size_t i;
 

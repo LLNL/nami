@@ -36,7 +36,7 @@
 #include <iomanip>
 using namespace std;
 
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "cdf97.h"
 #include "matrix_utils.h"
 
@@ -47,7 +47,7 @@ namespace nami {
 
   wt_direct::~wt_direct() { } 
 
-  void wt_direct::fwt_col(wt_matrix& mat, size_t col, size_t n) {
+  void wt_direct::fwt_col(nami_matrix& mat, size_t col, size_t n) {
     assert(!(n & 1));
     sym_extend(&mat(0, col), n, mat.size2());
 
@@ -63,7 +63,7 @@ namespace nami {
   }
   
 
-  void wt_direct::iwt_col(wt_matrix& mat, size_t col, size_t n) {
+  void wt_direct::iwt_col(nami_matrix& mat, size_t col, size_t n) {
     assert(!(n & 1));
 
     sym_extend(&mat(0, col), n, mat.size2(), true);

@@ -36,7 +36,8 @@ using namespace std;
 
 #include "wt_parallel.h"
 #include "wt_direct.h"
-using nami::wt_matrix;
+#include "matrix_utils.h"
+using nami::nami_matrix;
 using namespace nami;
 
 /// This verifies that the parallel wavelet transform produces
@@ -57,7 +58,7 @@ int main(int argc, char **argv) {
   wt_parallel pwt;          // parallel and local transformers
   wt_direct dwt;
 
-  wt_matrix mat(128, 256);  // initially distributed matrix
+  nami_matrix mat(128, 256);  // initially distributed matrix
 
   // level starts at max possible for matrix dimensions, then we
   // set it explicitly and do transforms at sublevels, too.
@@ -70,20 +71,20 @@ int main(int argc, char **argv) {
     }
     
     // collect plain matrix for sequential transform
-    wt_matrix original;
+    nami_matrix original;
     wt_parallel::gather(original, mat, MPI_COMM_WORLD);
 
     // do parallel transform on all data, record parallel transform's level
     level = pwt.fwt_2d(mat, level);
     
     // do local transform at same level 
-    wt_matrix localwt;
+    nami_matrix localwt;
     if (rank == 0) {
       localwt = original;
       dwt.fwt_2d(localwt, level);
     }
 
-    wt_matrix par_fwt;
+    nami_matrix par_fwt;
     wt_parallel::gather(par_fwt, mat, MPI_COMM_WORLD);
     if (rank == 0) {
       wt_parallel::reassemble(par_fwt, size, level);
@@ -100,7 +101,7 @@ int main(int argc, char **argv) {
 
     // do parallel inverse transform, compare to local inverse
     pwt.iwt_2d(mat, level);
-    wt_matrix par_iwt;
+    nami_matrix par_iwt;
     wt_parallel::gather(par_iwt, mat, MPI_COMM_WORLD);
     if (rank == 0) {
       dwt.iwt_2d(localwt, level);

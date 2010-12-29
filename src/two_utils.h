@@ -29,19 +29,65 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef WAVELET_H
-#define WAVELET_H
+#ifndef NAMI_TWO_UTILS_H_
+#define NAMI_TWO_UTILS_H
 
-#include "matrix_utils.h"
-#include <algorithm>
+namespace nami {
 
-///\file wavelet.h
-/// This header includes declarations for types used in all wavelet transforms
-namespace nami { 
+  /// Test for integral types to make sure they're powers of two.
+  template <class T>
+  bool is_power_of_2(T num) { 
+    return !(num & (num-1)); 
+  }
 
-  /// Matrix type used for all computations here.
-  typedef boost::numeric::ublas::matrix<double> wt_matrix;
+  
+  /// Returns least power of two greater than or equal to num
+  inline uint64_t ge_power_of_2(uint64_t num) {
+    num--;
+    num |= (num >> 1);  // these fill with ones.
+    num |= (num >> 2);
+    num |= (num >> 4);
+    num |= (num >> 8);
+    num |= (num >> 16);
+    num |= (num >> 32);
+    num++;
+    return num;
+  }
 
-} // namespaces
 
-#endif // WAVELET_H
+  /// Returns greatest power of two less than or equal to num
+  inline uint64_t le_power_of_2(uint64_t num) {
+    num |= (num >> 1);  // these fill with ones.
+    num |= (num >> 2);
+    num |= (num >> 4);
+    num |= (num >> 8);
+    num |= (num >> 16);
+    num |= (num >> 32);
+    return num - (num >> 1);
+  }
+
+
+  /// Takes the log base 2 of a power of 2, returns a char.
+  /// Returns -1 if 0 is passed in.
+  inline signed char log2_pow2(unsigned long long powerOf2) {
+    // make sure it's a power of 2.
+    assert(is_power_of_2(powerOf2));
+    
+    signed char n = -1;
+    while (powerOf2 > 0) {
+      powerOf2 >>= 1;
+      n++;
+    }
+
+    return n;
+  }
+
+
+  /// Inline function to determine if a number is divisible by 2.
+  inline bool divisible_by_2(uint64_t num) {
+    return !(num & 1);
+  }
+
+} // namespace nami
+
+#endif // NAMI_TWO_UTILS_H

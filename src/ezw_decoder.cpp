@@ -148,7 +148,7 @@ namespace nami {
   }
   
   
-  int ezw_decoder::decode(istream& in, wt_matrix& mat, int level, const ezw_header *existing_header) {
+  int ezw_decoder::decode(istream& in, nami_matrix& mat, int level, const ezw_header *existing_header) {
     // if the caller didn't pass in a header (that he's read already) then read it in.
     ezw_header my_header;
     const ezw_header *header = existing_header;

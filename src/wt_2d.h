@@ -32,7 +32,7 @@
 #ifndef WT_2D_H
 #define WT_2D_H
 
-#include "wavelet.h"
+#include "nami_matrix.h"
 
 namespace nami {
 
@@ -56,7 +56,7 @@ namespace nami {
     /// @param mat          matrix to perform the forward transform on
     /// @param level        level of fwt to apply to them matrix.
     ///
-    virtual int fwt_2d(wt_matrix& mat, int level = -1);
+    virtual int fwt_2d(nami_matrix& mat, int level = -1);
     
     ///
     /// Algorithm for inverse transform in 2 dimensions.  Applies alternating 1d
@@ -67,7 +67,7 @@ namespace nami {
     /// @param fwt_level    level of the fwt applied to the matrix (default max possible)
     /// @param iwt_level    level of iwt to perform on the matrix. (defaults to fwt_level)
     ///
-    virtual int iwt_2d(wt_matrix& mat, int fwt_level = -1, int iwt_level = -1);
+    virtual int iwt_2d(nami_matrix& mat, int fwt_level = -1, int iwt_level = -1);
 
     /// 
     /// Forward wavelet transform for matrix rows.
@@ -76,7 +76,7 @@ namespace nami {
     /// @param row  the row to transform
     /// @param n    length of the row, starting at 0, to transform
     ///
-    virtual void fwt_row(wt_matrix& mat, size_t row, size_t n) = 0;
+    virtual void fwt_row(nami_matrix& mat, size_t row, size_t n) = 0;
 
     ///
     /// Forward wavelet transform for matrix columns.
@@ -85,7 +85,7 @@ namespace nami {
     /// @param col  the column to transform
     /// @param n    length of the column, starting at 0, to transform
     /// 
-    virtual void fwt_col(wt_matrix& mat, size_t col, size_t n) = 0;
+    virtual void fwt_col(nami_matrix& mat, size_t col, size_t n) = 0;
 
     ///
     /// Inverse transform for matrix rows.
@@ -94,7 +94,7 @@ namespace nami {
     /// @param row  the row to transform
     /// @param n    length of the row, starting at 0, to transform
     /// 
-    virtual void iwt_row(wt_matrix& mat, size_t row, size_t n) = 0;
+    virtual void iwt_row(nami_matrix& mat, size_t row, size_t n) = 0;
 
     ///
     /// Inverse transform for matrix columns
@@ -103,7 +103,7 @@ namespace nami {
     /// @param col  the column to transform
     /// @param n    length of the column, starting at 0, to transform
     ///
-    virtual void iwt_col(wt_matrix& mat, size_t col, size_t n) = 0;
+    virtual void iwt_col(nami_matrix& mat, size_t col, size_t n) = 0;
   };
 
 

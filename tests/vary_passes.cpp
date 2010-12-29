@@ -34,13 +34,13 @@
 #include <fstream>
 using namespace std;
 
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "wt_lift.h"
 #include "wt_direct.h"
 #include "matrix_utils.h"
 #include "ezw_encoder.h"
 #include "ezw_decoder.h"
-using nami::wt_matrix;
+using nami::nami_matrix;
 using namespace nami;
 
 static const char *PROGNAME = "vary_passes";
@@ -79,11 +79,11 @@ int main(int argc, char **argv) {
     encoder.set_scale(scale);
     ezw_decoder decoder;
   
-    wt_matrix mat;
+    nami_matrix mat;
     read_matrix(filename, mat);
 
     // transform values
-    wt_matrix trans = mat;
+    nami_matrix trans = mat;
     int level = wt.fwt_2d(trans);
 
     // ezw-encode the transformed matrix
@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
 
     // decode the ezw-coded file.
     ifstream encoded_in(EZW_FILE);
-    wt_matrix unezw;
+    nami_matrix unezw;
     decoder.decode(encoded_in, unezw, -1, &header);
     size_t read = decoder.bytes_read();
 

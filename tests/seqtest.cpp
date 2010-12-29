@@ -38,7 +38,7 @@ using namespace std;
 #include "wt_direct.h"
 #include "wt_lift.h"
 #include "matrix_utils.h"
-using nami::wt_matrix;
+using nami::nami_matrix;
 using namespace nami;
 
 static const double TOLERANCE = 1.0e-04;
@@ -61,17 +61,17 @@ int main(int argc, char **argv) {
   
   if (verbose) cerr << "===== 1 Dimensional Tranform =====" << endl;
 
-  for (size_t c=1; c < 16; c++) {
+  for (size_t c=0; c < 16; c++) {
     size_t cols = 1 << c;
-    wt_matrix mat(1, cols);
+    nami_matrix mat(1, cols);
     
     srand(100);
     for (size_t j=0; j < mat.size2(); j++) {
       mat(0,j) = ((rand()/(double)RAND_MAX)+j+0.4*j-0.02*j*j);
     }
     
-    wt_matrix lifted = mat;
-    wt_matrix directed = mat;
+    nami_matrix lifted = mat;
+    nami_matrix directed = mat;
 
     direct_1d.fwt_1d(&directed(0,0), cols);
     lift_1d.fwt_1d(&lifted(0,0), cols);
@@ -97,12 +97,12 @@ int main(int argc, char **argv) {
   if (verbose) cerr << endl
                     << "===== 2 Dimensional Tranform =====" << endl;
 
-  for (size_t r=1; r < 11; r++) {
-    for (size_t c=1; c < 11; c++) {
+  for (size_t r=0; r < 11; r++) {
+    for (size_t c=0; c < 11; c++) {
       size_t rows = 1 << r;
       size_t cols = 1 << c;
 
-      wt_matrix mat(rows, cols);
+      nami_matrix mat(rows, cols);
       
       srand(100);
       for (size_t i=0; i < mat.size1(); i++) {
@@ -111,8 +111,8 @@ int main(int argc, char **argv) {
         }
       }
 
-      wt_matrix lifted = mat;
-      wt_matrix directed = mat;
+      nami_matrix lifted = mat;
+      nami_matrix directed = mat;
 
       direct.fwt_2d(directed);
       lift.fwt_2d(lifted);

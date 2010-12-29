@@ -33,16 +33,16 @@
 
 #include <climits>
 
-#include "io_utils.h"
+#include "two_utils.h"
 using namespace std;
 
 namespace nami {
 
-  int wt_1d::fwt_1d(double * data, size_t len, int level) {
+  int wt_1d::fwt_1d(double *data, size_t len, int level) {
     if (level < 0) {
-      level = (int)log2pow2(len);
+      level = (int)log2_pow2(len);
     }
-    assert(level <= log2pow2(len));
+    assert(level <= log2_pow2(len));
 
     size_t cur_len = len;
     for (int i=0; i < level; i++) {
@@ -56,9 +56,9 @@ namespace nami {
 
   int wt_1d::iwt_1d(double *data, size_t len, int fwt_level, int iwt_level) {
     if (fwt_level < 0) {
-      fwt_level = (int)log2pow2(len);
+      fwt_level = (int)log2_pow2(len);
     }
-    assert(fwt_level <= log2pow2(len));
+    assert(fwt_level <= log2_pow2(len));
 
     if (iwt_level < 0) {
       iwt_level = INT_MAX;

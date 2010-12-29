@@ -42,6 +42,7 @@ using namespace std;
 #include "matrix_utils.h"
 #include "wt_utils.h"
 #include "io_utils.h"
+#include "two_utils.h"
 #include "vector_obitstream.h"
 #include "rle.h"
 #include "huffman.h"
@@ -70,7 +71,7 @@ namespace nami {
     // two less than the magnitude
     for (size_t i=0; i < quantized_.size1(); i++) {
       for (size_t j=0; j < quantized_.size2(); j++) {
-        zerotree_map_(i,j) = lePowerOf2((uint64_t)abs_val(quantized_(i,j)));
+        zerotree_map_(i,j) = le_power_of_2((uint64_t)abs_val(quantized_(i,j)));
       }
     }
 
@@ -156,7 +157,7 @@ namespace nami {
   }
 
 
-  void ezw_encoder::quantize(wt_matrix& mat, quantized_t scale) {
+  void ezw_encoder::quantize(nami_matrix& mat, quantized_t scale) {
     if (quantized_.size1() != mat.size1() || quantized_.size2() != mat.size2()) {
       quantized_.resize(mat.size1(), mat.size2());
     }
@@ -224,20 +225,20 @@ namespace nami {
   int ezw_encoder::compute_level(int level, size_t rows, size_t cols) {
     // for negative level, assume maximally transformed data as the transforms do.
     if (level < 1) {
-      level = (int)log2pow2(max(rows, cols));
+      level = (int)log2_pow2(max(rows, cols));
     }
 
     // for irregular sizes, ignore extra transforms in the longer direction.  Use
     // the level of the lowest frequency subband in the shorter direction to bound.
-    if (level > (int)log2pow2(min(rows, cols))) {
-      level = (int)log2pow2(min(rows, cols));
+    if (level > (int)log2_pow2(min(rows, cols))) {
+      level = (int)log2_pow2(min(rows, cols));
     }
 
     return level;
   }
 
 
-  size_t ezw_encoder::encode(wt_matrix& mat, ostream& out, int level) {
+  size_t ezw_encoder::encode(nami_matrix& mat, ostream& out, int level) {
     // First, compute values for header.
     level = compute_level(level, mat.size1(), mat.size2());
 
@@ -248,7 +249,7 @@ namespace nami {
     subtract_scalar(mean);
 
     quantized_t abs_max = abs_max_val(quantized_);
-    threshold_ = lePowerOf2((uint64_t)abs_max);
+    threshold_ = le_power_of_2((uint64_t)abs_max);
 
     // construct and write out the header with relevant info
     ezw_header header(mat.size1(), mat.size2(), level, mean, scale_, threshold_, enc_type_);

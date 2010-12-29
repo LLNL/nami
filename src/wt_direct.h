@@ -32,7 +32,7 @@
 #ifndef WT_DIRECT_H
 #define WT_DIRECT_H
 
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "filter_bank.h"
 #include "cdf97.h"
 #include "wt_1d_direct.h"
@@ -53,16 +53,16 @@ namespace nami {
     /// Destructor
     virtual ~wt_direct();
 
-    virtual void fwt_row(wt_matrix& mat, size_t row, size_t n) {
+    virtual void fwt_row(nami_matrix& mat, size_t row, size_t n) {
       fwt_1d_single(&mat(row, 0), n);
     }
     
-    virtual void iwt_row(wt_matrix& mat, size_t row, size_t n) {
+    virtual void iwt_row(nami_matrix& mat, size_t row, size_t n) {
       iwt_1d_single(&mat(row, 0), n);
     }
     
-    virtual void fwt_col(wt_matrix& mat, size_t col, size_t n);
-    virtual void iwt_col(wt_matrix& mat, size_t col, size_t n);
+    virtual void fwt_col(nami_matrix& mat, size_t col, size_t n);
+    virtual void iwt_col(nami_matrix& mat, size_t col, size_t n);
   };
 
 

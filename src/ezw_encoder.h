@@ -37,7 +37,7 @@
 #include <climits>
 
 #include "ezw.h"
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "obitstream.h"
 
 namespace nami {
@@ -66,7 +66,7 @@ namespace nami {
     /// 
     /// @return            Number of bytes written out.
     /// 
-    size_t encode(wt_matrix& mat, std::ostream& out, int level = -1);
+    size_t encode(nami_matrix& mat, std::ostream& out, int level = -1);
     
     /// Number of EZW passes to encode; 0 for no limit.
     int pass_limit();
@@ -120,7 +120,7 @@ namespace nami {
 
     /// Multiplies each value in the matrix by a scale factor then casts it to quantized_t.
     /// Stored results in an internal matrix of quantized values.
-    void quantize(wt_matrix& mat, quantized_t scale);
+    void quantize(nami_matrix& mat, quantized_t scale);
     
     /// Build zerotree map.  Map is constructed from quantized and stored in zerotree_map.
     /// Threshold can be simply ANDed with zerotree_map values to determine if a cell is a 

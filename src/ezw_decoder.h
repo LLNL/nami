@@ -38,7 +38,7 @@
 #include <istream>
 
 #include "ezw.h"
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "ibitstream.h"
 
 namespace nami {
@@ -68,7 +68,7 @@ namespace nami {
     /// @return level of inverse transform to apply to decoded data.
     /// 
     /// TODO: move approx level to a setter for consistency
-    int decode(std::istream& in, wt_matrix& mat, int level = -1, 
+    int decode(std::istream& in, nami_matrix& mat, int level = -1, 
                const ezw_header *header = NULL);
     
     size_t pass_limit();
@@ -80,7 +80,7 @@ namespace nami {
     size_t bytes_read();
     
   protected:
-    wt_matrix *decoded_;                 ///< Pointer to the destination matrix
+    nami_matrix *decoded_;                 ///< Pointer to the destination matrix
     quantized_t threshold_;              ///< Current threshold for the coder.
     std::vector<sub_elt> sub_list_;      ///< accumulated subordinate pass coefficients
 

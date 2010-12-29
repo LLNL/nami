@@ -33,13 +33,13 @@
 #include <cstring>
 using namespace std;
 
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "wt_lift.h"
 #include "wt_utils.h"
 #include "matrix_utils.h"
 #include "ezw_encoder.h"
 #include "ezw_decoder.h"
-using nami::wt_matrix;
+using nami::nami_matrix;
 using namespace nami;
 
 
@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
       int rows = 1 << r;
       int cols = 1 << c;
       
-      wt_matrix mat(rows, cols);
+      nami_matrix mat(rows, cols);
       
       // fill matrix in with some randomly generated, cubic-ish values.
       srand(100);
@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
       }
 
       // transform values to get real wavelet coefficients
-      wt_matrix trans = mat;
+      nami_matrix trans = mat;
 
       int level = lift.fwt_2d(trans);
 
@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
 
       // read in same file and deocde
       ifstream in(FILENAME);
-      wt_matrix decoded;
+      nami_matrix decoded;
       level = decoder.decode(in, decoded);
 
       // check that we get out what we put in.

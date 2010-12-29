@@ -41,7 +41,7 @@ using namespace std;
 #include "par_ezw_encoder.h"
 #include "ezw_decoder.h"
 #include "timing.h"
-using nami::wt_matrix;
+using nami::nami_matrix;
 using namespace nami;
 
 static const char *PAR_FILENAME = "parspeedtest.out";
@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
   double ezw_total = 0;
   double start_time;
 
-  wt_matrix mat(128, 128);  // initially distributed matrix
+  nami_matrix mat(128, 128);  // initially distributed matrix
   const size_t count = 5;
   if (rank == 0) {
     cerr << "Average times for " << count << " trials of " 

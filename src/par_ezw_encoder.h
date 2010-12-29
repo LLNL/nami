@@ -54,7 +54,7 @@ namespace nami {
     /// Useful note for using streams: only the stream on process size/2 will
     /// be written to.  So if using a file stream, ONLY open the stream on 
     /// process size/2.
-    size_t encode(wt_matrix& mat, std::ostream& out, int level = -1, 
+    size_t encode(nami_matrix& mat, std::ostream& out, int level = -1, 
                   MPI_Comm comm = MPI_COMM_WORLD);
     
 

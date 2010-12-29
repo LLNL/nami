@@ -34,6 +34,7 @@
 
 #include <stdint.h>
 #include <cstdlib>
+#include <cassert>
 #include <iostream>
 
 #include <sys/stat.h>
@@ -77,42 +78,6 @@ namespace nami {
     }
     return num;
   }
-  
-
-  /// Test for integral types to make sure they're powers of two.
-  template <class T>
-  bool isPowerOf2(T num) { return !(num & (num-1)); }
-
-  /// Returns least power of two greater than or equal to num
-  inline uint64_t gePowerOf2(uint64_t num) {
-    num--;
-    num |= (num >> 1);  // these fill with ones.
-    num |= (num >> 2);
-    num |= (num >> 4);
-    num |= (num >> 8);
-    num |= (num >> 16);
-    num |= (num >> 32);
-    num++;
-    return num;
-  }
-
-
-  /// Returns greatest power of two less than or equal to num
-  inline uint64_t lePowerOf2(uint64_t num) {
-    num |= (num >> 1);  // these fill with ones.
-    num |= (num >> 2);
-    num |= (num >> 4);
-    num |= (num >> 8);
-    num |= (num >> 16);
-    num |= (num >> 32);
-    return num - (num >> 1);
-  }
-
-
-  /// Takes the log base 2 of a power of 2, returns a char.
-  /// Returns -1 if 0 is passed in.
-  signed char log2pow2(unsigned long long powerOf2);
-
 } //namespace
 
 #endif // WT_IO_UTILS_H

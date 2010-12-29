@@ -38,13 +38,16 @@ using namespace std;
 
 #include "mpi_profile.h"
 #include "mpi_utils.h"
+#include "matrix_utils.h"
 #include "io_utils.h"
-#define MPI_QUANTIZED_T (mpi_typeof(quantized_t()))
+#include "two_utils.h"
 #include "wt_utils.h"
 #include "vector_obitstream.h"
 
 #include "rle.h"
 #include "huffman.h"
+
+#define MPI_QUANTIZED_T (mpi_typeof(quantized_t()))
 
 namespace nami {
 
@@ -328,7 +331,7 @@ namespace nami {
   }
 
 
-  size_t par_ezw_encoder::encode(wt_matrix& mat, ostream& out, int level, MPI_Comm comm) {
+  size_t par_ezw_encoder::encode(nami_matrix& mat, ostream& out, int level, MPI_Comm comm) {
     timer_.clear();
 
     int size, rank;
@@ -359,7 +362,7 @@ namespace nami {
     timer_.record("EZWStats");
 
     // Compute threshold and level in standard way.
-    threshold_ = lePowerOf2((uint64_t)all_abs_max);
+    threshold_ = le_power_of_2((uint64_t)all_abs_max);
 
     vector_obitstream local_bits(mat.size1() * mat.size2() * sizeof(double));
 

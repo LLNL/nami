@@ -55,7 +55,7 @@ namespace nami {
   wt_parallel::~wt_parallel() { }
 
 
-  int wt_parallel::fwt_2d(wt_matrix& local, int level, MPI_Comm comm) {
+  int wt_parallel::fwt_2d(nami_matrix& local, int level, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -72,7 +72,7 @@ namespace nami {
     // ensure local size is divisible by 2 level times.
     assert(isDivisibleBy2(local.size1(), level));
 
-    wt_matrix left, right;
+    nami_matrix left, right;
 
     for (int l=0; l < level; l++) {
       size_t rows = local.size1() >> l;
@@ -106,7 +106,7 @@ namespace nami {
   }
 
 
-  int wt_parallel::iwt_2d(wt_matrix& local, int level, MPI_Comm comm) {
+  int wt_parallel::iwt_2d(nami_matrix& local, int level, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -122,7 +122,7 @@ namespace nami {
     // ensure divisible by 2 level times.
     assert(isDivisibleBy2(local.size1(), level));
 
-    wt_matrix left, right;
+    nami_matrix left, right;
 
     size_t rows, cols;
     for (int l=level-1; l >= 0; l--) {
@@ -154,7 +154,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::aggregate(wt_matrix& mat, vector<double>& local, int m, int set,
+  void wt_parallel::aggregate(nami_matrix& mat, vector<double>& local, int m, int set,
                               vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank;
     MPI_Comm_rank(comm, &rank);
@@ -182,7 +182,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::distribute(wt_matrix& mat, vector<double>& local, int m, int set,
+  void wt_parallel::distribute(nami_matrix& mat, vector<double>& local, int m, int set,
                                vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank;
     MPI_Comm_rank(comm, &rank);
@@ -208,7 +208,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::gather(wt_matrix& mat, wt_matrix& remote, MPI_Comm comm, int root) {
+  void wt_parallel::gather(nami_matrix& mat, nami_matrix& remote, MPI_Comm comm, int root) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -227,7 +227,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::scatter(wt_matrix& mat, wt_matrix& remote, MPI_Comm comm, int root) {
+  void wt_parallel::scatter(nami_matrix& mat, nami_matrix& remote, MPI_Comm comm, int root) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
@@ -247,11 +247,11 @@ namespace nami {
 
 
 
-  void wt_parallel::reassemble(wt_matrix& mat, int P, int level) {
+  void wt_parallel::reassemble(nami_matrix& mat, int P, int level) {
     size_t rows = mat.size1();
     size_t cols = mat.size2();
 
-    wt_matrix temp = mat;
+    nami_matrix temp = mat;
     size_t S = rows / P;   // rows per process
 
     // range of columns to process per outer-loop iteration.  
@@ -298,7 +298,7 @@ namespace nami {
 
 
   // PRE: temp has been filled in by fwt_2d()
-  void wt_parallel::fwt_col(wt_matrix& mat, size_t col, size_t n) {
+  void wt_parallel::fwt_col(nami_matrix& mat, size_t col, size_t n) {
     assert(!(n&1)); // ensure even number. TODO: necessary?
 
     size_t len = n >> 1;
@@ -314,7 +314,7 @@ namespace nami {
   
 
   // PRE: temp has been filled in by iwt_2d()
-  void wt_parallel::iwt_col(wt_matrix& mat, size_t col, size_t n) {
+  void wt_parallel::iwt_col(nami_matrix& mat, size_t col, size_t n) {
     assert(!(n & 1));
 
     for (size_t i=0; i < n; i++) {
@@ -328,7 +328,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::fwt_exchange(wt_matrix& left, wt_matrix& local, wt_matrix& right, 
+  void wt_parallel::fwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
                                  size_t rows, size_t cols, vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
@@ -369,7 +369,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::iwt_exchange(wt_matrix& left, wt_matrix& local, wt_matrix& right, 
+  void wt_parallel::iwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
                                  size_t rows, size_t cols, std::vector<MPI_Request>& reqs, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
@@ -427,7 +427,7 @@ namespace nami {
   }
 
 
-  void wt_parallel::build_temp(wt_matrix& left, wt_matrix& local, wt_matrix& right, 
+  void wt_parallel::build_temp(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
                                size_t n, size_t col, int rank, int comm_size, bool interleave) {
     size_t tsize = n + 2 * (f_.size/2) + 1;
     if (temp_.size() < tsize) temp_.resize(tsize);

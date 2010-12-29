@@ -34,7 +34,7 @@
 
 #include <mpi.h>
 #include <vector>
-#include "wavelet.h"
+#include "nami_matrix.h"
 #include "wt_direct.h"
 
 /// 
@@ -68,18 +68,18 @@ namespace nami {
     ///        ranks in the communicator provided.  If your data is not laid out
     ///        this way, consider using aggregate(), above, with MPI_Comm_split().
     ///
-    /// @param mat     a wt_matrix containing the data to be transformed
+    /// @param mat     a nami_matrix containing the data to be transformed
     /// @param level   number of level iterations to perform
     ///                level is the maximum level of the tranform to be conducted.
     ///                must be <= log2(min(mat.size1(), mat.size2())
     ///
     /// @return the level of the transform performed.  This may be less than
     ///         the level provided, depending on the data's layout 
-    int fwt_2d(wt_matrix& mat, int level = -1, MPI_Comm comm = MPI_COMM_WORLD);
+    int fwt_2d(nami_matrix& mat, int level = -1, MPI_Comm comm = MPI_COMM_WORLD);
 
 
     
-    int iwt_2d(wt_matrix& mat, int level = -1, MPI_Comm comm = MPI_COMM_WORLD);
+    int iwt_2d(nami_matrix& mat, int level = -1, MPI_Comm comm = MPI_COMM_WORLD);
 
 
     /// Use this function to gather distributed data onto fewer processors.
@@ -90,7 +90,7 @@ namespace nami {
     ///       system size is power of two
     /// @post Data in local is aggregated into mat on all processors where 
     ///       (size % m == set)
-    static void aggregate(wt_matrix& mat, std::vector<double>& local, 
+    static void aggregate(nami_matrix& mat, std::vector<double>& local, 
 			  int m, int set, 
 			  std::vector<MPI_Request>& reqs, 
 			  MPI_Comm comm = MPI_COMM_WORLD);
@@ -103,19 +103,19 @@ namespace nami {
     ///        system size is power of two
     /// @post  Rows of matrix are distributed to all processors where
     ///        (size % m == set)
-    static void distribute(wt_matrix& mat, std::vector<double>& local, 
+    static void distribute(nami_matrix& mat, std::vector<double>& local, 
 			  int m, int set, 
 			  std::vector<MPI_Request>& reqs, 
 			  MPI_Comm comm = MPI_COMM_WORLD);
     
 
     /// Gathers all pieces of a distributed matrix together into a local matrix.
-    static void gather(wt_matrix& dest, wt_matrix& mat, 
+    static void gather(nami_matrix& dest, nami_matrix& mat, 
 		       MPI_Comm comm, int root = 0);
 
 
     /// Scatters per-process chunks of a matrix out to all members of comm.
-    static void scatter(wt_matrix& dest, wt_matrix& mat, 
+    static void scatter(nami_matrix& dest, nami_matrix& mat, 
 		       MPI_Comm comm, int root = 0);
 
 
@@ -123,17 +123,17 @@ namespace nami {
     /// This just rearranges the rows so that they're in the order we're used to.
     /// This algorithm is O(M*N) for an M row by N column matrix.
     /// @post  mat's elements have been rearranged to the standard wavelet transform order.
-    static void reassemble(wt_matrix& mat, int P, int level);
+    static void reassemble(nami_matrix& mat, int P, int level);
 
 
   protected:
     /// Wrapper around wt_1d_direct method that knows about matrix.
-    void fwt_row(wt_matrix& mat, size_t row, size_t n) {
+    void fwt_row(nami_matrix& mat, size_t row, size_t n) {
       fwt_1d_single(&mat(row, 0), n);
     }
 
     /// Wrapper around wt_1d_direct method that knows about matrix.
-    void iwt_row(wt_matrix& mat, size_t row, size_t n) {
+    void iwt_row(nami_matrix& mat, size_t row, size_t n) {
       iwt_1d_single(&mat(row, 0), n);
     }
 
@@ -141,13 +141,13 @@ namespace nami {
     /// Parallel column transform.  
     /// @pre temp data has been filled in by fwt_2d().
     ///
-    void fwt_col(wt_matrix& mat, size_t col, size_t n);
+    void fwt_col(nami_matrix& mat, size_t col, size_t n);
 
     ///
     /// Parallel column transform.  
     /// @pre temp data has been filled in by iwt_2d().
     ///
-    void iwt_col(wt_matrix& mat, size_t col, size_t n);
+    void iwt_col(nami_matrix& mat, size_t col, size_t n);
     
   private:
     ///
@@ -155,7 +155,7 @@ namespace nami {
     /// first, then local, then right.  If this process has no left or right neighbor
     /// then the local data is extended symmetrically to the appropriate side(s).
     /// 
-    void build_temp(wt_matrix& left, wt_matrix& local, wt_matrix& right, 
+    void build_temp(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
 		    size_t rows, size_t col, int rank, int comm_size, bool interleave = false);
 
     ///
@@ -179,7 +179,7 @@ namespace nami {
     /// @param reqs   All requests issued here are appended to this vector.
     /// @param comm   Communicator on which transform is being performed.
     /// 
-    void fwt_exchange(wt_matrix& left, wt_matrix& local, wt_matrix& right, 
+    void fwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
 		      size_t rows, size_t cols, std::vector<MPI_Request>& reqs, 
 		      MPI_Comm comm);
 
@@ -187,7 +187,7 @@ namespace nami {
     /// This routine handles data exchange for the inverse wavelet transform.  Parameters
     /// are as for fwt_exchange, but data laout is slightly different.
     ///
-    void iwt_exchange(wt_matrix& left, wt_matrix& local, wt_matrix& right, 
+    void iwt_exchange(nami_matrix& left, nami_matrix& local, nami_matrix& right, 
 		      size_t rows, size_t cols, std::vector<MPI_Request>& reqs, 
 		      MPI_Comm comm);
   };

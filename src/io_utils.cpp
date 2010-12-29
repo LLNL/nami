@@ -76,19 +76,4 @@ namespace nami {
 
     return long_bytes;
   }
-
-
-  signed char log2pow2(unsigned long long powerOf2) {
-    // make sure it's a power of 2.
-    assert(isPowerOf2(powerOf2));
-    
-    signed char n = -1;
-    while (powerOf2 > 0) {
-      powerOf2 >>= 1;
-      n++;
-    }
-
-    return n;
-  }
-
 } //namespace

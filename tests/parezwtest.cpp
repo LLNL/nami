@@ -40,9 +40,10 @@ using namespace std;
 #include "wt_parallel.h"
 #include "wt_direct.h"
 #include "wt_utils.h"
+#include "matrix_utils.h"
 #include "par_ezw_encoder.h"
 #include "ezw_decoder.h"
-using nami::wt_matrix;
+using nami::nami_matrix;
 using namespace nami;
 
 static const char *PAR_FILENAME = "parezw.out";
@@ -77,7 +78,7 @@ int main(int argc, char **argv) {
   wt_parallel pwt;          // parallel and local transformers
   wt_direct dwt;
 
-  wt_matrix mat(128, 128);  // initially distributed matrix
+  nami_matrix mat(128, 128);  // initially distributed matrix
 
   // level starts at max possible for matrix dimensions, then we
   // set it explicitly and do transforms at sublevels, too.
@@ -110,7 +111,7 @@ int main(int argc, char **argv) {
     if (rank == root) par_output.close();
 
     // gather the parallel-transformed data and sequentially code it.
-    wt_matrix par_fwt;
+    nami_matrix par_fwt;
     wt_parallel::gather(par_fwt, mat, MPI_COMM_WORLD, root);
 
 
@@ -126,12 +127,12 @@ int main(int argc, char **argv) {
       // decode parallel-coded data
       ezw_decoder decoder;
 
-      wt_matrix par_decoded;
+      nami_matrix par_decoded;
       ifstream par_file(PAR_FILENAME);
       decoder.decode(par_file, par_decoded);
 
       // decode sequentially-coded data
-      wt_matrix seq_decoded;
+      nami_matrix seq_decoded;
       ifstream seq_file(SEQ_FILENAME);
       decoder.decode(seq_file, seq_decoded);
 
