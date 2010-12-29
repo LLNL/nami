@@ -29,21 +29,18 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "par_wt.h"
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
-using namespace std;
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif //HAVE_CONFIG_H
-
+#include "par_wt.h"
+#include "nami-config.h"
 #include "mpi_profile.h"
 #include "two_utils.h"
 #include "mpi_utils.h"
+
+using namespace std;
 
 namespace nami {
 

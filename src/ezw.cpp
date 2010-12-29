@@ -29,17 +29,18 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "ezw.h"
-
-#include <stdexcept>
 #include <cmath>
 #include <cstring>
+#include <stdexcept>
 #include <ostream>
-using namespace std;
 
+#include "ezw.h"
 #include "wt_utils.h"
 #include "io_utils.h"
 #include "two_utils.h"
+
+using namespace std;
+
 namespace nami {
 
   ostream& operator<<(ostream& out, const ezw_header& header) {

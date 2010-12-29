@@ -32,8 +32,9 @@
 #ifndef PARALLEL_WT_2D_H
 #define PARALLEL_WT_2D_H
 
-#include <mpi.h>
 #include <vector>
+#include <mpi.h>
+
 #include "nami_matrix.h"
 #include "cdf97.h"
 #include "wt_direct.h"

@@ -33,7 +33,9 @@
 #define PAR_EZW_ENCODER_H
 
 #include <mpi.h>
+
 #include "ezw_encoder.h"
+
 class Timer;
 
 namespace nami {

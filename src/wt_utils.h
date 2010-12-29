@@ -35,6 +35,7 @@
 #include <ostream>
 #include <istream>
 #include <vector>
+
 #include "ezw_encoder.h"
 
 namespace nami {

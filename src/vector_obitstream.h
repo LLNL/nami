@@ -35,6 +35,7 @@
 #include <iostream>
 #include <vector>
 #include <ostream>
+
 #include "obitstream.h"
 
 namespace nami {

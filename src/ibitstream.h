@@ -33,6 +33,7 @@
 #define IBITSTREAM_H
 
 #include <cstdlib>
+
 namespace nami {
 
   /// Interface class for ibput bit streams.  Contains no implementation.

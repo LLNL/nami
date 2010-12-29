@@ -32,9 +32,9 @@
 #ifndef WT_EZW_ENCODER_H
 #define WT_EZW_ENCODER_H
 
+#include <climits>
 #include <deque>
 #include <vector>
-#include <climits>
 
 #include "ezw.h"
 #include "nami_matrix.h"

@@ -29,13 +29,15 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "par_ezw_encoder.h"
-
 #include <string>
 #include <vector>
 #include <fstream>
-using namespace std;
 
+#include "rle.h"
+#include "huffman.h"
+#include "Timer.h"
+
+#include "par_ezw_encoder.h"
 #include "mpi_profile.h"
 #include "mpi_utils.h"
 #include "matrix_utils.h"
@@ -44,11 +46,9 @@ using namespace std;
 #include "wt_utils.h"
 #include "vector_obitstream.h"
 
-#include "rle.h"
-#include "huffman.h"
-#include "Timer.h"
-
 #define MPI_QUANTIZED_T (mpi_typeof(quantized_t()))
+
+using namespace std;
 
 namespace nami {
 

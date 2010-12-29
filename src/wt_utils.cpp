@@ -29,20 +29,20 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "wt_utils.h"
-#include <iostream>
-#include <typeinfo>
+#include <unistd.h>
 #include <cassert>
 #include <cstring>
-#include <unistd.h>
-using namespace std;
+#include <iostream>
+#include <typeinfo>
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#ifdef HAVE_MPI
+#include "wt_utils.h"
+#include "nami-config.h"
+
+#ifdef NAMI_HAVE_MPI
 #include "par_ezw_encoder.h"
-#endif
-#endif // HAVE_CONFIG_H
+#endif // NAMI_HAVE_MPI
+
+using namespace std;
 
 namespace nami {
 
@@ -274,14 +274,14 @@ namespace nami {
         encoder.set_encoding_type(enc);
         break;
       case 'q':
-#ifdef HAVE_MPI
+#ifdef NAMI_HAVE_MPI
         try {
           par_ezw_encoder& par_encoder = dynamic_cast<par_ezw_encoder&>(encoder);
           par_encoder.set_use_sequential_order(true);
         } catch (bad_cast) {
           // do nothing -- ignore.
         }
-#endif // HAVE_MPI
+#endif // NAMI_HAVE_MPI
         break;
       }
     }

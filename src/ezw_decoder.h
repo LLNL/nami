@@ -32,9 +32,9 @@
 #ifndef WT_EZW_DECODER_H
 #define WT_EZW_DECODER_H
 
+#include <climits>
 #include <deque>
 #include <vector>
-#include <climits>
 #include <istream>
 
 #include "ezw.h"

@@ -29,11 +29,12 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "cdf97.h"
-
-#include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <iostream>
+
+#include "cdf97.h"
+
 using namespace std;
 
 namespace nami { namespace filter {

@@ -29,10 +29,11 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "matrix_utils.h"
-
 #include <fstream>
 #include <iostream>
+
+#include "matrix_utils.h"
+
 using namespace std;
 
 bool read_matrix(const char *filename, boost::numeric::ublas::matrix<double>& mat) {

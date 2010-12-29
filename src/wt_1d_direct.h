@@ -33,6 +33,7 @@
 #define WT_1D_DIRECT_H
 
 #include <vector>
+
 #include "wt_1d.h"
 #include "filter_bank.h"
 #include "cdf97.h"

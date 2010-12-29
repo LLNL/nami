@@ -29,19 +29,19 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "ezw_decoder.h"
-
 #include <iostream>
 #include <fstream>
-using namespace std;
 
+#include "rle.h"
+#include "huffman.h"
+
+#include "ezw_decoder.h"
 #include "matrix_utils.h"
 #include "vector_ibitstream.h"
 #include "vector_obitstream.h"
 #include "wt_utils.h"
 
-#include "rle.h"
-#include "huffman.h"
+using namespace std;
 
 //#define DEBUG
 #ifdef DEBUG

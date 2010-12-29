@@ -32,15 +32,15 @@
 #ifndef MATRIX_UTILS_H
 #define MATRIX_UTILS_H
 
+#include <stdint.h>
+#include <cfloat>
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <cfloat>
 #include <algorithm>
 #include <numeric>
-#include <stdint.h>
 #include <boost/numeric/ublas/matrix.hpp>
 
 

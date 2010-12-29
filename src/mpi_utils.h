@@ -32,9 +32,9 @@
 #ifndef MPI_UTILS_H
 #define MPI_UTILS_H
 
-#include <iostream>
-#include <cstdlib>
 #include <stdint.h>
+#include <cstdlib>
+#include <iostream>
 #include <mpi.h>
 
 /// Overloaded function for getting corresponding MPI types for C types.

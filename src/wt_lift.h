@@ -33,6 +33,7 @@
 #define LIFT_WT_2D_H
 
 #include <vector>
+
 #include "nami_matrix.h"
 #include "wt_1d_lift.h"
 #include "wt_2d.h"

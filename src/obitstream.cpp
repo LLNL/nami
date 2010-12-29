@@ -29,12 +29,12 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include "obitstream.h"
-
 #include <iostream>
-using namespace std;
 
+#include "obitstream.h"
 #include "wt_utils.h"
+
+using namespace std;
 
 namespace nami {
 

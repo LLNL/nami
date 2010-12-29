@@ -33,11 +33,12 @@
 #define WT_IO_UTILS_H
 
 #include <stdint.h>
+#include <sys/stat.h>
 #include <cstdlib>
 #include <cassert>
 #include <iostream>
 
-#include <sys/stat.h>
+
 
 namespace nami {
 

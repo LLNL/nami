@@ -33,6 +33,7 @@
 #define VECTOR_IBITSTREAM_H
 
 #include <istream>
+
 #include "ibitstream.h"
 #include "obitstream.h"
 
