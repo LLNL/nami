@@ -46,13 +46,7 @@ set(NAMI_HEADERS
 	ezw_decoder.h
 	filter_bank.h
 	ibitstream.h
-	io_utils.h
-	two_utils.h
-	matrix_utils.h
 	obitstream.h
-	stl_utils.h
-	timing.h
-	Timer.h
 	vector_ibitstream.h
 	vector_obitstream.h
 	nami_matrix.h

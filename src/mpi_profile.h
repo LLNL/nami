@@ -29,17 +29,12 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef MPI_PROFILE_H
-#define MPI_PROFILE_H
+#ifndef NAMI_MPI_PROFILE_H_
+#define NAMI_MPI_PROFILE_H_
 
-// These macros substitute PMPI calls for all the MPI used in the parallel wavelet
-// library.  This makes the library suitable for use in tools, as the calls won't
-// interfere with other communication profiling code.
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif //HAVE_CONFIG_H
+#include "nami-config.h"
 
-#ifdef USE_PMPI
+#ifdef NAMI_USE_PMPI
 #define MPI_Bcast         PMPI_Bcast
 #define MPI_Comm_rank     PMPI_Comm_rank
 #define MPI_Comm_size     PMPI_Comm_size
@@ -57,6 +52,6 @@
 #define MPI_Type_free     PMPI_Type_free
 #define MPI_Type_vector   PMPI_Type_vector
 #define MPI_Waitall       PMPI_Waitall
-#endif //USE_PMPI
+#endif // NAMI_USE_PMPI
 
-#endif //MPI_PROFILE_H
+#endif //NAMI_MPI_PROFILE_H_

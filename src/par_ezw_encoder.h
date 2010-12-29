@@ -34,7 +34,7 @@
 
 #include <mpi.h>
 #include "ezw_encoder.h"
-#include "Timer.h"
+class Timer;
 
 namespace nami {
 
@@ -63,12 +63,12 @@ namespace nami {
     void set_use_sequential_order(bool use);
     
     /// Get whether this is using reduction or gather.
-    bool use_sequential_order();
+    bool use_sequential_order() const;
 
     /// Gets the root of the reduction that this will do.  May not be zero.
-    int root(MPI_Comm comm = MPI_COMM_WORLD);
+    int root(MPI_Comm comm = MPI_COMM_WORLD) const;
 
-    const Timer& timer() { return timer_; }
+    const Timer* timer() const;
 
   protected:
     /// Whether we output EZW bits in same order as sequential coder.  Defaults to false.
@@ -80,7 +80,7 @@ namespace nami {
     size_t block_encode(const unsigned char *passes, size_t total_bytes, std::ostream& out, 
 			ezw_header& header, MPI_Comm comm);
 
-    Timer timer_;
+    Timer *timer_;
   };
 
 }
