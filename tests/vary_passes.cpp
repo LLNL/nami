@@ -32,7 +32,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <fstream>
-using namespace std;
 
 #include "nami_matrix.h"
 #include "wt_lift.h"
@@ -40,7 +39,8 @@ using namespace std;
 #include "matrix_utils.h"
 #include "ezw_encoder.h"
 #include "ezw_decoder.h"
-using nami::nami_matrix;
+
+using namespace std;
 using namespace nami;
 
 static const char *PROGNAME = "vary_passes";

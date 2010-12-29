@@ -33,12 +33,12 @@
 #include <iomanip>
 #include <stdexcept>
 #include <cstring>
-using namespace std;
 
 #include "wt_direct.h"
 #include "wt_lift.h"
 #include "matrix_utils.h"
-using nami::nami_matrix;
+
+using namespace std;
 using namespace nami;
 
 static const double TOLERANCE = 1.0e-04;

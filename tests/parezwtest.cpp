@@ -31,11 +31,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 #include <sys/time.h>
 #include <cstring>
-#include <mpi.h>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-using namespace std;
+
+#include <mpi.h>
 
 #include "par_wt.h"
 #include "wt_direct.h"
@@ -43,7 +43,8 @@ using namespace std;
 #include "matrix_utils.h"
 #include "par_ezw_encoder.h"
 #include "ezw_decoder.h"
-using nami::nami_matrix;
+
+using namespace std;
 using namespace nami;
 
 static const char *PAR_FILENAME = "parezw.out";

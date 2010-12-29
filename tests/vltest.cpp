@@ -32,9 +32,10 @@
 #include <sstream>
 #include <cstring>
 #include <iostream>
-using namespace std;
 
 #include "io_utils.h"
+
+using namespace std;
 using namespace nami;
 
 /// This is a test of the variable-length write routines used

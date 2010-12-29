@@ -34,9 +34,10 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-using namespace std;
 
 #include "wt_utils.h"
+
+using namespace std;
 using namespace nami;
 
 

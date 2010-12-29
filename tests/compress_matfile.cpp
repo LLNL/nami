@@ -29,9 +29,8 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include <fstream>
 #include <cstdlib>
-using namespace std;
+#include <fstream>
 
 #include "nami_matrix.h"
 #include "wt_lift.h"
@@ -40,7 +39,8 @@ using namespace std;
 #include "matrix_utils.h"
 #include "ezw_encoder.h"
 #include "ezw_decoder.h"
-using nami::nami_matrix;
+
+using namespace std;
 using namespace nami;
 
 static const char *PROGNAME = "compress_matfile";

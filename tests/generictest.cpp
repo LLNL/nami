@@ -29,13 +29,14 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include <sstream>
 #include <cstring>
-#include <iostream>
 #include <cmath>
-using namespace std;
+#include <sstream>
+#include <iostream>
 
 #include "io_utils.h"
+
+using namespace std;
 using namespace nami;
 
 /// This is a test of the variable-length write routines used

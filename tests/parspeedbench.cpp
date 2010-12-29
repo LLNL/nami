@@ -29,11 +29,11 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /////////////////////////////////////////////////////////////////////////////////////////////////
-#include <mpi.h>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-using namespace std;
+
+#include <mpi.h>
 
 #include "par_wt.h"
 #include "wt_direct.h"
@@ -41,7 +41,8 @@ using namespace std;
 #include "par_ezw_encoder.h"
 #include "ezw_decoder.h"
 #include "timing.h"
-using nami::nami_matrix;
+
+using namespace std;
 using namespace nami;
 
 static const char *PAR_FILENAME = "parspeedtest.out";
