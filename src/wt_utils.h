@@ -37,7 +37,7 @@
 #include <vector>
 #include "ezw_encoder.h"
 
-namespace wavelet {
+namespace nami {
 
   /// Structure for representing relatives in a binary tree
   /// By convention, funcitons that return this should use -1

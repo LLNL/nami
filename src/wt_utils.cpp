@@ -44,7 +44,7 @@ using namespace std;
 #endif
 #endif // HAVE_CONFIG_H
 
-namespace wavelet {
+namespace nami {
 
   std::ostream& operator<<(ostream& out, const relatives& rels) {
     return out << "relatives{ "

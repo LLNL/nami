@@ -37,7 +37,7 @@
 using namespace std;
 
 #include "wt_utils.h"
-using namespace wavelet;
+using namespace nami;
 
 
 int main(int argc, char **argv) {

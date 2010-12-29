@@ -35,7 +35,7 @@
 using namespace std;
 
 #include "io_utils.h"
-using namespace wavelet;
+using namespace nami;
 
 /// This is a test of the variable-length write routines used
 /// to write compressed header files.

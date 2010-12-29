@@ -33,7 +33,7 @@
 #define IBITSTREAM_H
 
 #include <cstdlib>
-namespace wavelet {
+namespace nami {
 
   /// Interface class for ibput bit streams.  Contains no implementation.
   class ibitstream {

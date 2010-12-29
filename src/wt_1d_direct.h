@@ -37,7 +37,7 @@
 #include "filter_bank.h"
 #include "cdf97.h"
 
-namespace wavelet {
+namespace nami {
   
   /// This class provides functions for doing 1d, direct wavelet transforms
   /// on contiguous data.  Also provides internals for filters and an internal 

@@ -34,7 +34,7 @@
 #include <cassert>
 using namespace std;
 
-namespace wavelet {
+namespace nami {
 
   // just inits the filter.
   wt_1d_direct::wt_1d_direct(filter_bank& f) : f_(f) { }

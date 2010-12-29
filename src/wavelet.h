@@ -37,7 +37,7 @@
 
 ///\file wavelet.h
 /// This header includes declarations for types used in all wavelet transforms
-namespace wavelet { 
+namespace nami { 
 
   /// Matrix type used for all computations here.
   typedef boost::numeric::ublas::matrix<double> wt_matrix;

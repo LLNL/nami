@@ -37,7 +37,7 @@
 #include "wt_1d_lift.h"
 #include "wt_2d.h"
 
-namespace wavelet { 
+namespace nami { 
 
   /// This is a lifting implementation of the CDF 9/7 wavelet transform.
   /// Matrices passed in must be 

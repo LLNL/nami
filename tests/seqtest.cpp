@@ -38,8 +38,8 @@ using namespace std;
 #include "wt_direct.h"
 #include "wt_lift.h"
 #include "matrix_utils.h"
-using wavelet::wt_matrix;
-using namespace wavelet;
+using nami::wt_matrix;
+using namespace nami;
 
 static const double TOLERANCE = 1.0e-04;
 

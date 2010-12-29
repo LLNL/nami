@@ -36,8 +36,8 @@ using namespace std;
 
 #include "wt_parallel.h"
 #include "wt_direct.h"
-using wavelet::wt_matrix;
-using namespace wavelet;
+using nami::wt_matrix;
+using namespace nami;
 
 /// This verifies that the parallel wavelet transform produces
 /// exactly the same output as the convolving transform.

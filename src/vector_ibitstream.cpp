@@ -35,7 +35,7 @@ using namespace std;
 
 #include "wt_utils.h"
 
-namespace wavelet {
+namespace nami {
 
   vector_ibitstream::vector_ibitstream(const unsigned char *b, size_t size) 
     : buf_(b), end_(size), pos_(0), mask_(0x80) {

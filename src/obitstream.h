@@ -35,7 +35,7 @@
 #include <cstdlib>
 #define DEFAULT_BIT_BUFSIZE 65536
 
-namespace wavelet {
+namespace nami {
 
   /// Interface class for output bit streams.  Contains default implementations of
   /// some convenience methods.

@@ -38,7 +38,7 @@ using namespace std;
 #include "wt_lift.h"
 #include "matrix_utils.h"
 
-namespace wavelet { 
+namespace nami { 
 
   wt_lift::wt_lift() : wt_2d(), wt_1d_lift() { }
 

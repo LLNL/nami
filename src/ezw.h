@@ -35,7 +35,7 @@
 #include <climits>
 #include <deque>
 
-namespace wavelet {
+namespace nami {
 
   /// All input data is converted to this type before coding.
   typedef long long quantized_t;  

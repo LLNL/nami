@@ -38,7 +38,7 @@
 
 #include <sys/stat.h>
 
-namespace wavelet {
+namespace nami {
 
   // test whether a file exists or not
   inline bool exists(const char *filename) {

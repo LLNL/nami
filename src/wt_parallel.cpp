@@ -46,7 +46,7 @@ using namespace std;
 #include "matrix_utils.h"
 #include "mpi_utils.h"
 
-namespace wavelet {
+namespace nami {
 
   // Just delegates to superclass.
   wt_parallel::wt_parallel(filter_bank& f) : wt_1d_direct(f) { }

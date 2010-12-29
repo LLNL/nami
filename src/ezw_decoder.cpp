@@ -51,7 +51,7 @@ using namespace std;
 #endif // DEBUG
 
 
-namespace wavelet {
+namespace nami {
   
   ezw_decoder::ezw_decoder() : pass_limit_(0), byte_budget_(0), bytes_read_(0) { }
 

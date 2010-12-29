@@ -35,7 +35,7 @@
 #include <cstring>
 using namespace std;
 
-namespace wavelet { 
+namespace nami { 
 
   filter_bank::filter_bank(size_t sz, const double *l, const double *h, const double *il, const double *ih) 
     : size(sz), 

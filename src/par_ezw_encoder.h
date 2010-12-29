@@ -36,7 +36,7 @@
 #include "ezw_encoder.h"
 #include "Timer.h"
 
-namespace wavelet {
+namespace nami {
 
   class par_ezw_encoder : public ezw_encoder {
   public:

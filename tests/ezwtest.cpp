@@ -39,8 +39,8 @@ using namespace std;
 #include "matrix_utils.h"
 #include "ezw_encoder.h"
 #include "ezw_decoder.h"
-using wavelet::wt_matrix;
-using namespace wavelet;
+using nami::wt_matrix;
+using namespace nami;
 
 
 static const char *FILENAME = "ezw.out";

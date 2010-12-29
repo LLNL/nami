@@ -38,7 +38,7 @@
 
 using namespace std;
 
-namespace wavelet {
+namespace nami {
 
   int wt_2d::fwt_2d(wt_matrix& mat, int level) {
     if (level < 0) {
@@ -89,5 +89,5 @@ namespace wavelet {
   }
 
 
-} // namespace wavelet
+} // namespace nami
 	

@@ -31,7 +31,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 #include "wt_1d_lift.h"
 
-namespace wavelet {
+namespace nami {
 
     // TODO: make lifting filters pluggable.  Export this filter.
   
@@ -146,4 +146,4 @@ namespace wavelet {
 
 
 
-} // namespace wavelet
+} // namespace nami

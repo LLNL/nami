@@ -35,7 +35,7 @@
 
 using namespace std;
 
-namespace wavelet {
+namespace nami {
 
   ibitstream::ibitstream() { }
 

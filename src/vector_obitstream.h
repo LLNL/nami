@@ -37,7 +37,7 @@
 #include <ostream>
 #include "obitstream.h"
 
-namespace wavelet {
+namespace nami {
 
   class vector_obitstream : public obitstream {
   protected:

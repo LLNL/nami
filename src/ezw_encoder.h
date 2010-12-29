@@ -40,7 +40,7 @@
 #include "wavelet.h"
 #include "obitstream.h"
 
-namespace wavelet {
+namespace nami {
 
   /// This class provides methods for encoding wavelet matrices 
   /// using Shapiro's EZW method.

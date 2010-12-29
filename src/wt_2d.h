@@ -34,7 +34,7 @@
 
 #include "wavelet.h"
 
-namespace wavelet {
+namespace nami {
 
   /// Abstract superclass for transform classes.  Provides methods for 2d transforms.
   /// This allows classes that provide 1d transform implementations to easily export

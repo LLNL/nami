@@ -53,7 +53,7 @@ using namespace std;
 #define DBG_OUT(x)
 #endif // DEBUG
 
-namespace wavelet {
+namespace nami {
 
   ezw_encoder::ezw_encoder() : pass_limit_(0), scale_(1), enc_type_(HUFFMAN) { }
 

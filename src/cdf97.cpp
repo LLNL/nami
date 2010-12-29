@@ -36,7 +36,7 @@
 #include <cmath>
 using namespace std;
 
-namespace wavelet { namespace filter {
+namespace nami { namespace filter {
 
   // static data is function-static here to avoid library initialization issues.
   filter_bank& getCDF97() {

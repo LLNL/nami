@@ -37,7 +37,7 @@
 /// \file filter_bank.h
 /// This file provides declarations for the filter banks used by
 /// the direct wavelet transform.
-namespace wavelet {
+namespace nami {
 
   /// Set of filters for a wavelet transform.
   struct filter_bank {

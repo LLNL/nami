@@ -42,8 +42,8 @@ using namespace std;
 #include "wt_utils.h"
 #include "par_ezw_encoder.h"
 #include "ezw_decoder.h"
-using wavelet::wt_matrix;
-using namespace wavelet;
+using nami::wt_matrix;
+using namespace nami;
 
 static const char *PAR_FILENAME = "parezw.out";
 static const char *SEQ_FILENAME = "seqezw.out";

@@ -41,8 +41,8 @@ using namespace std;
 #include "par_ezw_encoder.h"
 #include "ezw_decoder.h"
 #include "timing.h"
-using wavelet::wt_matrix;
-using namespace wavelet;
+using nami::wt_matrix;
+using namespace nami;
 
 static const char *PAR_FILENAME = "parspeedtest.out";
 

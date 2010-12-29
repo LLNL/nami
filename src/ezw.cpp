@@ -40,7 +40,7 @@ using namespace std;
 #include "wt_utils.h"
 #include "io_utils.h"
 
-namespace wavelet {
+namespace nami {
 
   ostream& operator<<(ostream& out, const ezw_header& header) {
     out << "Header: {rows: " << header.rows 

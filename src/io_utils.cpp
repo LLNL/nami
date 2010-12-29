@@ -34,7 +34,7 @@ using namespace std;
 
 #include <cassert>
 
-namespace wavelet {
+namespace nami {
 
   size_t vl_write(ostream& out, unsigned long long size) {
     int out_bytes = 0;

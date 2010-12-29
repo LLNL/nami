@@ -36,7 +36,7 @@ using namespace std;
 
 #include "wt_utils.h"
 
-namespace wavelet {
+namespace nami {
 
   obitstream::obitstream() { }
 

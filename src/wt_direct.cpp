@@ -40,7 +40,7 @@ using namespace std;
 #include "cdf97.h"
 #include "matrix_utils.h"
 
-namespace wavelet { 
+namespace nami { 
 
   // just inits the filter.
   wt_direct::wt_direct(filter_bank& filter) : wt_2d(), wt_1d_direct(filter) { }

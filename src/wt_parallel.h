@@ -46,7 +46,7 @@
 /// TODO: make this hierarchical so it can do arbitrary transform levels, 
 ///       instead of just as far as you can go w/the local data size.
 /// 
-namespace wavelet { 
+namespace nami { 
 
   class wt_parallel : private wt_1d_direct {
   public:

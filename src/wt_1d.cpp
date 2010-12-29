@@ -36,7 +36,7 @@
 #include "io_utils.h"
 using namespace std;
 
-namespace wavelet {
+namespace nami {
 
   int wt_1d::fwt_1d(double * data, size_t len, int level) {
     if (level < 0) {
@@ -74,4 +74,4 @@ namespace wavelet {
     return levels;    
   }
 
-} // namespace wavelet
+} // namespace nami

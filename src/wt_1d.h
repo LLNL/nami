@@ -34,7 +34,7 @@
 
 #include "wavelet.h"
 
-namespace wavelet {
+namespace nami {
   
   class wt_1d {
   public:
@@ -59,6 +59,6 @@ namespace wavelet {
 
   }; // wt_1d
   
-} // namespace wavelet
+} // namespace nami
 
 #endif // WT_1D_H

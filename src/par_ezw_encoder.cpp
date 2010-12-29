@@ -46,7 +46,7 @@ using namespace std;
 #include "rle.h"
 #include "huffman.h"
 
-namespace wavelet {
+namespace nami {
 
   par_ezw_encoder::par_ezw_encoder() : use_sequential_order_(false) { }
 

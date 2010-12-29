@@ -38,7 +38,7 @@
 #include "wt_1d_direct.h"
 #include "wt_2d.h"
 
-namespace wavelet { 
+namespace nami { 
 
   /// This is a non-lifting, symmetrically extended convolution implementation
   /// of the cdf wavelet transform.  This is not as fast as the lifting 

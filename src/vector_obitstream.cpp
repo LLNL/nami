@@ -34,7 +34,7 @@
 #include <iostream>
 using namespace std;
 
-namespace wavelet {
+namespace nami {
 
   vector_obitstream::vector_obitstream(size_t bufsize) 
     : buf_(*new std::vector<unsigned char>(bufsize)), my_vector_(true), pos_(0), mask_(0x80), bits_(0) { 

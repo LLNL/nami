@@ -34,7 +34,7 @@
 
 #include "wt_1d.h"
 
-namespace wavelet {
+namespace nami {
 
   /// 1d lifted wavelet transform.  Currently only supports CDF97 wavelets.
   ///
@@ -61,6 +61,6 @@ namespace wavelet {
     std::vector<double> temp_;
   }; // wt_1d_lift
 
-} // namespace wavelet
+} // namespace nami
 
 #endif // WT_1D_LIFT_H

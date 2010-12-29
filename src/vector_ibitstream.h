@@ -36,7 +36,7 @@
 #include "ibitstream.h"
 #include "obitstream.h"
 
-namespace wavelet {
+namespace nami {
 
   ///
   /// Class for reading individual bits at a time from an input stream.
