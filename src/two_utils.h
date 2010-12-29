@@ -88,6 +88,21 @@ namespace nami {
     return !(num & 1);
   }
 
+
+  /// Check if a number is evenly divisible by 2 <level> times.
+  inline bool divisible_by_2(uint64_t n, int level) {
+    while (level != 0) {
+      if (n & ((uint64_t)0x1)) {
+        return false;
+      }
+      n >>= 1;
+      level--;
+    }
+
+    return true; 
+  }
+
+
 } // namespace nami
 
 #endif // NAMI_TWO_UTILS_H

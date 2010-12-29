@@ -87,15 +87,4 @@ bool read_matrix(const char *filename, boost::numeric::ublas::matrix<double>& ma
 }
 
 
-bool isDivisibleBy2(size_t n, int level) {
-  while (level != 0) {
-    if (n & ((size_t)0x1)) {
-      return false;
-    }
-    n >>= 1;
-    level--;
-  }
-
-  return true; 
-}
 

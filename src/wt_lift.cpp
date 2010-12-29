@@ -31,12 +31,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 #include <vector>
 #include <algorithm>
-using namespace std;
-
-#include "nami_matrix.h"
-#include "cdf97.h"
 #include "wt_lift.h"
-#include "matrix_utils.h"
+using namespace std;
 
 namespace nami { 
 

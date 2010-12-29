@@ -37,8 +37,6 @@
 using namespace std;
 
 #include "nami_matrix.h"
-#include "cdf97.h"
-#include "matrix_utils.h"
 
 namespace nami { 
 

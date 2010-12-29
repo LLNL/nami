@@ -42,8 +42,7 @@ using namespace std;
 #endif //HAVE_CONFIG_H
 
 #include "mpi_profile.h"
-#include "cdf97.h"
-#include "matrix_utils.h"
+#include "two_utils.h"
 #include "mpi_utils.h"
 
 namespace nami {
@@ -70,7 +69,7 @@ namespace nami {
     }
 
     // ensure local size is divisible by 2 level times.
-    assert(isDivisibleBy2(local.size1(), level));
+    assert(divisible_by_2(local.size1(), level));
 
     nami_matrix left, right;
 
@@ -120,7 +119,7 @@ namespace nami {
     }
 
     // ensure divisible by 2 level times.
-    assert(isDivisibleBy2(local.size1(), level));
+    assert(divisible_by_2(local.size1(), level));
 
     nami_matrix left, right;
 

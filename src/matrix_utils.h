@@ -44,10 +44,6 @@
 #include <boost/numeric/ublas/matrix.hpp>
 
 
-/// True if and only if n is divisible by 2 <level> times.
-bool isDivisibleBy2(size_t n, int level);
-
-
 template <class Matrix>
 bool in_bounds(const Matrix& mat, size_t row, size_t col) {
   return (row < mat.size1()) && (col < mat.size2());

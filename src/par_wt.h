@@ -35,7 +35,9 @@
 #include <mpi.h>
 #include <vector>
 #include "nami_matrix.h"
+#include "cdf97.h"
 #include "wt_direct.h"
+#include "wt_1d_direct.h"
 
 /// 
 /// @file par_wt.h
