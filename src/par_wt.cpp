@@ -295,7 +295,7 @@ namespace nami {
 
   // PRE: temp has been filled in by fwt_2d()
   void par_wt::fwt_col(nami_matrix& mat, size_t col, size_t n) {
-    assert(!(n&1)); // ensure even number. TODO: necessary?
+    assert(even(n));
 
     size_t len = n >> 1;
     for (size_t i=0; i < len; i++) {
@@ -311,7 +311,7 @@ namespace nami {
 
   // PRE: temp has been filled in by iwt_2d()
   void par_wt::iwt_col(nami_matrix& mat, size_t col, size_t n) {
-    assert(!(n & 1));
+    assert(even(n));
 
     for (size_t i=0; i < n; i++) {
       mat(i,col) = 0.0;

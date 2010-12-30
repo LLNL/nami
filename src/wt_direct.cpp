@@ -35,6 +35,7 @@
 
 #include "wt_direct.h"
 #include "nami_matrix.h"
+#include "two_utils.h"
 
 using namespace std;
 
@@ -46,7 +47,7 @@ namespace nami {
   wt_direct::~wt_direct() { } 
 
   void wt_direct::fwt_col(nami_matrix& mat, size_t col, size_t n) {
-    assert(!(n & 1));
+    assert(even(n));
     sym_extend(&mat(0, col), n, mat.size2());
 
     size_t len = n >> 1;
@@ -62,7 +63,7 @@ namespace nami {
   
 
   void wt_direct::iwt_col(nami_matrix& mat, size_t col, size_t n) {
-    assert(!(n & 1));
+    assert(even(n));
 
     sym_extend(&mat(0, col), n, mat.size2(), true);
     for (size_t i=0; i < n; i++) {

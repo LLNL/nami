@@ -39,7 +39,6 @@ namespace nami {
   bool is_power_of_2(T num) { 
     return !(num & (num-1)); 
   }
-
   
   /// Returns least power of two greater than or equal to num
   inline uint64_t ge_power_of_2(uint64_t num) {
@@ -54,7 +53,6 @@ namespace nami {
     return num;
   }
 
-
   /// Returns greatest power of two less than or equal to num
   inline uint64_t le_power_of_2(uint64_t num) {
     num |= (num >> 1);  // these fill with ones.
@@ -65,7 +63,6 @@ namespace nami {
     num |= (num >> 32);
     return num - (num >> 1);
   }
-
 
   /// Takes the log base 2 of a power of 2, returns a char.
   /// Returns -1 if 0 is passed in.
@@ -82,12 +79,15 @@ namespace nami {
     return n;
   }
 
-
   /// Inline function to determine if a number is divisible by 2.
-  inline bool divisible_by_2(uint64_t num) {
+  inline bool even(uint64_t num) {
     return !(num & 1);
   }
 
+  /// Inline function to determine if a number is divisible by 2.
+  inline bool odd(uint64_t num) {
+    return (num & 1);
+  }
 
   /// Check if a number is evenly divisible by 2 <level> times.
   inline bool divisible_by_2(uint64_t n, int level) {

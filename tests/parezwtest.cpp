@@ -177,7 +177,7 @@ int main(int argc, char **argv) {
 
   MPI_Finalize();
 
-  if (verbose) {
+  if (verbose && rank == 0) {
     cout << (pass ? "PASSED" : "FAILED") << endl;
   }
 
