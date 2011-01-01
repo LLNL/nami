@@ -32,6 +32,7 @@
 #ifndef WT_1D_H
 #define WT_1D_H
 
+#include <vector>
 #include "nami_matrix.h"
 
 namespace nami {
@@ -51,6 +52,18 @@ namespace nami {
     /// fwt_level:    level of the fwt applied to the matrix (default max possible)
     /// iwt_level:    level of iwt to perform on the matrix. (defaults to fwt_level)
     virtual int iwt_1d(double *data, size_t len, int fwt_level = -1, int iwt_level = -1);
+
+    /// Convenience function for fwt on vectors
+    /// @see fwt_1d(double, size_t, int)
+    inline int fwt_1d(std::vector<double> data, int level = -1) {
+      return fwt_1d(&data[0], data.size(), level);
+    }
+    
+    /// Convenience function for iwt on vectors
+    /// @see iwt_1d(double, size_t, int, int)
+    inline int iwt_1d(std::vector<double> data, int fwt_level = -1, int iwt_level = -1) {
+      return iwt_1d(&data[0], data.size(), fwt_level, iwt_level);
+    }
 
   protected:
     // single-level implementations of the wavelet transform.

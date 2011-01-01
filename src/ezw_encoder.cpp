@@ -226,13 +226,13 @@ namespace nami {
   int ezw_encoder::compute_level(int level, size_t rows, size_t cols) {
     // for negative level, assume maximally transformed data as the transforms do.
     if (level < 1) {
-      level = (int)log2_pow2(max(rows, cols));
+      level = times_divisible_by_2(max(rows, cols));
     }
 
     // for irregular sizes, ignore extra transforms in the longer direction.  Use
     // the level of the lowest frequency subband in the shorter direction to bound.
-    if (level > (int)log2_pow2(min(rows, cols))) {
-      level = (int)log2_pow2(min(rows, cols));
+    if (level > times_divisible_by_2(min(rows, cols))) {
+      level = times_divisible_by_2(min(rows, cols));
     }
 
     return level;

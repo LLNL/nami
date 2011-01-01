@@ -31,6 +31,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 #include <stdint.h>
 #include <climits>
+#include <iostream>
 
 #include "wt_2d.h"
 #include "two_utils.h"
@@ -41,18 +42,18 @@ namespace nami {
 
   int wt_2d::fwt_2d(nami_matrix& mat, int level) {
     if (level < 0) {
-      level = (int)log2_pow2(std::max(mat.size1(), mat.size2()));
+      level = times_divisible_by_2(std::max(mat.size1(), mat.size2()));
     }
-    assert(level <= log2_pow2(std::max(mat.size1(), mat.size2())));
+    assert(level <= times_divisible_by_2(std::max(mat.size1(), mat.size2())));
 
     size_t rows = mat.size1();
     size_t cols = mat.size2();
     for (int i=0; i < level; i++) {
-      if (cols > 1) for (size_t r=0; r < rows; r++) fwt_row(mat, r, cols);
-      if (rows > 1) for (size_t c=0; c < cols; c++) fwt_col(mat, c, rows);
+      if (even(cols)) for (size_t r=0; r < rows; r++) fwt_row(mat, r, cols);
+      if (even(rows)) for (size_t c=0; c < cols; c++) fwt_col(mat, c, rows);
 
-      if (rows > 1) rows >>= 1;
-      if (cols > 1) cols >>= 1;
+      if (even(rows)) rows >>= 1;
+      if (even(cols)) cols >>= 1;
     }
 
     return level;
@@ -61,25 +62,25 @@ namespace nami {
 
   int wt_2d::iwt_2d(nami_matrix& mat, int fwt_level, int iwt_level) {
     if (fwt_level < 0) {
-      fwt_level = (int)log2_pow2(std::max(mat.size1(), mat.size2()));
+      fwt_level = times_divisible_by_2(std::max(mat.size1(), mat.size2()));
     }
-    assert(fwt_level <= log2_pow2(std::max(mat.size1(), mat.size2())));
+    assert(fwt_level <= times_divisible_by_2(std::max(mat.size1(), mat.size2())));
 
     if (iwt_level < 0) {
       iwt_level = INT_MAX;
     }
-      
+
+    int max_row_shift = times_divisible_by_2(mat.size1());
+    int max_col_shift = times_divisible_by_2(mat.size2());
+
     size_t rows, cols;
     int levels = 0;
     for (int i=fwt_level-1; i >= 0 && levels < iwt_level; i--) {
-      rows = mat.size1() >> i;
-      if (!rows) rows = 1;
-
-      cols = mat.size2() >> i;
-      if (!cols) cols = 1;
+      rows = mat.size1() >> std::min(i, max_row_shift);
+      cols = mat.size2() >> std::min(i, max_col_shift);
       
-      if (rows > 1) for (size_t c=0; c < cols; c++) iwt_col(mat, c, rows);
-      if (cols > 1) for (size_t r=0; r < rows; r++) iwt_row(mat, r, cols);
+      if (even(rows)) for (size_t c=0; c < cols; c++) iwt_col(mat, c, rows);
+      if (even(cols)) for (size_t r=0; r < rows; r++) iwt_row(mat, r, cols);
 
       levels++;
     }

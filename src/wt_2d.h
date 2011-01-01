@@ -110,6 +110,3 @@ namespace nami {
 } // namespace
 
 #endif // WT_2D_H
-
-
-

@@ -19,6 +19,7 @@ add_test(ezwtest             ezwtest.cpp)
 add_test(seqtest             seqtest.cpp)
 add_test(vltest              vltest.cpp)
 add_test(generictest         generictest.cpp)
+add_test(two-test            two_test.cpp)
 
 add_mpi_test(parezwtest      parezwtest.cpp)
 add_mpi_test(parspeedbench   parspeedbench.cpp)

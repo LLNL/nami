@@ -66,7 +66,7 @@ namespace nami {
     }
 
     // ensure local size is divisible by 2 level times.
-    assert(divisible_by_2(local.size1(), level));
+    assert(times_divisible_by_2(local.size1()) >= level);
 
     nami_matrix left, right;
 
@@ -116,7 +116,7 @@ namespace nami {
     }
 
     // ensure divisible by 2 level times.
-    assert(divisible_by_2(local.size1(), level));
+    assert(times_divisible_by_2(local.size1()) >= level);
 
     nami_matrix left, right;
 

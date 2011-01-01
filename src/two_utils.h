@@ -32,6 +32,8 @@
 #ifndef NAMI_TWO_UTILS_H_
 #define NAMI_TWO_UTILS_H
 
+#include <cassert>
+
 namespace nami {
 
   /// Test for integral types to make sure they're powers of two.
@@ -89,19 +91,18 @@ namespace nami {
     return (num & 1);
   }
 
-  /// Check if a number is evenly divisible by 2 <level> times.
-  inline bool divisible_by_2(uint64_t n, int level) {
-    while (level != 0) {
-      if (n & ((uint64_t)0x1)) {
-        return false;
-      }
+  /// Return number of times a number is divisible by 2
+  /// NOTE: This returns 0 for odd numbers AND for 0.
+  /// TODO: Possibly optimize using __builtin_ctz if it's available.
+  inline int times_divisible_by_2(uint64_t n) {
+    if (n == 0) return 0;
+
+    size_t count;
+    for (count=0; !(n & 1); count++) {
       n >>= 1;
-      level--;
     }
-
-    return true; 
+    return count;
   }
-
 
 } // namespace nami
 

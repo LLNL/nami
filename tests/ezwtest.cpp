@@ -42,97 +42,110 @@
 using namespace std;
 using namespace nami;
 
+bool verbose = false;
+
+ezw_encoder encoder;
+wt_lift lift;
+ezw_decoder decoder;
+
+int test_count;
+double test_err_sum;
+double test_ratio_sum;
+
 static const char *FILENAME = "ezw.out";
+
+
+bool test_ezw(size_t rows, size_t cols) {
+  nami_matrix mat(rows, cols);
+      
+  // fill matrix in with some randomly generated, cubic-ish values.
+  srand(100);
+  for (size_t i=0; i < mat.size1(); i++) {
+    for (size_t j=0; j < mat.size2(); j++) {
+      mat(i,j) = ((rand()/(double)RAND_MAX)+i+0.4*i*i-0.02*i*i*j);
+    }
+  }
+
+  // transform values to get real wavelet coefficients
+  nami_matrix trans = mat;
+
+  int level = lift.fwt_2d(trans);
+
+  // quantify the matrix here first, so that the coding will be exact.
+  // Use a large scale factor to get fairly realistic numbers.
+  for (size_t i=0; i < mat.size1(); i++) {
+    for (size_t j=0; j < mat.size2(); j++) {
+      trans(i,j) = (long long)(trans(i,j) * 1000);
+    }
+  }
+      
+  // write out ezw code to a file
+  ofstream out(FILENAME);
+  int size = encoder.encode(trans, out, level);
+  out.close();
+
+  // read in same file and deocde
+  ifstream in(FILENAME);
+  nami_matrix decoded;
+  level = decoder.decode(in, decoded);
+
+  // check that we get out what we put in.
+  double nerr = nrmse(trans, decoded);
+  double PSNR = psnr(trans, decoded);
+  double ratio = (double)(rows * cols * sizeof(double))/size;
+
+  if (verbose) {
+    cout << "Normalized RMSE " << rows << " x " << cols << ":  \t" ;
+    cout << setw(8) << nerr << "\t"
+         << setw(8) << PSNR
+         << "   ("  << ratio << ":1)";
+    cout << endl;
+  }
+
+  test_count++;
+  test_err_sum += nerr;
+  test_ratio_sum += ratio;
+
+  return (nerr == 0);
+}
 
 
 int main(int argc, char **argv) {
   bool pass = true;
-  bool verbose = false;
   for (int i=1; i < argc; i++) {
     if (!strcmp(argv[i], "-v")) verbose = true;
   }
   
-  ezw_encoder encoder;
   if (set_ezw_args(encoder, &argc, &argv)) {
     ezw_usage("ezwtest");
   }
-
-  wt_lift lift;
-  ezw_decoder decoder;
   
-  int start = 2;
-  int end = 10;
+  size_t start = 2;
+  size_t end = 10;
 
-  int count = 0;
-  double err_sum = 0;
-  double ratio_sum = 0;
+  test_count = test_err_sum = test_ratio_sum = 0;
 
-  //int r=3, c=3;
-  for (int r=start; r < end; r++) {
-    for (int c=start; c < end; c++) {
-      int rows = 1 << r;
-      int cols = 1 << c;
-      
-      nami_matrix mat(rows, cols);
-      
-      // fill matrix in with some randomly generated, cubic-ish values.
-      srand(100);
-      for (size_t i=0; i < mat.size1(); i++) {
-        for (size_t j=0; j < mat.size2(); j++) {
-          mat(i,j) = ((rand()/(double)RAND_MAX)+i+0.4*i*i-0.02*i*i*j);
-        }
-      }
-
-      // transform values to get real wavelet coefficients
-      nami_matrix trans = mat;
-
-      int level = lift.fwt_2d(trans);
-
-      // quantify the matrix here first, so that the coding will be exact.
-      // Use a large scale factor to get fairly realistic numbers.
-      for (size_t i=0; i < mat.size1(); i++) {
-        for (size_t j=0; j < mat.size2(); j++) {
-          trans(i,j) = (long long)(trans(i,j) * 1000);
-        }
-      }
-      
-      // write out ezw code to a file
-      ofstream out(FILENAME);
-      int size = encoder.encode(trans, out, level);
-      out.close();
-
-      // read in same file and deocde
-      ifstream in(FILENAME);
-      nami_matrix decoded;
-      level = decoder.decode(in, decoded);
-
-      // check that we get out what we put in.
-      double nerr = nrmse(trans, decoded);
-      double PSNR = psnr(trans, decoded);
-      double ratio = (double)(rows * cols * sizeof(double))/size;
-
-      if (nerr > 0) {
-        pass = false;
-      }
-
-      if (verbose) {
-        cout << "Normalized RMSE " << rows << " x " << cols << ":  \t" ;
-        cout << setw(8) << nerr << "\t"
-             << setw(8) << PSNR
-             << "   ("  << ratio << ":1)";
-        cout << endl;
-      }
-
-      count++;
-      err_sum += nerr;
-      ratio_sum += ratio;
+  for (size_t r=start; r < end; r++) {
+    for (size_t c=start; c < end; c++) {
+      if (!test_ezw(1 << r, 1 << c)) pass = false;
     } 
   }
+
+  size_t primes[] = {17, 197, 557};
+  size_t num_primes = (sizeof(primes) / sizeof(size_t));
+
+  for (size_t r=1; r < 4; r++)
+    for (size_t p=0; p < num_primes-1; p++)
+      for (size_t c=1; c < 4; c++)
+        for (size_t q=0; q < num_primes-1; q++)
+          if (!test_ezw(primes[p] * (1<<r), primes[q] * (1<<c))) {
+            pass = false;
+          }
   
   if (verbose) {
     cout << endl;
-    cout << "Mean Normalized RMSE:  \t" << setw(10) << err_sum/count << endl;
-    cout << "Mean Compression Ratio:\t" << setw(8) << ratio_sum/count << ":1" << endl;
+    cout << "Mean Normalized RMSE:  \t" << setw(10) << test_err_sum/test_count << endl;
+    cout << "Mean Compression Ratio:\t" << setw(8) << test_ratio_sum/test_count << ":1" << endl;
     cout << (pass ? "PASSED" : "FAILED") << endl;
   }
 

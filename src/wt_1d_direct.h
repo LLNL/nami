@@ -56,15 +56,12 @@ namespace nami {
     /// Destructor
     virtual ~wt_1d_direct();
 
+  protected:
     /// Forward transform for raw contiguous data.
     virtual void fwt_1d_single(double *data, size_t n);
 
     /// Inverse transform for raw contiguous data.
     virtual void iwt_1d_single(double *data, size_t n);
-
-  protected:
-    /// Filter bank for this transform
-    filter_bank& f_;
 
     /// temporary storage for packing values
     std::vector<double> temp_;
@@ -79,6 +76,9 @@ namespace nami {
     ///      n   elements to copy from input
     /// stride   stride of data in input
     void sym_extend(double *x, size_t n, size_t stride = 1, bool interleave = false);
+
+    /// Filter bank for this transform
+    filter_bank& f_;
   };
 
 } // namespace
