@@ -40,6 +40,13 @@ check_function_exists(clock_gettime NAMI_HAVE_CLOCK_GETTIME)
 unset(CMAKE_REQUIRED_LIBRARIES)
 check_function_exists(gettimeofday NAMI_HAVE_GETTIMEOFDAY)
 
+# Configure a CMake file and set it to be installed.  This file tells other projects
+# how to use Adept Utils.
+foreach (nami)
+  get_target_property(${lib}_LIBRARY_PATH ${lib} LOCATION)
+  get_filename_component(${lib}_LIBRARY ${${lib}_LIBRARY_PATH} NAME)
+endforeach()
+
 # Configure a header file with all the variables we found.
 configure_file(
   ${PROJECT_SOURCE_DIR}/nami-config.h.in
