@@ -49,12 +49,22 @@ endforeach()
 
 # Configure a header file with all the variables we found.
 configure_file(
+  ${PROJECT_SOURCE_DIR}/nami-config.h.in
+  ${PROJECT_BINARY_DIR}/nami-config.h)
+install(FILES ${PROJECT_BINARY_DIR}/nami-config.h DESTINATION include)
+
+# Make nami findable
+foreach (lib nami)
+  get_target_property(${lib}_LIBRARY_PATH ${lib} LOCATION)
+  get_filename_component(${lib}_LIBRARY ${${lib}_LIBRARY_PATH} NAME)
+endforeach()
+configure_file(
   ${PROJECT_SOURCE_DIR}/nami-config.cmake.in
   ${PROJECT_BINARY_DIR}/nami-config.cmake
   @ONLY)
 
 install(FILES ${PROJECT_BINARY_DIR}/nami-config.cmake DESTINATION lib/cmake/nami)
-#install(EXPORT nami-libs                             DESTINATION lib/cmake/nami)
+install(EXPORT nami-libs                             DESTINATION lib/cmake/nami)
 
 
 # Configure subdirectories here, after everything else, so that they 
