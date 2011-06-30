@@ -41,8 +41,8 @@ unset(CMAKE_REQUIRED_LIBRARIES)
 check_function_exists(gettimeofday NAMI_HAVE_GETTIMEOFDAY)
 
 # Configure a CMake file and set it to be installed.  This file tells other projects
-# how to use Adept Utils.
-foreach (nami)
+# how to use nami.
+foreach (lib nami)
   get_target_property(${lib}_LIBRARY_PATH ${lib} LOCATION)
   get_filename_component(${lib}_LIBRARY ${${lib}_LIBRARY_PATH} NAME)
 endforeach()
@@ -55,10 +55,6 @@ install(FILES ${PROJECT_BINARY_DIR}/nami-config.h DESTINATION include)
 
 
 # Make nami findable
-foreach (lib nami)
-  get_target_property(${lib}_LIBRARY_PATH ${lib} LOCATION)
-  get_filename_component(${lib}_LIBRARY ${${lib}_LIBRARY_PATH} NAME)
-endforeach()
 configure_file(
   ${PROJECT_SOURCE_DIR}/nami-config.cmake.in
   ${PROJECT_BINARY_DIR}/nami-config.cmake
