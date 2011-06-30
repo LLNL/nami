@@ -32,7 +32,7 @@ add_library(nami ${NAMI_SOURCES})
 if (NAMI_HAVE_MPI)
   target_link_libraries(nami ${MPI_LIBRARIES})
 endif()
-install(TARGETS nami DESTINATION lib)
+install(TARGETS nami DESTINATION lib EXPORT nami-libs)
 
 include_directories(
   ${Boost_INCLUDE_DIR}

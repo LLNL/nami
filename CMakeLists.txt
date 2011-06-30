@@ -53,6 +53,7 @@ configure_file(
   ${PROJECT_BINARY_DIR}/nami-config.h)
 install(FILES ${PROJECT_BINARY_DIR}/nami-config.h DESTINATION include)
 
+
 # Make nami findable
 foreach (lib nami)
   get_target_property(${lib}_LIBRARY_PATH ${lib} LOCATION)
