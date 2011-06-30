@@ -49,10 +49,13 @@ endforeach()
 
 # Configure a header file with all the variables we found.
 configure_file(
-  ${PROJECT_SOURCE_DIR}/nami-config.h.in
-  ${PROJECT_BINARY_DIR}/nami-config.h)
+  ${PROJECT_SOURCE_DIR}/nami-config.cmake.in
+  ${PROJECT_BINARY_DIR}/nami-config.cmake
+  @ONLY)
 
-install(FILES ${PROJECT_BINARY_DIR}/nami-config.h DESTINATION include)
+install(FILES ${PROJECT_BINARY_DIR}/nami-config.cmake DESTINATION lib/cmake/nami)
+#install(EXPORT nami-libs                             DESTINATION lib/cmake/nami)
+
 
 # Configure subdirectories here, after everything else, so that they 
 # inherit variables set in the global scope.
