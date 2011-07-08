@@ -41,6 +41,7 @@ include_directories(
 
 set(NAMI_HEADERS 
 	cdf97.h
+  io_utils.h
 	ezw.h
 	ezw_encoder.h
 	ezw_decoder.h
