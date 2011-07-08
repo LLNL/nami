@@ -34,6 +34,7 @@
 #include <sstream>
 #include <iostream>
 
+#include "nami_matrix.h"
 #include "io_utils.h"
 
 using namespace std;
@@ -56,10 +57,10 @@ int main(int argc, char **argv) {
 
   for (size_t i=0; i < 1048576; i+=17) {
     os.str("");
-    write_generic(os, i);
+    io_utils::write_generic(os, i);
 
     is.str(os.str());
-    size_t j = read_generic<size_t>(is);
+    size_t j = io_utils::read_generic<size_t>(is);
 
     if (i != j) {
       if (verbose) {

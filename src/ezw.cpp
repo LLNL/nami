@@ -108,13 +108,13 @@ namespace nami {
   size_t ezw_header::write_out(ostream& out) {
     size_t size = 0;
 
-    size += vl_write(out, rows);
-    size += vl_write(out, cols);
-    size += vl_write(out, level);
+    size += io_utils::vl_write(out, rows);
+    size += io_utils::vl_write(out, cols);
+    size += io_utils::vl_write(out, level);
 
     // need num_write for signed numbers
-    size += write_generic(out, mean);
-    size += vl_write(out, scale);
+    size += io_utils::write_generic(out, mean);
+    size += io_utils::vl_write(out, scale);
     
     // threshold is always a power of 2 or 0
     signed char log2_thresh = log2_pow2(threshold);
@@ -125,24 +125,24 @@ namespace nami {
     out.write((char*)&et, 1);
     size += 1;
 
-    size += vl_write(out, blocks);
-    size += vl_write(out, passes);
+    size += io_utils::vl_write(out, blocks);
+    size += io_utils::vl_write(out, passes);
 
-    size += vl_write(out, ezw_size);
-    size += vl_write(out, rle_size);
-    size += vl_write(out, enc_size);
+    size += io_utils::vl_write(out, ezw_size);
+    size += io_utils::vl_write(out, rle_size);
+    size += io_utils::vl_write(out, enc_size);
     
     return size;
   }
   
   
   void ezw_header::read_in(istream& in, ezw_header& header) {
-    header.rows = vl_read(in);
-    header.cols = vl_read(in);
-    header.level = vl_read(in);
+    header.rows = io_utils::vl_read(in);
+    header.cols = io_utils::vl_read(in);
+    header.level = io_utils::vl_read(in);
 
-    header.mean = read_generic<quantized_t>(in);
-    header.scale = vl_read(in);
+    header.mean = io_utils::read_generic<quantized_t>(in);
+    header.scale = io_utils::vl_read(in);
 
     signed char log2_thresh;
     in.read((char*)&log2_thresh, 1);
@@ -157,12 +157,12 @@ namespace nami {
     in.read((char*)&enc_type, 1);
     header.enc_type = (encoding_t)enc_type;
     
-    header.blocks = vl_read(in);
-    header.passes = vl_read(in);
+    header.blocks = io_utils::vl_read(in);
+    header.passes = io_utils::vl_read(in);
 
-    header.ezw_size = vl_read(in);
-    header.rle_size = vl_read(in);
-    header.enc_size = vl_read(in);
+    header.ezw_size = io_utils::vl_read(in);
+    header.rle_size = io_utils::vl_read(in);
+    header.enc_size = io_utils::vl_read(in);
   }
 
 

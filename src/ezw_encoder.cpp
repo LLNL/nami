@@ -72,7 +72,7 @@ namespace nami {
     // two less than the magnitude
     for (size_t i=0; i < quantized_.size1(); i++) {
       for (size_t j=0; j < quantized_.size2(); j++) {
-        zerotree_map_(i,j) = le_power_of_2((uint64_t)abs_val(quantized_(i,j)));
+        zerotree_map_(i,j) = le_power_of_2((uint64_t)matrix_utils::abs_val(quantized_(i,j)));
       }
     }
 
@@ -246,10 +246,10 @@ namespace nami {
     quantize(mat, scale_);   // dump mat into quantized matrix
 
     // subtract out mean.
-    quantized_t mean = (quantized_t)round(mean_val(quantized_));
+    quantized_t mean = (quantized_t)round(matrix_utils::mean_val(quantized_));
     subtract_scalar(mean);
 
-    quantized_t abs_max = abs_max_val(quantized_);
+    quantized_t abs_max = matrix_utils::abs_max_val(quantized_);
     threshold_ = le_power_of_2((uint64_t)abs_max);
 
     // construct and write out the header with relevant info

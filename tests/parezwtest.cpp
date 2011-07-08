@@ -151,9 +151,9 @@ int main(int argc, char **argv) {
 
       } else {
         // If dimensions do match, report nrmse
-      	double nerr = nrmse(seq_decoded, par_decoded);
-        double serr = nrmse(par_fwt, seq_decoded);
-        double perr = nrmse(par_fwt, par_decoded);
+      	double nerr = matrix_utils::nrmse(seq_decoded, par_decoded);
+        double serr = matrix_utils::nrmse(par_fwt, seq_decoded);
+        double perr = matrix_utils::nrmse(par_fwt, par_decoded);
 
         if (nerr > 0 || serr > 0 || perr > 0) {
           pass = false;

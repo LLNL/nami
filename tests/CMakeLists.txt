@@ -1,14 +1,14 @@
 # Simple function to add a Nami test executable 
 function(add_test test_name src_name)
   add_executable(${test_name} ${src_name})
-  target_link_libraries(${test_name} nami)
+  target_link_libraries(${test_name} nami adept-utils adept-timing)
 endfunction()
 
 # Function to add MPI tests, but only if MPI is enabled.
 function(add_mpi_test test_name src_name)
   if (NAMI_HAVE_MPI)
     add_test(${test_name} ${src_name})
-    target_link_libraries(${test_name} ${MPI_LIBRARIES})
+    target_link_libraries(${test_name} ${MPI_LIBRARIES} adept-utils adept-timing)
   endif()
 endfunction()
 
@@ -28,5 +28,6 @@ add_mpi_test(partest         partest.cpp)
 include_directories(
   ${PROJECT_BINARY_DIR}
   ${PROJECT_SOURCE_DIR}/src
+  ${adept-utils_INCLUDE_PATH}
   ${Boost_INCLUDE_DIR}
   ${MPI_INCLUDE_PATH})

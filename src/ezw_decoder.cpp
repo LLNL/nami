@@ -73,7 +73,7 @@ namespace nami {
       if (lo) {
         DBG_OUT('p');
         // check size in case of reduced-size output.
-        if (in_bounds(*decoded_, e.row, e.col)) {
+        if (matrix_utils::in_bounds(*decoded_, e.row, e.col)) {
           (*decoded_)(e.row, e.col) = threshold_;
         }
         return POSITIVE;
@@ -81,7 +81,7 @@ namespace nami {
       } else {
         DBG_OUT('n');
         // check size in case of reduced-size output.
-        if (in_bounds(*decoded_, e.row, e.col)) {
+        if (matrix_utils::in_bounds(*decoded_, e.row, e.col)) {
           (*decoded_)(e.row, e.col) = -threshold_;
         }
         return NEGATIVE;
@@ -104,7 +104,7 @@ namespace nami {
 
         // check bounds in case we're creating reduced-size output,
         // where we'd ignore things that are out of bounds.
-        if (in_bounds(*decoded_, e.row, e.col)) {
+        if (matrix_utils::in_bounds(*decoded_, e.row, e.col)) {
           if ((*decoded_)(e.row, e.col) < 0) {
             (*decoded_)(e.row, e.col) -= threshold_;
           } else {

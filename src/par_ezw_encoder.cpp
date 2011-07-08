@@ -351,7 +351,7 @@ namespace nami {
     quantize(mat, scale_);
 
     // get the mean of the quantized matrix to subtract out
-    quantized_t total = sum(quantized_);
+    quantized_t total = matrix_utils::sum(quantized_);
 
     quantized_t all_total;
     MPI_Allreduce(&total, &all_total, 1, MPI_QUANTIZED_T, MPI_SUM, comm);
@@ -362,7 +362,7 @@ namespace nami {
 
     // First set up the header data
     // max and mean need to be computed across entire system.  Allreduces do this here.
-    quantized_t abs_max = abs_max_val(quantized_);
+    quantized_t abs_max = matrix_utils::abs_max_val(quantized_);
     quantized_t all_abs_max;
     MPI_Allreduce(&abs_max, &all_abs_max, 1, MPI_QUANTIZED_T, MPI_MAX, comm);
 

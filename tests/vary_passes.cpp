@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
     ezw_decoder decoder;
   
     nami_matrix mat;
-    read_matrix(filename, mat);
+    matrix_utils::read_matrix(filename, mat);
 
     // transform values
     nami_matrix trans = mat;
@@ -112,8 +112,8 @@ int main(int argc, char **argv) {
 
     // inverse-transform the decoded data and get error
     wt.iwt_2d(unezw, level);
-    double err = nrmse(mat, unezw);
-    double psnr_val = psnr(mat, unezw);
+    double err = matrix_utils::nrmse(mat, unezw);
+    double psnr_val = matrix_utils::psnr(mat, unezw);
 
     double compression = read/(double)size;
     double ezw_fraction = read/bytes;

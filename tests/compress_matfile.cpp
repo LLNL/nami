@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
   ezw_decoder decoder;
   
   nami_matrix mat;
-  if (!read_matrix(argv[1], mat)) {
+  if (!matrix_utils::read_matrix(argv[1], mat)) {
     cerr << "No such file: " << argv[1] << endl;
     exit(1);
   }
@@ -72,8 +72,8 @@ int main(int argc, char **argv) {
   // Do an inverse transform on the matrix and record the error just from iwt.
   nami_matrix iwt = trans;
   wt.iwt_2d(iwt, level);
-  double wt_err = nrmse(mat, iwt);
-  double wt_psnr = psnr(mat, iwt);
+  double wt_err = matrix_utils::nrmse(mat, iwt);
+  double wt_psnr = matrix_utils::psnr(mat, iwt);
 
   // ezw-encode the transformed matrix
   ofstream encoded_out(FILENAME);
@@ -87,16 +87,16 @@ int main(int argc, char **argv) {
   decoder.decode(encoded_in, unezw);
   
   // figure out error from ezw coding.
-  double ezw_err = nrmse(trans, unezw);
-  double ezw_psnr = psnr(trans, unezw);
+  double ezw_err = matrix_utils::nrmse(trans, unezw);
+  double ezw_psnr = matrix_utils::psnr(trans, unezw);
 
   // inverse-transform the decoded data and get error
   wt.iwt_2d(unezw, level);
-  double wt_ezw_err = nrmse(mat, unezw);
-  double wt_ezw_psnr = psnr(mat, unezw);
+  double wt_ezw_err = matrix_utils::nrmse(mat, unezw);
+  double wt_ezw_psnr = matrix_utils::psnr(mat, unezw);
 
   cout << mat.size1() << " x " << mat.size2() << "\t     NRMSE      PSNR" << endl;
-  cout << "WT NRMSE:      " << setw(8) << wt_err     << "   " << wt_psnr     << endl;
-  cout << "EZW NRMSE:     " << setw(8) << ezw_err    << "   " << ezw_psnr    << endl;
-  cout << "WT_EZW NRMSE:  " << setw(8) << wt_ezw_err << "   " << wt_ezw_psnr << endl;
+  cout << "WT NRMSE:      " << std::setw(8) << wt_err     << "   " << wt_psnr     << endl;
+  cout << "EZW NRMSE:     " << std::setw(8) << ezw_err    << "   " << ezw_psnr    << endl;
+  cout << "WT_EZW NRMSE:  " << std::setw(8) << wt_ezw_err << "   " << wt_ezw_psnr << endl;
 }

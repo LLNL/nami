@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
     if (rank == 0) {
       par_wt::reassemble(par_fwt, size, level);
 
-      double err = nrmse(localwt, par_fwt);
+      double err = matrix_utils::nrmse(localwt, par_fwt);
       if (err > 0) {
         pass = false;
       }
@@ -107,13 +107,13 @@ int main(int argc, char **argv) {
     if (rank == 0) {
       dwt.iwt_2d(localwt, level);
 
-      double err = nrmse(localwt, par_iwt);
+      double err = matrix_utils::nrmse(localwt, par_iwt);
       if (err > 0) {
         pass = false;
       }
 
       if (verbose) {
-        cout << setw(12) << nrmse(localwt, par_iwt);
+        cout << setw(12) << matrix_utils::nrmse(localwt, par_iwt);
       }
     }
     

@@ -90,8 +90,8 @@ bool test_ezw(size_t rows, size_t cols) {
   level = decoder.decode(in, decoded);
 
   // check that we get out what we put in.
-  double nerr = nrmse(trans, decoded);
-  double PSNR = psnr(trans, decoded);
+  double nerr = matrix_utils::nrmse(trans, decoded);
+  double PSNR = matrix_utils::psnr(trans, decoded);
   double ratio = (double)(rows * cols * sizeof(double))/size;
 
   if (verbose) {

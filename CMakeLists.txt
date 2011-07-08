@@ -19,6 +19,17 @@ option(BUILD_SHARED_LIBS "Build shared libraries?" ${DEFAULT_SHARED})
 # Whether to build for regular MPI apps or with PMPI bindings (for tools).
 option(NAMI_USE_PMPI "Build with PMPI bindings?" FALSE)
 
+find_package(adept-utils QUIET)
+if(adept-utils_FOUND)
+  message(STATUS "Found adept-utils in ${adept-utils_DIR}.")
+  add_definitions(-DHAVE_ADEPT_UTILS)
+else()
+  message(STATUS "adept-utils package not found.  Building without timing.")
+  # Set these for our effort-config.cmake file.
+  set(adept-utils_INCLUDE_PATH adept-utils_INCLUDE_PATH-NOTFOUND)
+  set(adept-utils_LIBRARIES    adept-utils_LIBRARIES-NOTFOUND)
+endif()
+
 # Muster requires boost for matrices and random number generators.
 find_package(Boost REQUIRED)
 
@@ -33,12 +44,12 @@ endif()
 # Check for various timing functions, so we can support highest-resolution timers available.
 include(CheckFunctionExists)
 
-set(CMAKE_REQUIRED_INCLUDES  time.h sys/time.h)
-set(CMAKE_REQUIRED_LIBRARIES rt)
-check_function_exists(clock_gettime NAMI_HAVE_CLOCK_GETTIME)
-
-unset(CMAKE_REQUIRED_LIBRARIES)
-check_function_exists(gettimeofday NAMI_HAVE_GETTIMEOFDAY)
+#set(CMAKE_REQUIRED_INCLUDES  time.h sys/time.h)
+#set(CMAKE_REQUIRED_LIBRARIES rt)
+#check_function_exists(clock_gettime NAMI_HAVE_CLOCK_GETTIME)
+#
+#unset(CMAKE_REQUIRED_LIBRARIES)
+#check_function_exists(gettimeofday NAMI_HAVE_GETTIMEOFDAY)
 
 # Configure a CMake file and set it to be installed.  This file tells other projects
 # how to use nami.
@@ -61,7 +72,7 @@ configure_file(
   @ONLY)
 
 install(FILES ${PROJECT_BINARY_DIR}/nami-config.cmake DESTINATION lib/cmake/nami)
-install(EXPORT nami-libs                             DESTINATION lib/cmake/nami)
+install(EXPORT nami-libs                              DESTINATION lib/cmake/nami)
 
 
 # Configure subdirectories here, after everything else, so that they 

@@ -69,11 +69,11 @@ bool test_1d(size_t cols, int level = -1) {
   int expected_level = lift_1d.fwt_1d(&lifted(0,0), cols, level);
   bool level_pass = (actual_level == expected_level);
 
-  double fwt_err = nrmse(lifted, directed);
+  double fwt_err = matrix_utils::nrmse(lifted, directed);
   bool fwt_pass = (fwt_err <= TOLERANCE);
 
   direct.iwt_1d(&directed(0,0), cols, level);
-  double iwt_err = nrmse(mat, directed);
+  double iwt_err = matrix_utils::nrmse(mat, directed);
   bool iwt_pass = (iwt_err <= TOLERANCE);
     
   if (verbose) cout << "Normalized RMSE     " << cols << ":  \t"
@@ -106,11 +106,11 @@ bool test_2d(size_t rows, size_t cols, int level = -1) {
   int expected_level = lift.fwt_2d(lifted, level);
   bool level_pass = (actual_level == expected_level);
   
-  double fwt_err = nrmse(lifted, directed);
+  double fwt_err = matrix_utils::nrmse(lifted, directed);
   bool fwt_pass = (fwt_err <= TOLERANCE);
   
   direct.iwt_2d(directed, level);
-  double iwt_err = nrmse(mat, directed);
+  double iwt_err = matrix_utils::nrmse(mat, directed);
   bool iwt_pass = (iwt_err <= TOLERANCE);
   
   if (verbose) cout << "Normalized RMSE " << rows << " x " << cols << ":  \t" 

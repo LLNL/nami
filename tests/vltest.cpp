@@ -33,6 +33,7 @@
 #include <cstring>
 #include <iostream>
 
+#include "nami_matrix.h"
 #include "io_utils.h"
 
 using namespace std;
@@ -55,10 +56,10 @@ int main(int argc, char **argv) {
 
   for (size_t i=0; i < 1048576; i+=17) {
     os.str("");
-    vl_write(os, i);
+    io_utils::vl_write(os, i);
 
     is.str(os.str());
-    size_t j = vl_read(is);
+    size_t j = io_utils::vl_read(is);
 
     if (i != j) {
       if (verbose) {
