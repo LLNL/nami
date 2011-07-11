@@ -40,7 +40,7 @@ if (NOT nami_CONFIG_LOADED)
   set(nami_INSTALL_PREFIX @CMAKE_INSTALL_PREFIX@)
   set(nami_INCLUDE_DIR    ${nami_INSTALL_PREFIX}/include)
   set(nami_LIB_DIR        ${nami_INSTALL_PREFIX}/lib)
-  set(nami_CMAKE_DIR      ${nami_INSTALL_PREFIX}/lib/cmake/nami)
+  set(nami_CMAKE_DIR      ${nami_INSTALL_PREFIX}/share/cmake/nami)
 
   # Includes needed to use Adept Utils
   set(nami_INCLUDE_PATH ${nami_INCLUDE_DIR})

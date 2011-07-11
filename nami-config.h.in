@@ -38,12 +38,6 @@
 #ifndef NAMI_CONFIG_H_
 #define NAMI_CONFIG_H_
 
-// Define if the POSIX high resolution timer function, clock_gettime() is available.
-#cmakedefine NAMI_HAVE_CLOCK_GETTIME
-
-// Define if the POSIX gettimeofday() function is available. 
-#cmakedefine NAMI_HAVE_GETTIMEOFDAY
-
 // Define if compiling with MPI support.
 #cmakedefine NAMI_HAVE_MPI
 

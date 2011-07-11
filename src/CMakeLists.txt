@@ -18,32 +18,6 @@ set(NAMI_SOURCES
 	rle.cpp
 	huffman.cpp)
 
-# matrix_utils.cpp
-# io_utils.cpp 
-#	timing.cpp
-#	Timer.cpp
-
-
-if (NAMI_HAVE_MPI)
-  list(APPEND NAMI_SOURCES
-    par_wt.cpp	
-    par_ezw_encoder.cpp)
-endif()
-
-add_library(nami ${NAMI_SOURCES})
-if (NAMI_HAVE_MPI)
-  target_link_libraries(nami ${MPI_LIBRARIES})
-endif()
-install(TARGETS nami DESTINATION lib EXPORT nami-libs)
-
-include_directories(
-  ${PROJECT_BINARY_DIR}
-  ${adept-utils_INCLUDE_PATH}
-  ${Boost_INCLUDE_DIR}
-  ${MPI_INCLUDE_PATH})
-
-#  ${AdeptUtils_INCLUDE_DIR}
-
 set(NAMI_HEADERS 
 	cdf97.h
 	ezw.h
@@ -62,7 +36,26 @@ set(NAMI_HEADERS
 	wt_1d_direct.h
 	wt_lift.h)
 
-#  io_utils.h
+if (NAMI_HAVE_MPI)
+  list(APPEND NAMI_SOURCES
+    par_wt.cpp
+    par_ezw_encoder.cpp)
+  list(APPEND NAMI_HEADERS
+    par_wt.h
+    par_ezw_encoder.h)
+endif()
 
+add_library(nami ${NAMI_SOURCES})
+target_link_libraries(nami adept_utils adept_timing)
+if (NAMI_HAVE_MPI)
+  target_link_libraries(nami ${MPI_LIBRARIES})
+endif()
+install(TARGETS nami DESTINATION lib EXPORT nami-libs)
+
+include_directories(
+  ${PROJECT_BINARY_DIR}
+  ${adept_utils_INCLUDE_PATH}
+  ${Boost_INCLUDE_DIR}
+  ${MPI_INCLUDE_PATH})
 
 install(FILES ${NAMI_HEADERS} DESTINATION include)

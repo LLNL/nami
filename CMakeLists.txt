@@ -19,16 +19,16 @@ option(BUILD_SHARED_LIBS "Build shared libraries?" ${DEFAULT_SHARED})
 # Whether to build for regular MPI apps or with PMPI bindings (for tools).
 option(NAMI_USE_PMPI "Build with PMPI bindings?" FALSE)
 
-find_package(adept-utils QUIET)
-if(adept-utils_FOUND)
-  message(STATUS "Found adept-utils in ${adept-utils_DIR}.")
-  add_definitions(-DHAVE_ADEPT_UTILS)
-else()
-  message(STATUS "adept-utils package not found.  Building without timing.")
-  # Set these for our effort-config.cmake file.
-  set(adept-utils_INCLUDE_PATH adept-utils_INCLUDE_PATH-NOTFOUND)
-  set(adept-utils_LIBRARIES    adept-utils_LIBRARIES-NOTFOUND)
-endif()
+function(notify_package name)
+  if (${name}_FOUND)
+    message(STATUS "Found ${name} in ${${name}_DIR}.")
+  else()
+    message(STATUS "${name} package not found.")
+  endif()
+endfunction()
+
+find_package(adept_utils REQUIRED)
+notify_package(adept_utils)
 
 # Muster requires boost for matrices and random number generators.
 find_package(Boost REQUIRED)
@@ -41,29 +41,11 @@ if (MPI_FOUND)
   set(NAMI_HAVE_MPI TRUE)
 endif()
 
-# Check for various timing functions, so we can support highest-resolution timers available.
-include(CheckFunctionExists)
-
-#set(CMAKE_REQUIRED_INCLUDES  time.h sys/time.h)
-#set(CMAKE_REQUIRED_LIBRARIES rt)
-#check_function_exists(clock_gettime NAMI_HAVE_CLOCK_GETTIME)
-#
-#unset(CMAKE_REQUIRED_LIBRARIES)
-#check_function_exists(gettimeofday NAMI_HAVE_GETTIMEOFDAY)
-
-# Configure a CMake file and set it to be installed.  This file tells other projects
-# how to use nami.
-foreach (lib nami)
-  get_target_property(${lib}_LIBRARY_PATH ${lib} LOCATION)
-  get_filename_component(${lib}_LIBRARY ${${lib}_LIBRARY_PATH} NAME)
-endforeach()
-
 # Configure a header file with all the variables we found.
 configure_file(
   ${PROJECT_SOURCE_DIR}/nami-config.h.in
   ${PROJECT_BINARY_DIR}/nami-config.h)
 install(FILES ${PROJECT_BINARY_DIR}/nami-config.h DESTINATION include)
-
 
 # Make nami findable
 configure_file(
@@ -71,9 +53,8 @@ configure_file(
   ${PROJECT_BINARY_DIR}/nami-config.cmake
   @ONLY)
 
-install(FILES ${PROJECT_BINARY_DIR}/nami-config.cmake DESTINATION lib/cmake/nami)
-install(EXPORT nami-libs                              DESTINATION lib/cmake/nami)
-
+install(FILES ${PROJECT_BINARY_DIR}/nami-config.cmake DESTINATION share/cmake/nami)
+install(EXPORT nami-libs                              DESTINATION share/cmake/nami)
 
 # Configure subdirectories here, after everything else, so that they 
 # inherit variables set in the global scope.
