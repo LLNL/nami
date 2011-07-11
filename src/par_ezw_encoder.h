@@ -33,10 +33,9 @@
 #define PAR_EZW_ENCODER_H
 
 #include <mpi.h>
+#include "Timer.h"
 
 #include "ezw_encoder.h"
-
-class Timer;
 
 namespace nami {
 
@@ -70,7 +69,7 @@ namespace nami {
     /// Gets the root of the reduction that this will do.  May not be zero.
     int root(MPI_Comm comm = MPI_COMM_WORLD) const;
 
-    const Timer* timer() const;
+    const Timer& timer() const;
 
   protected:
     /// Whether we output EZW bits in same order as sequential coder.  Defaults to false.
@@ -82,7 +81,7 @@ namespace nami {
     size_t block_encode(const unsigned char *passes, size_t total_bytes, std::ostream& out, 
 			ezw_header& header, MPI_Comm comm);
 
-    Timer *timer_;
+    Timer timer_;
   };
 
 }

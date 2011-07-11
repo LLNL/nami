@@ -35,7 +35,6 @@
 
 #include "rle.h"
 #include "huffman.h"
-#include "Timer.h"
 
 #include "par_ezw_encoder.h"
 #include "mpi_profile.h"
@@ -53,12 +52,10 @@ using namespace std;
 namespace nami {
 
   par_ezw_encoder::par_ezw_encoder() 
-    : use_sequential_order_(false), timer_(new Timer()) { }
+    : use_sequential_order_(false) { }
 
 
-  par_ezw_encoder::~par_ezw_encoder() { 
-    delete timer_;
-  }
+  par_ezw_encoder::~par_ezw_encoder() { }
 
 
   void par_ezw_encoder::set_use_sequential_order(bool use) {
@@ -82,7 +79,7 @@ namespace nami {
     }
   }
 
-  const Timer *par_ezw_encoder::timer() const {
+  const Timer& par_ezw_encoder::timer() const {
     return timer_;
   }
 
@@ -317,7 +314,7 @@ namespace nami {
     const size_t rle_size = RLE_Compress((unsigned char*)passes, &rle_buffer[0], local_bytes);
     rle_buffer.resize(rle_size); // tighten buffer around encoded data.
 
-    timer_->record("LocalRLE");
+    timer_.record("LocalRLE");
     
     // gather compressed RLE representation w/o decompressing.  Ends of rle buffers
     // are stitched together as the merge goes on.  Note that we'll need to reorder
@@ -326,7 +323,7 @@ namespace nami {
     rle_gather(gathered, rle_buffer, 0, comm);
     const int all_rle_size = gathered.size();
     
-    timer_->record("RLEGather");
+    timer_.record("RLEGather");
 
     if (rank == root) {
       header.ezw_size = all_bytes;
@@ -339,7 +336,7 @@ namespace nami {
 
 
   size_t par_ezw_encoder::encode(nami_matrix& mat, ostream& out, int level, MPI_Comm comm) {
-    timer_->clear();
+    timer_.clear();
 
     int size, rank;
     MPI_Comm_size(comm, &size);
@@ -366,7 +363,7 @@ namespace nami {
     quantized_t all_abs_max;
     MPI_Allreduce(&abs_max, &all_abs_max, 1, MPI_QUANTIZED_T, MPI_MAX, comm);
 
-    timer_->record("EZWStats");
+    timer_.record("EZWStats");
 
     // Compute threshold and level in standard way.
     threshold_ = le_power_of_2((uint64_t)all_abs_max);
@@ -387,10 +384,10 @@ namespace nami {
       header.passes = pass_limit_;
 
       do_encode(local_bits, header, false);
-      timer_->record("EZWEncode");
+      timer_.record("EZWEncode");
 
       size_t result = block_encode(local_bits.buffer(), local_bits.out_bytes(), out, header, comm);
-      timer_->record("Entropy");
+      timer_.record("Entropy");
       return result;
     }
   }
