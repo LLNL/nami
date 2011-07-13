@@ -16,6 +16,10 @@ set(NAMI_VERSION "${NAMI_MAJOR_VERSION}.${NAMI_MINOR_VERSION}.${NAMI_PATCH_VERSI
 get_property(DEFAULT_SHARED GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS)
 option(BUILD_SHARED_LIBS "Build shared libraries?" ${DEFAULT_SHARED})
 
+# RPATH setup.  Default is to rpath everything.  Set the option to
+# false if you don't want this behavior.
+option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Add rpath for all dependencies." TRUE)
+
 # Whether to build for regular MPI apps or with PMPI bindings (for tools).
 option(NAMI_USE_PMPI "Build with PMPI bindings?" FALSE)
 
