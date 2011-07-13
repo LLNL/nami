@@ -30,8 +30,11 @@ endfunction()
 find_package(adept_utils REQUIRED)
 notify_package(adept_utils)
 
-# Muster requires boost for matrices and random number generators.
-find_package(Boost REQUIRED)
+# nami requires boost for matrices and random number generators.
+find_package(Boost NO_MODULE)
+if(NOT Boost_FOUND)
+  find_package(Boost)
+endif()
 
 # Find the MPI library and set some definitions
 # This line ensures that we skpi C++ headers altogether, avoiding unnecessary symbols in the .o files.
