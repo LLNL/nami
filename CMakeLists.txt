@@ -35,7 +35,7 @@ find_package(adept_utils REQUIRED)
 notify_package(adept_utils)
 
 # nami requires boost for matrices and random number generators.
-find_package(Boost NO_MODULE)
+find_package(Boost NO_MODULE QUIET)
 if(NOT Boost_FOUND)
   find_package(Boost)
 endif()
