@@ -2,6 +2,9 @@
 function(add_test test_name src_name)
   add_executable(${test_name} ${src_name})
   target_link_libraries(${test_name} nami adept_utils adept_timing)
+  if (NAMI_HAVE_MPI)
+    target_link_libraries(${test_name} ${MPI_LIBRARIES})
+  endif()
 endfunction()
 
 # Function to add MPI tests, but only if MPI is enabled.

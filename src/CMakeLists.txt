@@ -48,9 +48,9 @@ endif()
 
 add_library(nami ${NAMI_SOURCES})
 target_link_libraries(nami adept_utils adept_timing)
-if (NAMI_HAVE_MPI)
-  target_link_libraries(nami ${MPI_LIBRARIES})
-endif()
+#if (NAMI_HAVE_MPI)
+#  target_link_libraries(nami ${MPI_LIBRARIES})
+#endif()
 install(TARGETS nami DESTINATION lib EXPORT nami-libs)
 
 include_directories(
