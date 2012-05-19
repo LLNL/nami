@@ -1,16 +1,16 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, Lawrence Livermore National Security, LLC.  
-// Produced at the Lawrence Livermore National Laboratory  
+// Copyright (c) 2010, Lawrence Livermore National Security, LLC.
+// Produced at the Lawrence Livermore National Laboratory
 // Written by Todd Gamblin, tgamblin@llnl.gov.
 // LLNL-CODE-417602
-// All rights reserved.  
-// 
+// All rights reserved.
+//
 // This file is part of Nami. For details, see http://github.com/tgamblin/nami.
 // Please also read the LICENSE file for further information.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 //  * Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the disclaimer below.
 //  * Redistributions in binary form must reproduce the above copyright notice, this list of
@@ -18,7 +18,7 @@
 //    provided with the distribution.
 //  * Neither the name of the LLNS/LLNL nor the names of its contributors may be used to endorse
 //    or promote products derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
 // OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -31,6 +31,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <iomanip>
+#include <string.h>
 
 #include <mpi.h>
 
@@ -51,7 +52,7 @@ int main(int argc, char **argv) {
   for (int i=1; i < argc; i++) {
     if (!strcmp(argv[i], "-v")) verbose = true;
   }
-  
+
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -70,15 +71,15 @@ int main(int argc, char **argv) {
         mat(i,j) = ((.06 + rank) * (5+i+0.4*i*i-0.02*i*i*j));
       }
     }
-    
+
     // collect plain matrix for sequential transform
     nami_matrix original;
     par_wt::gather(original, mat, MPI_COMM_WORLD);
 
     // do parallel transform on all data, record parallel transform's level
     level = pwt.fwt_2d(mat, level);
-    
-    // do local transform at same level 
+
+    // do local transform at same level
     nami_matrix localwt;
     if (rank == 0) {
       localwt = original;
@@ -116,10 +117,10 @@ int main(int argc, char **argv) {
         cout << setw(12) << matrix_utils::nrmse(localwt, par_iwt);
       }
     }
-    
+
     if (verbose && rank == 0) cout << endl;
   }
-  
+
 
   if (verbose && rank == 0) {
     cout << (pass ? "PASSED" : "FAILED") << endl;

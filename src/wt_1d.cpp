@@ -1,16 +1,16 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, Lawrence Livermore National Security, LLC.  
-// Produced at the Lawrence Livermore National Laboratory  
+// Copyright (c) 2010, Lawrence Livermore National Security, LLC.
+// Produced at the Lawrence Livermore National Laboratory
 // Written by Todd Gamblin, tgamblin@llnl.gov.
 // LLNL-CODE-417602
-// All rights reserved.  
-// 
+// All rights reserved.
+//
 // This file is part of Nami. For details, see http://github.com/tgamblin/nami.
 // Please also read the LICENSE file for further information.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 //  * Redistributions of source code must retain the above copyright notice, this list of
 //    conditions and the disclaimer below.
 //  * Redistributions in binary form must reproduce the above copyright notice, this list of
@@ -18,7 +18,7 @@
 //    provided with the distribution.
 //  * Neither the name of the LLNS/LLNL nor the names of its contributors may be used to endorse
 //    or promote products derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
 // OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -50,9 +50,9 @@ namespace nami {
       cur_len >>= 1;
     }
 
-    return level;    
+    return level;
   }
-  
+
 
   int wt_1d::iwt_1d(double *data, size_t len, int fwt_level, int iwt_level) {
     if (fwt_level < 0) {
@@ -63,7 +63,7 @@ namespace nami {
     if (iwt_level < 0) {
       iwt_level = INT_MAX;
     }
-      
+
     int levels = 0;
     for (int i=fwt_level-1; i >= 0 && levels < iwt_level; i--) {
       size_t cur_len = len >> i;
@@ -71,7 +71,7 @@ namespace nami {
       levels++;
     }
 
-    return levels;    
+    return levels;
   }
 
 } // namespace nami
