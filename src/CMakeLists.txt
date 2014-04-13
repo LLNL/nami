@@ -1,12 +1,12 @@
 set(NAMI_SOURCES
-  cdf97.cpp 
-  wt_1d.cpp 
-  wt_2d.cpp 
-  wt_lift.cpp 
-  wt_direct.cpp 
-  wt_1d_lift.cpp 
-  wt_1d_direct.cpp 
-  wt_utils.cpp 
+  cdf97.cpp
+  wt_1d.cpp
+  wt_2d.cpp
+  wt_lift.cpp
+  wt_direct.cpp
+  wt_1d_lift.cpp
+  wt_1d_direct.cpp
+  wt_utils.cpp
   filter_bank.cpp
   ezw.cpp
   ezw_encoder.cpp
@@ -18,7 +18,7 @@ set(NAMI_SOURCES
   rle.cpp
   huffman.cpp)
 
-set(NAMI_HEADERS 
+set(NAMI_HEADERS
   cdf97.h
   ezw.h
   ezw_encoder.h
@@ -46,11 +46,13 @@ if (NAMI_HAVE_MPI)
     par_ezw_encoder.h)
 endif()
 
-add_library(nami ${NAMI_SOURCES})
+add_static_and_shared_library(nami ${NAMI_SOURCES})
 target_link_libraries(nami adept_utils adept_timing)
-#if (NAMI_HAVE_MPI)
-#  target_link_libraries(nami ${MPI_LIBRARIES})
-#endif()
+target_link_libraries(nami_static adept_utils_static adept_timing_static)
+
+target_link_libraries(nami ${MPI_LIBRARIES})
+target_link_libraries(nami_static ${MPI_LIBRARIES})
+
 install(TARGETS nami DESTINATION lib EXPORT nami-libs)
 
 include_directories(

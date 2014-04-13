@@ -12,9 +12,8 @@ set(NAMI_MINOR_VERSION 0)
 set(NAMI_PATCH_VERSION 0)
 set(NAMI_VERSION "${NAMI_MAJOR_VERSION}.${NAMI_MINOR_VERSION}.${NAMI_PATCH_VERSION}")
 
-# Build shared libraries by default.
-get_property(DEFAULT_SHARED GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS)
-option(BUILD_SHARED_LIBS "Build shared libraries?" ${DEFAULT_SHARED})
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
+include(StaticAndShared)
 
 # RPATH setup.  Default is to rpath everything.  Set the option to
 # false if you don't want this behavior.
@@ -63,7 +62,7 @@ configure_file(
 install(FILES ${PROJECT_BINARY_DIR}/nami-config.cmake DESTINATION share/cmake/nami)
 install(EXPORT nami-libs                              DESTINATION share/cmake/nami)
 
-# Configure subdirectories here, after everything else, so that they 
+# Configure subdirectories here, after everything else, so that they
 # inherit variables set in the global scope.
 add_subdirectory(src)
 add_subdirectory(tests)
